@@ -1229,14 +1229,20 @@ function renderProfile(){
 /* ---------- image maker: a photo the user describes, with the Unifyr poster layout on top ---------- */
 const IMG = { base:null, key:null, headline:'', hl:'', sub:'', scene:'' };
 function suggestPoster(){
-  const t = (W.outputs && W.outputs.outputs && W.outputs.outputs.linkedin) ? fill(W.outputs.outputs.linkedin) : ($('#askText').value||'');
-  const first = t.split('\n')[0].replace(/[“”"]/g,'').replace(/[.!:]+$/,'').trim();
-  const words = first.split(/\s+/).filter(Boolean);
-  const STOP = new Set(['the','a','an','is','are','to','of','and','our','we','we’re','were','that','this','at','in','on','for','with','about','it','its','be','has','have','new','now','just']);
-  const headline = words.slice(0, Math.min(5, words.length)).join(' ');
-  const low = (t + ' ' + ($('#askText').value||'')).toLowerCase();
-  const scene = /event|conference|summit|catalyst|booth|keynote|meet us/.test(low) ? 'event' : /office|munich|city|opening|hq|europe/.test(low) ? 'city' : /team|hire|joined|welcome|customer|partner/.test(low) ? 'team' : 'abstract';
-  IMG.headline = headline; const cand = words.slice(0, Math.min(5, words.length)).map(w=>w.replace(/[^\w'-]/g,'')).filter(w=>w && !STOP.has(w.toLowerCase())); IMG.hl = cand.length ? cand.reduce((a,b)=>b.length>a.length?b:a) : ''; IMG.sub = state.brand.tagline || ''; IMG.scene = scene;
+  const STOP = new Set(['the','a','an','is','are','was','were','to','of','and','or','our','we','we’re','i','my','you','your','that','this','it','its','at','in','on','for','with','about','be','has','have','had','just','now','new','from','as','by','so','they','their','them','can','will','into','out','up','all','more','most','than','then','when','what','who','how','why','here','there','been','being','do','does','did','not','no','yes','if','but','also','very','much','many','some','any','each','every','one','two']);
+  const news = ($('#askText').value||'').trim();
+  const isUrl = /^https?:\/\/\S+$/i.test(news);
+  let src = news;
+  if (isUrl || !news){ const t = (W.outputs && W.outputs.outputs && W.outputs.outputs.linkedin) ? fill(W.outputs.outputs.linkedin) : ''; src = t.split('\n').find(l=>l.trim() && !/^[“"']/.test(l.trim())) || t.split('\n')[0] || ''; }
+  src = src.replace(/^[“”"']+|[“”"']+$/g,'').replace(/https?:\/\/\S+/g,'').replace(/\s+/g,' ').trim();
+  const firstSentence = src.split(/(?<=[.!?])\s/)[0] || src;
+  const words = firstSentence.replace(/[.,;:!?]+$/,'').split(/\s+/).filter(Boolean);
+  const headline = words.slice(0, Math.min(6, words.length)).join(' ');
+  const cand = words.slice(0, Math.min(6, words.length)).map(w=>w.replace(/[^\w'-]/g,'')).filter(w=>w.length>3 && !STOP.has(w.toLowerCase()));
+  const capital = cand.find(w=>/^[A-Z]/.test(w) && w.toLowerCase()!==w);
+  const low = (src + ' ' + news).toLowerCase();
+  const scene = /event|conference|summit|catalyst|booth|keynote|meet us|stand/.test(low) ? 'event' : /office|munich|city|opening|hq|europe|expand/.test(low) ? 'city' : /team|hire|joined|welcome|customer|partner|people/.test(low) ? 'team' : 'abstract';
+  IMG.headline = headline; IMG.hl = capital || (cand.length ? cand.reduce((a,b)=>b.length>a.length?b:a) : ''); IMG.sub = state.brand.tagline || ''; IMG.scene = scene;
   IMG.desc = scene==='event' ? 'People talking at a partner event, dark venue, warm lights' : scene==='city' ? 'City skyline at night, bridge and lights' : scene==='team' ? 'Two colleagues in a modern office at dusk' : 'Abstract glowing lines in Unifyr colours';
 }
 function imagePanel(){

@@ -370,6 +370,20 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .demo-banner{display:flex;align-items:center;gap:10px;background:var(--brass-soft);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--ink-2)}
 .demo-banner b{color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+/* ---------- label and pill wrapping fixes ---------- */
+.field label{flex-wrap:wrap;row-gap:2px;line-height:1.35}
+.field label .opt{font-size:12px;font-weight:500}
+.field>label.big{align-items:baseline}
+.pill{white-space:nowrap;line-height:1.4;padding:4px 10px;flex:none}
+.card>.head{row-gap:6px}
+.out .oh{flex-wrap:wrap;row-gap:6px}
+.out .oh b{margin-right:2px}
+.chips{row-gap:8px}
+.chip{white-space:nowrap}
+.imgpanel .oh{flex-wrap:wrap;row-gap:6px}
+.voicebox b{line-height:1.35}
+.kcard .row b{flex-wrap:wrap;row-gap:4px}
+.done-btn{white-space:nowrap}
 /* ---------- premium pass: sidebar follows theme, quiet header, calmer surfaces ---------- */
 :root{--side:#FFFFFF;--side-2:#F6F3FA;--side-ink:#333333;--side-ink-2:#6B6F7A;--side-line:#EEE7F7}
 :root[data-theme="dark"]{--side:#0B121D;--side-2:#18151F;--side-ink:#C9CFD8;--side-ink-2:#8B929E;--side-line:#1F2430}
@@ -496,7 +510,7 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
         <div class="card ask"><div class="body">
           <div class="field"><label class="big">Posting as</label><div class="voicebox" style="padding:10px 14px"><span class="avatar" id="voiceWhoAv">U</span><div><b id="voiceWhoName">Unifyr</b><span id="voiceHint" style="display:block">In the Unifyr voice, on the company page.</span></div></div></div>
           <div class="field"><label for="askText" class="big"><span class="stepn">1</span>What’s the news?</label><textarea id="askText" placeholder="Type it in a line, paste a press release or blog post, or paste a link, e.g. unifyr.com/blog/agent-connect"></textarea><div class="hint" id="askHint">One line is enough. Paste a link or a whole article and Chorus reads it first.</div></div>
-          <div class="field hidden" id="angleField"><label class="big">Pick your angle <span class="opt">so no two people post the same thing</span></label><div class="chips" id="angleChips"><button class="chip lite" data-angle="story" aria-pressed="true">Customer story</button><button class="chip lite" data-angle="learned" aria-pressed="false">What I learned</button><button class="chip lite" data-angle="plain" aria-pressed="false">Plain and short</button></div></div>
+          <div class="field hidden" id="angleField"><label class="big">Pick your angle</label><div class="hint" style="margin:-2px 0 6px">So no two people post the same thing.</div><div class="chips" id="angleChips"><button class="chip lite" data-angle="story" aria-pressed="true">Customer story</button><button class="chip lite" data-angle="learned" aria-pressed="false">What I learned</button><button class="chip lite" data-angle="plain" aria-pressed="false">Plain and short</button></div></div>
           <div class="field"><label class="big"><span class="stepn">2</span>Where is it going?</label><div class="chips" id="chChips"><button class="chip" data-ch="linkedin" aria-pressed="true">LinkedIn</button><button class="chip" data-ch="instagram" aria-pressed="true">Instagram</button><button class="chip" data-ch="x" aria-pressed="true">X</button></div></div>
           <div class="field"><label class="big"><span class="stepn">3</span>Want an image with it?</label><div class="chips"><button class="chip lite" id="imgChip" aria-pressed="true"><svg width="13" height="13"><use href="#i-img"/></svg>&nbsp;Make an image to go with it</button></div><div class="hint">One image in Unifyr’s style, delivered in each platform’s size with the logo and colours on.</div></div>
           <button class="btn brand lg" id="writeBtn" style="justify-content:center"><svg><use href="#i-spark"/></svg>Write the posts</button>
@@ -1106,7 +1120,7 @@ function renderOuts(){
     if (!W.ch[ch]) return; const text = W.outputs.outputs[ch]; if (!text) return; any = true;
     const c = CH[ch]; const el = document.createElement('div'); el.className='out';
     const hc = ch==='linkedin' ? humanCheck(fill(text)) : null;
-    el.innerHTML = `<div class="oh"><span class="ch" style="background:${c.color}">${c.k}</span><b>${c.label}</b><span class="pill ${W.voice==='me'?'brass':'brand'}">${W.voice==='me' ? 'Sounds like '+(first()||'you') : 'Sounds like Unifyr'}</span>${hc?`<span class="pill ${hc.score>=85?'good':'warn'}" title="${esc(hc.issues.join(' · '))}">Reads human · ${hc.score}</span>`:''}<span class="spacer"></span><span class="pill good">Facts checked</span></div>
+    el.innerHTML = `<div class="oh"><span class="ch" style="background:${c.color}">${c.k}</span><b>${c.label}</b><span class="pill ${W.voice==='me'?'brass':'brand'}">${W.voice==='me' ? 'Your voice' : state.brand.name+' voice'}</span>${hc?`<span class="pill ${hc.score>=85?'good':'warn'}" title="${esc(hc.issues.join(' · ')) || 'No AI tells found'}">Human ${hc.score}</span>`:''}<span class="spacer"></span><span class="pill good">Facts checked</span></div>
       <textarea>${esc(fill(text))}</textarea>
       <div class="of"><button class="btn sm brand" data-copy><svg><use href="#i-copy"/></svg>Copy this post</button>${ch==='linkedin'?'<a class="btn sm" data-li target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a>':''}<span class="src">Sources: ${W.outputs.sources.map(esc).join(' · ')}</span></div>`;
     const ta = el.querySelector('textarea'); const auto = ()=>{ ta.style.height='auto'; ta.style.height = (ta.scrollHeight+4)+'px'; }; ta.addEventListener('input', auto); requestAnimationFrame(auto);
@@ -1208,7 +1222,7 @@ function renderProfile(){
   $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
   $('#genBtn').disabled = !(state.person.name.trim() && state.person.title.trim());
   if (canvases.banner1){ fit(canvases.banner1, $('#pf-banner'), 520); fit(canvases.avatar, $('#pf-avatar'), 88); }
-  if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); const js = humanCheck($('#joinedText').value); $('#joinedScore').textContent = 'Reads human · ' + js.score; $('#joinedScore').className = 'pill ' + (js.score>=85?'good':'warn'); }
+  if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); const js = humanCheck($('#joinedText').value); $('#joinedScore').textContent = 'Human ' + js.score; $('#joinedScore').className = 'pill ' + (js.score>=85?'good':'warn'); }
   renderDone();
 }
 
@@ -1499,7 +1513,7 @@ async function init(){
   $$('[data-regen]').forEach(b=>b.addEventListener('click', ()=>regen(b.dataset.regen)));
   ['banner1','banner2','avatar'].forEach(id=>$('#btn-'+id).addEventListener('click', e=>downloadCanvas(id, e.currentTarget)));
   $('#copyJoined').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#joinedText').value)) ? (flash(btn,'Copied'), setDone('joined', true)) : toast('Copy failed', true); });
-  $('#joinedText').addEventListener('input', ()=>{ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); const js = humanCheck($('#joinedText').value); $('#joinedScore').textContent = 'Reads human · ' + js.score; $('#joinedScore').className = 'pill ' + (js.score>=85?'good':'warn'); });
+  $('#joinedText').addEventListener('input', ()=>{ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); const js = humanCheck($('#joinedText').value); $('#joinedScore').textContent = 'Human ' + js.score; $('#joinedScore').className = 'pill ' + (js.score>=85?'good':'warn'); });
   // AI connection (Settings)
   $('#modePill').addEventListener('click', ()=>{ go('brain'); setTimeout(()=>{ const el = $('#apiKey'); el.focus(); el.scrollIntoView({behavior:'smooth', block:'center'}); }, 250); });
   $('#apiKey').value = localStorage.getItem('chorus.key')||''; syncAiStatus();

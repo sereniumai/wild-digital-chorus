@@ -494,7 +494,7 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
       <p class="lede">Tell Chorus the news, say who is posting and where, and it writes the posts and makes the image. Then copy and paste into each app.</p>
       <div class="write">
         <div class="card ask"><div class="body">
-          <div class="field"><label class="big">Posting as</label><div class="seg" id="voiceSeg"><button data-voice="company" aria-pressed="true"><span class="avatar" style="width:18px;height:18px;font-size:9px" id="voiceCoAv">U</span>Unifyr (company page)</button><button data-voice="me" aria-pressed="false"><span class="avatar" style="width:18px;height:18px;font-size:9px" id="voiceMeAv">JE</span>Me (my profile)</button></div><div class="hint" id="voiceHint">Posts go out in the Unifyr voice, for the company page.</div></div>
+          <div class="field"><label class="big">Posting as</label><div class="voicebox" style="padding:10px 14px"><span class="avatar" id="voiceWhoAv">U</span><div><b id="voiceWhoName">Unifyr</b><span id="voiceHint" style="display:block">In the Unifyr voice, on the company page.</span></div></div></div>
           <div class="field"><label for="askText" class="big"><span class="stepn">1</span>What’s the news?</label><textarea id="askText" placeholder="Type it in a line, paste a press release or blog post, or paste a link, e.g. unifyr.com/blog/agent-connect"></textarea><div class="hint" id="askHint">One line is enough. Paste a link or a whole article and Chorus reads it first.</div></div>
           <div class="field hidden" id="angleField"><label class="big">Pick your angle <span class="opt">so no two people post the same thing</span></label><div class="chips" id="angleChips"><button class="chip lite" data-angle="story" aria-pressed="true">Customer story</button><button class="chip lite" data-angle="learned" aria-pressed="false">What I learned</button><button class="chip lite" data-angle="plain" aria-pressed="false">Plain and short</button></div></div>
           <div class="field"><label class="big"><span class="stepn">2</span>Where is it going?</label><div class="chips" id="chChips"><button class="chip" data-ch="linkedin" aria-pressed="true">LinkedIn</button><button class="chip" data-ch="instagram" aria-pressed="true">Instagram</button><button class="chip" data-ch="x" aria-pressed="true">X</button></div></div>
@@ -1071,7 +1071,10 @@ function renderCheck(box, res){ box.className='hc'; box.innerHTML = res.issues.l
 const W = { voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
 function renderExamples(){ const box = $('#examples'); box.innerHTML=''; EXAMPLES.forEach(ex=>{ const b=document.createElement('button'); b.textContent = ex.label; b.addEventListener('click', ()=>{ $('#askText').value = ex.label; setAud(ex.aud); write(ex); }); box.appendChild(b); }); const u=document.createElement('button'); u.innerHTML='<span style="color:var(--ink-4)">Paste a link →</span> unifyr.com/newsroom/investcorp-leads-20-million-investment-round'; u.addEventListener('click', ()=>{ $('#askText').value = 'https://www.unifyr.com/newsroom/investcorp-leads-20-million-investment-round-into-unifyr-to-scale-ai-driven-partner-experience-platform/'; setAud('press'); write(); }); box.appendChild(u); }
 function setAud(a){ W.aud = a; }
-function setVoice(v){ W.voice = v; $$('#voiceSeg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.voice===v)); $('#angleField').classList.toggle('hidden', v!=='me'); $('#voiceHint').textContent = v==='me' ? 'Posts go out in your voice, for your own profile.' : 'Posts go out in the Unifyr voice, for the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>announcements</em>' : '<em>Announcements</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
+function setVoice(v){ W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
+  const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
+  if ($('#voiceWhoName')) $('#voiceWhoName').textContent = v==='me' ? (state.person.name||'You') : state.brand.name;
+  if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>announcements</em>' : '<em>Announcements</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
 function matchExample(ask){
   const a = ask.toLowerCase();
   if (/agent|mcp/.test(a)) return EXAMPLES[0]; if (/investcorp|\$20|funding|round|invest/.test(a)) return EXAMPLES[1]; if (/app\.unifyr|domain|address|moved/.test(a)) return EXAMPLES[2];
@@ -1467,7 +1470,7 @@ async function init(){
   Object.assign(state.person, {name:'Jordan Ellis', title:'Senior Account Executive', calendly:'https://calendly.com/jordan-ellis/30min', linkedin:'https://linkedin.com/in/jordanellis', email:'jordan@unifyr.com', phone:'+1 415 555 0100'});
   state.ui.page='home';
   await loadLogo(); syncInputs();
-  const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls; $('#voiceCoAv').textContent = 'U';
+  const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls;
   applyTheme();
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
   renderHome(); renderBrain(); renderExamples(); bindForms(); renderAvatarBox(); syncPerson(); renderSwatches();
@@ -1480,7 +1483,6 @@ async function init(){
   $('#relearn').addEventListener('click', ()=>{ $('#learnProgress').classList.add('hidden'); $$('#learnProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; }); $('#learnBtn').disabled=false; go('learn'); });
   $('#saveBrain').addEventListener('click', e=>{ flash(btn,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); });
   // write
-  $('#voiceSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if (!b) return; setVoice(b.dataset.voice); if (W.outputs){ const ex = EXAMPLES.find(x=>x.label===$('#askText').value.trim()); if (ex) write(ex); } });
   $('#writeBtn').addEventListener('click', ()=>write());
   $('#chChips').addEventListener('click', e=>{ const c=e.target.closest('.chip'); if (!c) return; W.ch[c.dataset.ch] = !W.ch[c.dataset.ch]; c.setAttribute('aria-pressed', W.ch[c.dataset.ch]); renderOuts(); });
   $('#imgChip').addEventListener('click', e=>{ W.image = !W.image; e.currentTarget.setAttribute('aria-pressed', W.image); renderOuts(); });

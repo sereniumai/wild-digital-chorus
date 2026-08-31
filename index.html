@@ -392,7 +392,8 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .zbtn{min-width:34px;justify-content:center;font-size:16px;line-height:1;padding:4px 10px}
 .swatches button{width:28px;height:28px}
 /* badges and buttons sit true to centre */
-.stepn{display:inline-flex!important;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--u-violet);color:#fff;font-size:12px;font-weight:700;line-height:1;flex:0 0 auto;margin-right:8px;padding:0;box-sizing:border-box}
+.startpill{display:inline-flex;align-items:center;height:24px;padding:0 11px;border-radius:999px;background:var(--u-violet);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-right:8px;flex:none}
+.stepn{display:inline-flex!important;align-items:center;justify-content:center;width:24px!important;height:24px!important;min-width:24px;border-radius:50%!important;background:var(--u-violet)!important;color:#fff!important;font-size:12px!important;font-weight:700!important;line-height:1!important;flex:0 0 auto;margin-right:8px;padding:0!important;box-sizing:border-box}
 .howto .stepn{margin-right:0}
 .kcard .row b,.card>.head h2{display:flex;align-items:center}
 .card>.head .stepn{align-self:center}
@@ -571,10 +572,10 @@ canvas,img{max-width:100%}
     <!-- ---------- MY LINKEDIN ---------- -->
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
-      <p class="lede">Five quick steps. Chorus builds everything in your voice and on the Unifyr brand. Copy or download each piece into LinkedIn, then tick it off.</p>
+      <p class="lede">Fill in your details, hit Generate, then work down the five pieces below. Each one is written in your voice and on the Unifyr brand. Copy or download it into LinkedIn, then tick it off.</p>
       <div class="card" style="padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><b id="doneText" style="font-size:14px">0 of 5 done</b><div class="genbar" style="flex:1;min-width:160px"><i id="doneBar"></i></div><span class="hint">Unifyr can see who has finished. Nothing else is shared.</span></div>
-      <div class="howto"><div><span class="stepn">1</span><b>Details and photo</b></div><div><span class="stepn">2</span><b>Photo and banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
-      <div class="card"><div class="head"><span class="stepn">1</span><h2>Your details and photo</h2><span class="sub">Only you can see this</span></div><div class="body">
+      <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
+      <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your details</h2><span class="sub">Only you can see this. Everything below is written from it.</span></div><div class="body">
         <div class="grid3">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title"></div>
@@ -600,7 +601,7 @@ canvas,img{max-width:100%}
           <div class="ptrow zoomrow hidden" id="zoomRow"><button class="btn sm zbtn" data-zoom="-1">-</button><input type="range" id="zoomRange" min="1" max="2.5" step="0.01" data-bind="person.photoZoom"><button class="btn sm zbtn" data-zoom="1">+</button></div>
           <div class="ptrow"><span class="ptlabel">Background</span><div class="swatches" id="swatches"></div></div>
         </div>
-        <div class="row"><div><b><span class="stepn">2</span>Profile photo</b><span>800 × 800, cut out, on your colour</span></div><button class="btn brand" id="btn-avatar"><svg><use href="#i-down"/></svg>Download photo</button><button class="btn sm done-btn" data-done="photo">Mark done</button></div><div class="where">Then on LinkedIn: your profile, click your photo, <b>Change photo</b>, upload this file.</div></article>
+        <div class="row"><div><b><span class="stepn">1</span>Profile photo</b><span>800 × 800, cut out, on your colour</span></div><button class="btn brand" id="btn-avatar"><svg><use href="#i-down"/></svg>Download photo</button><button class="btn sm done-btn" data-done="photo">Mark done</button></div><div class="where">Then on LinkedIn: your profile, click your photo, <b>Change photo</b>, upload this file.</div></article>
         <article class="kcard" data-id="banner"><div class="thumb" style="flex-direction:column;gap:12px;align-items:stretch;padding:12px">
           <div class="bnr" data-bnr="1"><canvas id="th-banner1"></canvas><div class="brow"><div><b>Build better partnerships</b><span>Unifyr’s LinkedIn banner <span class="sel">· showing in your preview</span></span></div><button class="btn brand sm" id="btn-banner1"><svg><use href="#i-down"/></svg>Download banner</button></div></div>
           <div class="bnr" data-bnr="2"><canvas id="th-banner2"></canvas><div class="brow"><div><b>Arcs</b><span>Alternative <span class="sel">· showing in your preview</span></span></div><button class="btn brand sm" id="btn-banner2"><svg><use href="#i-down"/></svg>Download banner</button></div></div>

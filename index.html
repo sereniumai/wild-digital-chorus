@@ -175,7 +175,20 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 
 /* ---------- app shell ---------- */
 .shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
-@media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}.voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
+@media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}.scanbox{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0;background:var(--card, var(--panel))}
+.scanbox .shead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.scanbox .pill.live{background:#16a34a;color:#fff;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;animation:scpulse 1.6s infinite}
+@keyframes scpulse{50%{opacity:.5}}
+.sline{font-size:13px;line-height:1.55;padding:3px 0;color:var(--ink-2)}
+.sline.ok{color:var(--ink)}
+.sline.warn{color:#b45309}
+.sline.dim{color:var(--ink-3);font-size:12px;margin-top:6px}
+.sline.quote{border-left:3px solid #CB148B;padding-left:10px;margin:4px 0;font-style:italic}
+.sline.brief{background:var(--bg, transparent);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
+.sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
+@keyframes scsp{to{transform:rotate(360deg)}}
+.avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
 .side{background:var(--side);color:var(--side-ink);display:flex;flex-direction:column;padding:18px 14px;gap:16px;position:sticky;top:0;height:100vh}
 .side .wm{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:19px;color:#fff;padding:2px 6px;letter-spacing:-.02em}
 .side .ws{display:flex;align-items:center;gap:10px;background:var(--side-2);border-radius:10px;padding:10px;font-size:12.5px}
@@ -597,11 +610,9 @@ canvas,img{max-width:100%}
         <div class="grid3">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
-          <div class="field"><label>LinkedIn profile</label><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput"><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
+          <div class="field"><label>LinkedIn profile</label><div style="display:flex;gap:8px"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan it</button></div><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
-        <div class="field"><label>Paste two or three of your own LinkedIn posts <span class="opt">optional, but this is what makes it sound like you</span></label><textarea data-bind="person.samples" placeholder="Paste a couple of posts you have written. Chorus copies your rhythm, your openers and the way you sign off." style="min-height:90px"></textarea><div class="hint">Nothing is stored anywhere but your own browser.</div>
-        </div>
-        
+                <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
           <div class="st" data-s="1"><span class="dot"></span>Reading your LinkedIn posts <span class="n" id="gn1"></span></div>
           <div class="st" data-s="2"><span class="dot"></span>Learning how you write <span class="n" id="gn2"></span></div>
@@ -1137,11 +1148,11 @@ function humanCheck(text){
 function renderCheck(box, res){ box.className='hc'; box.innerHTML = res.issues.length ? res.issues.map(i=>`<div class="issue"><i>!</i><span>${esc(i)}</span></div>`).join('') : (res.score ? '<div class="ok">Reads human. No AI tells, no hashtag wall, first line fits the fold.</div>' : ''); }
 
 /* ---------- write ---------- */
-const W = { aiImage:null, voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
+const W = { aiErr:null, aiImage:null, voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
 function renderExamples(){ const box = $('#examples'); box.innerHTML=''; EXAMPLES.forEach(ex=>{ const b=document.createElement('button'); b.textContent = ex.label; b.addEventListener('click', ()=>{ $('#askText').value = ex.label; setAud(ex.aud); write(ex); }); box.appendChild(b); }); const u=document.createElement('button'); u.innerHTML='<span style="color:var(--ink-4)">Paste a link →</span> unifyr.com/newsroom/investcorp-leads-20-million-investment-round'; u.addEventListener('click', ()=>{ $('#askText').value = 'https://www.unifyr.com/newsroom/investcorp-leads-20-million-investment-round-into-unifyr-to-scale-ai-driven-partner-experience-platform/'; setAud('press'); write(); }); box.appendChild(u); }
 function setAud(a){ W.aud = a; }
 function setVoice(v){ W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
-  const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
+  const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ if (state.photoCut && canvases.avatar){ const c=document.createElement('canvas'); c.width=64; c.height=64; c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); av.appendChild(c); } else { const f=faceEl(64); if (f) av.appendChild(f); else { const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } } } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
   if ($('#voiceWhoName')) $('#voiceWhoName').textContent = v==='me' ? (state.person.name||'You') : state.brand.name;
   if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>announcements</em>' : '<em>Announcements</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
 function matchExample(ask){
@@ -1155,19 +1166,19 @@ async function write(example){
   W.busy = true; const wb = $('#writeBtn'); wb.disabled = true; const wbHtml = wb.innerHTML; wb.innerHTML = '<svg><use href="#i-spark"/></svg>Writing…'; $('#outs').innerHTML = `<div class="thinking"><span class="dot"></span>${isUrl ? 'Reading ' + esc(ask.replace(/^https?:\/\//,'').slice(0,60)) + '… then w' : isLong ? 'Reading what you pasted… then w' : 'W'}riting in ${W.voice==='me' ? (first()||'your')+'’s' : 'Unifyr’s'} voice, checking facts against the Brand Brain…</div>`;
   try {
     let outputs = null, sources = [];
-    const ex = example || matchExample(ask);
+    const ex = null;
     if (AI_ON){
       try {
         const raw = await liveWrite(ask);
         W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene };
         delete raw.headline; delete raw.highlight; delete raw.scene;
         outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent';
-      } catch(err){ outputs = null; }
+      } catch(err){ W.aiErr = err && err.message; outputs = null; }
     }
     if (outputs){ /* written live */ }
     else if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
     else if (AI_ON){ const raw = await liveWrite(ask); W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene }; delete raw.headline; delete raw.highlight; delete raw.scene; outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent'; }
-    else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['Brand Brain (demo writing)', 'your news']; W.imgKey = 'agent'; }
+    else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['your news', W.aiErr ? 'written from templates, the AI did not answer' : 'demo writing']; W.imgKey = 'agent'; }
     W.outputs = { outputs, sources }; renderOuts(); $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write it again';
     const has = Object.keys(W.ch).filter(k=>W.ch[k] && outputs[k]);
   
@@ -1207,7 +1218,7 @@ function renderOuts(){
       m.classList.add('xm'); m.innerHTML = `<div class="hd">${avatarHtml}<div><b>${who} <span style="font-weight:400;color:#666">@${isMe ? esc((state.person.name||'jordanellis').toLowerCase().replace(/\s+/g,'')) : esc(state.brand.name.toLowerCase())} · now</span></b></div></div><p>${esc(full)}</p>${imgHtml}<div class="xact"><span>💬 12</span><span>↻ 8</span><span>♡ 64</span></div><div class="fold">How it looks on X.</div>`;
     }
     el.appendChild(m);
-    const mav = m.querySelector('.mav'); if (mav){ mav.width=80; mav.height=80; drawPhoto(mav.getContext('2d'), 40, 40, 40, 0, null); }
+    const mav = m.querySelector('.mav'); if (mav){ if (state.photoCut && canvases.avatar){ mav.width=80; mav.height=80; mav.getContext('2d').drawImage(canvases.avatar,0,0,80,80); } else if (facePhoto()){ const i=document.createElement('img'); i.src=facePhoto(); i.className=mav.className; i.alt=''; i.referrerPolicy='no-referrer'; i.style.objectFit='cover'; i.style.borderRadius='50%'; mav.replaceWith(i); } else { mav.width=80; mav.height=80; drawPhoto(mav.getContext('2d'), 40, 40, 40, 0, null); } }
     const mi = m.querySelector('.mimg'); if (mi){ const src = canvases['img_'+ch]; mi.width = src.width; mi.height = src.height; mi.getContext('2d').drawImage(src,0,0); }
   });
   if (!any) box.innerHTML = `<div class="empty"><b>No posts to show</b>Choose at least one app in step 3 on the left.</div>`;
@@ -1222,7 +1233,10 @@ async function liveWrite(ask){
       + (p.samples ? '\n\nTHIS IS HOW THEY WRITE. Copy the rhythm, sentence length, openers and sign offs:\n' + QQ + String(p.samples).slice(0,2500) + QQ : '')
       + (W.angle==='learned' ? '\nAngle: what I learned or got wrong.' : W.angle==='plain' ? '\nAngle: plain and short, no story.' : '\nAngle: a customer story or something that happened.')
     : 'WRITE AS THE COMPANY on its own page.';
-  const system = 'You write social posts for ' + state.brand.name + '. Use ONLY the facts below. Never invent numbers, customers or claims.\n\n'
+  const system = 'You write social posts for ' + state.brand.name + '.\n\n'
+    + 'THE MOST IMPORTANT RULE: the user gives you the news. That news is true and it is the subject of every post you write. '
+    + 'Announce exactly that, in their words and numbers. Never replace it with a different topic, and never leave out a number or claim they gave you just because it is not in the background notes below. '
+    + 'The notes are only there for context and for how the company sounds. Do not invent any extra numbers, customers or claims of your own.\n\n'
     + 'WHAT THE COMPANY IS: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products + '\nAUDIENCE: ' + BRAIN.audience
     + '\nFACTS: ' + BRAIN.facts.map(f=>f[0]).join('; ')
     + '\nHOW IT SOUNDS: ' + BRAIN.traits.map(t=>t[0]+' - '+t[1]).join('; ')
@@ -1236,7 +1250,9 @@ async function liveWrite(ask){
     + '\n"highlight": one single word taken from that headline, the most important one, to be coloured.'
     + '\n"scene": one plain sentence describing a photograph to go with this news. Describe people, place and moment. No text or logos in it.'
     + '\nReturn ONLY a JSON object with the keys ' + chans.map(c=>'"'+c+'"').join(', ') + ', "headline", "highlight" and "scene", and nothing else.';
-  const src = (ask.length > 400 || /^https?:\/\//i.test(ask)) ? ('Write the announcement from this source material:\n\n' + ask) : ask;
+  const src = (ask.length > 400 || /^https?:\/\//i.test(ask))
+    ? ('Write the announcement from this source material. It is the news. Stay on it:\n\n' + ask)
+    : ('The news to announce, exactly this and nothing else:\n\n' + ask);
   return jsonFrom(await askAI(system, src));
 }
 
@@ -1497,13 +1513,73 @@ function renderFrames(el){
 async function renderStyleSamples(){ try { const a = await loadImage(PHOTOS.event), b = await loadImage(PHOTOS.city); const keep = {...IMG}; IMG.headline='Turn partnerships into revenue'; IMG.hl='partnerships'; IMG.sub='The AI-native partner experience platform.'; [['#style-1',a],['#style-2',b]].forEach(([sel,im])=>{ const cv=$(sel); if(!cv) return; cv.width=800; cv.height=418; IMG.base=im; poster(cv.getContext('2d'),800,418); }); Object.assign(IMG, keep); } catch(e){} }
 
 /* ---------- generate kit (learn voice, then write) ---------- */
+/* ===== Real LinkedIn scan ===== */
+const LI_API = 'https://chorus-api-roan.vercel.app/api/linkedin';
+function scanLine(html, cls){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'sline' + (cls?' '+cls:''); d.innerHTML = html; log.appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
+function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
+async function liFetch(what, url){
+  const r = await fetch(LI_API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url, what }) });
+  const d = await r.json().catch(()=>({}));
+  if (r.status === 503) throw Object.assign(new Error('off'), { off:true });
+  if (!r.ok) throw new Error(d.error || ('scan ' + r.status));
+  return d;
+}
+async function scanLinkedIn(){
+  const url = ($('#liInput').value||'').trim();
+  if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
+  const btn = $('#scanBtn'); btn.disabled = true;
+  const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = '';
+  const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
+  const l1 = scanSpin('Opening <b>' + esc(handle) + '</b> and reading your profile');
+  try {
+    const profP = liFetch('profile', url);
+    const postP = liFetch('posts', url).catch(e=>({ posts: [], failed: true }));
+    const prof = await profP;
+    l1.innerHTML = '✓ Found <b>' + esc(prof.name || 'you') + '</b>' + (prof.headline ? ', ' + esc(prof.headline) : '') + (prof.location ? ' · ' + esc(prof.location) : '');
+    l1.className = 'sline ok';
+    if (prof.photo){ scanLine('✓ Got your profile photo straight from LinkedIn', 'ok'); }
+    if (prof.about) scanLine('✓ Read your About section, ' + prof.about.split(/\s+/).length + ' words', 'ok');
+    if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
+    if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || prof.headline.split(/[|·]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
+    const l2 = scanSpin('Reading your posts');
+    let posts = [];
+    try { posts = (await postP).posts || []; } catch(e){ /* posts can fail on their own */ }
+    const own = posts.filter(p=>p.text && p.text.length > 60);
+    if (own.length){
+      const last = own[0];
+      l2.innerHTML = '✓ Read ' + own.length + ' of your posts. The last one was <b>' + esc(last.ago || last.date || 'a while back') + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : '');
+      l2.className = 'sline ok';
+      const snip = last.text.replace(/\s+/g,' ').slice(0, 90);
+      scanLine('“' + esc(snip) + '…” <span class="dim">your most recent post</span>', 'quote');
+    } else {
+      l2.innerHTML = '✓ Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok';
+    }
+    state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
+    state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
+    savePerson(); syncPerson();
+    const l3 = scanSpin('Working out how you write');
+    try {
+      const sys = 'You are told what was found on a person\'s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
+      const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
+      const brief = (await askAI(sys, msg)).trim();
+      l3.innerHTML = '✓ Done'; l3.className = 'sline ok';
+      state.person.brief = brief; savePerson();
+      scanLine(esc(brief), 'brief');
+    } catch(e){ l3.innerHTML = '✓ Read everything'; l3.className='sline ok'; }
+    scanLine('That was your real public profile, read just now. It is kept in this browser and nowhere else.', 'dim');
+  } catch(e){
+    if (e.off){ $('#scanLog').innerHTML=''; scanLine('Scanning is not switched on for this build yet. Fill in your name and title and Chorus will still write everything for you.', 'dim'); }
+    else { l1.innerHTML = 'Could not read that profile. ' + esc(e.message||''); l1.className = 'sline warn'; }
+  } finally { btn.disabled = false; }
+}
+
 async function generateKit(){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
   const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Reading your LinkedIn and writing in your voice. About 10 seconds.';
   const prog = $('#genProgress'); prog.classList.remove('hidden'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
-  const hasSamples = !!(p.samples && String(p.samples).trim().length > 40);
-  const steps = [[1, hasSamples ? 'your posts' : (hasLi ? 'profile noted' : 'no profile yet'), 1200],[2, hasSamples ? 'your rhythm and openers' : 'a clear plain voice', 1200],[3,'writing', 900]];
+  const scan = p.scan; const hasSamples = !!(p.samples && String(p.samples).trim().length > 40) || !!(scan && scan.posts && scan.posts.length);
+  const steps = [[1, scan ? ((scan.posts||[]).length ? (scan.posts.length + ' real posts from your profile') : 'your real profile, no recent posts') : (hasLi ? 'profile noted, hit Scan it first' : 'no profile yet'), 1200],[2, hasSamples ? 'your rhythm and openers' : 'a clear plain voice', 1200],[3,'writing', 900]];
   for (const [n,label,ms] of steps){ const el = prog.querySelector(`[data-s="${n}"]`); el.classList.add('on'); await new Promise(r=>setTimeout(r, ms)); el.classList.remove('on'); el.classList.add('done'); el.querySelector('.dot').innerHTML='<svg><use href="#i-check"/></svg>'; $('#gn'+n).textContent = label; }
   HEADLINES = headlinesFor(p); $('#joinedText').value = joinedFor(p); $('#aboutText').value = aboutFor(p);
   if (AI_ON){
@@ -1513,7 +1589,7 @@ async function generateKit(){
         + 'COMPANY: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products
         + '\nFACTS: ' + BRAIN.facts.map(f=>f[0]).join('; ')
         + '\nNEVER USE: ' + BRAIN.vocabAvoid.join(', ') + '\nRULES: ' + BRAIN.rules
-        + '\n\nTHE PERSON: ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'
+        + '\n\nTHE PERSON: ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.' + (p.scan ? ('\nTheir LinkedIn headline today: ' + (p.scan.headline||'') + (p.scan.about ? '\nTheir current About: ' + p.scan.about.slice(0,900) : '') + ((p.scan.posts||[]).length ? '\nTheir last post was ' + (p.scan.posts[0].ago||p.scan.posts[0].date||'a while ago') + '.' : '\nThey have not posted in a long time, keep everything simple and unforced.')) : '')
         + (p.samples ? '\nTHIS IS HOW THEY WRITE, copy the rhythm, openers and sign offs:\n' + Q + String(p.samples).slice(0,2500) + Q : '')
         + '\nWrite in first person, as them, not as the company. Never use an em dash. No hashtags. No generic closing question.'
         + '\n\nReturn ONLY JSON: {"headlines":[three options, each under 200 characters, each containing the job title and the company name],"about":"2 to 4 short paragraphs, under 1800 characters","joined":"a LinkedIn post announcing they have joined, 900 to 1400 characters, short paragraphs"}';
@@ -1526,7 +1602,7 @@ async function generateKit(){
   PF.headline = 0; PF.generated = true;
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
-  $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = hasSamples ? 'Learned from the posts you pasted. Everything below copies your rhythm, your openers and the way you sign off.' : 'Paste two or three of your own posts above and generate again, and this will sound like you rather than a clear, plain voice.';
+  $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
   await new Promise(r=>setTimeout(r, 400)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
   renderProfile(); toast('Your LinkedIn kit is ready. Work down the steps.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -1543,7 +1619,7 @@ const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["L
 function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Add your details', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
 
 function startNewPost(){
-  W.outputs = null; W.imgKey = null; W.aiImage = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
+  W.outputs = null; W.imgKey = null; W.aiImage = null; W.aiErr = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
   $('#askText').value = ''; renderOuts(); $('#askText').focus(); $('#askText').scrollIntoView({behavior:'smooth', block:'center'});
   $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write the posts';
   toast('Cleared. Type the next one.');
@@ -1736,7 +1812,9 @@ function renderAvatarBox(){
   const pr = $('#photoReset'); if (pr) pr.classList.toggle('hidden', !has);
   const lbl = $('#photoBtnLabel'); if (lbl) lbl.textContent = has ? 'Change photo' : 'Add photo';
 }
-function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); } else drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
+function facePhoto(){ return (state.person.scan && state.person.scan.photo) || ''; }
+function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.src=f; i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
+function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }
 async function downloadCanvas(id, btn){
@@ -1827,6 +1905,7 @@ async function init(){
     } catch(err){ $('#aiHint').textContent = (err && err.message && /Failed to fetch/.test(err.message)) ? 'The browser blocked the request. This works on the live site (sereniumai.github.io/wild-digital-chorus), not inside the preview.' : (err.message||'Could not connect'); }
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });
+  $('#scanBtn').addEventListener('click', scanLinkedIn);
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });

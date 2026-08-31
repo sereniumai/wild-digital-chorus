@@ -959,7 +959,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan5');
+console.log('Chorus build 2026-08-31-scan6');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1295,7 +1295,8 @@ function templateWrite(ask, fromSource){
     x: `${cap(short)}. One place for partners to register deals, find content and see pipeline. More at unifyr.com.`
   };
 }
-const PROXY = 'https://chorus-api-roan.vercel.app/api/write';
+const API_BASE = /\.vercel\.app$/.test(location.hostname) ? '' : 'https://chorus-api-roan.vercel.app';
+const PROXY = API_BASE + '/api/write';
 async function askAI(system, message){
   const key = localStorage.getItem('chorus.key');
   if (key){
@@ -1456,7 +1457,7 @@ function imagePanel(){
   return el;
 }
 const SCENES = { partners:'scenes/partners.jpg', network:'scenes/network.jpg', growth:'scenes/growth.jpg', team2:'scenes/team2.jpg', stage:'scenes/stage.jpg', award:'scenes/award.jpg', product:'scenes/product.jpg' };
-const IMG_API = 'https://chorus-api-roan.vercel.app/api/image';
+const IMG_API = API_BASE + '/api/image';
 function scenePrompt(desc){
   const d = (desc||'').trim() || 'an abstract network of connected nodes and light trails, modern and clean';
   return 'Editorial brand photograph for a B2B partner management software company. The picture shows: ' + d + '. '
@@ -1533,7 +1534,7 @@ async function renderStyleSamples(){ try { const a = await loadImage(PHOTOS.even
 
 /* ---------- generate kit (learn voice, then write) ---------- */
 /* ===== Real LinkedIn scan ===== */
-const LI_API = 'https://chorus-api-roan.vercel.app/api/profile';
+const LI_API = API_BASE + '/api/profile';
 function scanLine(html, cls){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'sline' + (cls?' '+cls:''); d.innerHTML = html; log.appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
 async function liTransport(id, what, mode){
@@ -1566,7 +1567,7 @@ async function scanLinkedIn(){
   const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
   const l0 = scanSpin('<b>Step 1 of 4</b> · Checking the connection');
   if (await liPing()){ l0.innerHTML = '✓ <b>Step 1</b> · Connected'; l0.className = 'sline ok'; }
-  else { l0.innerHTML = 'This device cannot reach the Chorus server, so writing posts will not work either. To see it yourself, <a href="https://chorus-api-roan.vercel.app/api/write?ping=1" target="_blank" rel="noopener">open this test link</a>: if it does not show ok true, this network or a security tool is blocking vercel.app addresses. Try a phone hotspot or another browser.'; l0.className = 'sline warn'; btn.disabled = false; return; }
+  else { l0.innerHTML = 'This device cannot reach the Chorus server, so writing posts will not work either. To see it yourself, <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">open the app here instead</a>, where nothing can block it.'; l0.className = 'sline warn'; btn.disabled = false; return; }
   const l1 = scanSpin('<b>Step 2 of 4</b> · Opening <b>' + esc(handle) + '</b> and reading your profile');
   try {
     const prof = await liFetch('profile', url);

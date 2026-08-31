@@ -175,20 +175,7 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 
 /* ---------- app shell ---------- */
 .shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
-@media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}.scanbox{border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:14px 0;background:var(--card, var(--panel))}
-.scanbox .shead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.scanbox .pill.live{background:#16a34a;color:#fff;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;animation:scpulse 1.6s infinite}
-@keyframes scpulse{50%{opacity:.5}}
-.sline{font-size:13px;line-height:1.55;padding:3px 0;color:var(--ink-2)}
-.sline.ok{color:var(--ink)}
-.sline.warn{color:#b45309}
-.sline a{color:inherit;text-decoration:underline}
-.sline.dim{color:var(--ink-3);font-size:12px;margin-top:6px}
-.sline.quote{border-left:3px solid #CB148B;padding-left:10px;margin:4px 0;font-style:italic}
-.sline.brief{background:var(--bg, transparent);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
-.sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
-@keyframes scsp{to{transform:rotate(360deg)}}
-.avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
+@media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
 .voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
 .side{background:var(--side);color:var(--side-ink);display:flex;flex-direction:column;padding:18px 14px;gap:16px;position:sticky;top:0;height:100vh}
 .side .wm{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:19px;color:#fff;padding:2px 6px;letter-spacing:-.02em}
@@ -502,6 +489,31 @@ canvas,img{max-width:100%}
 @media (max-width:640px){.poster-fields{grid-template-columns:1fr}}
 .poster-fields .field textarea{min-height:56px}
 
+
+.scanbox{position:relative;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:14px 0;background:var(--card, var(--panel));box-shadow:0 8px 30px rgba(17,8,32,.08);overflow:hidden}
+.scanbox::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,#CB148B,#6B6BF0,#CB148B);background-size:200% 100%;animation:scsheen 2.4s linear infinite}
+@keyframes scsheen{to{background-position:200% 0}}
+.scanbox .spct{font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--ink-3);font-weight:700}
+.sprog{height:4px;border-radius:99px;background:var(--line);overflow:hidden;margin:2px 0 12px}
+.sprog i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#CB148B,#A04FD8,#6B6BF0);transition:width .7s cubic-bezier(.3,.8,.3,1)}
+.scard{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0 6px;background:var(--panel, rgba(255,255,255,.04));animation:slin .45s ease both}
+.scard img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px #CB148B33}
+.scard b{display:block;font-size:13.5px;line-height:1.3}
+.scard span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:1px}
+.scanbox .shead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.scanbox .pill.live{background:#16a34a;color:#fff;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;animation:scpulse 1.6s infinite}
+@keyframes scpulse{50%{opacity:.5}}
+.sline{font-size:13px;line-height:1.55;padding:3px 0;color:var(--ink-2);animation:slin .35s ease both}
+@keyframes slin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.sline.ok{color:var(--ink)}
+.sline.warn{color:#b45309}
+.sline a{color:inherit;text-decoration:underline}
+.sline.dim{color:var(--ink-3);font-size:12px;margin-top:6px}
+.sline.quote{border-left:3px solid #CB148B;padding-left:10px;margin:4px 0;font-style:italic}
+.sline.brief{background:var(--bg, transparent);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
+.sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
+@keyframes scsp{to{transform:rotate(360deg)}}
+.avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
 </style>
 </head>
 <body>
@@ -533,9 +545,9 @@ canvas,img{max-width:100%}
       <a data-page="home" aria-current="page"><svg><use href="#i-home"/></svg>Home</a>
       <div class="sec">Me</div>
       <a data-page="profile"><svg><use href="#i-spark"/></svg>My LinkedIn</a>
-      <a data-page="write" data-voice="me"><svg><use href="#i-pen"/></svg>My announcements</a>
+      <a data-page="write" data-voice="me"><svg><use href="#i-pen"/></svg>My posts</a>
       <div class="sec">Company (marketing)</div>
-      <a data-page="write" data-voice="company"><svg><use href="#i-pen"/></svg>Announcements</a>
+      <a data-page="write" data-voice="company"><svg><use href="#i-pen"/></svg>Posts</a>
       <div class="sec">Settings</div>
       <a data-page="brain"><svg><use href="#i-brain"/></svg>Brand Brain</a>
     </nav>
@@ -573,7 +585,7 @@ canvas,img{max-width:100%}
       <div class="quick">
         <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><span class="step">New here? Start with this</span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go">Set up my LinkedIn →</span></a>
         <a data-go="write" data-voice="me"><span class="ic"><svg><use href="#i-spark"/></svg></span><span class="step">For everyone</span><b>Post about company news, as me</b><span>Type the news and get a LinkedIn post in your own voice, with a matching image, ready to paste in.</span><span class="go">Write my post →</span></a>
-        <a data-go="write" data-voice="company"><span class="ic"><svg><use href="#i-pen"/></svg></span><span class="step">Marketing team</span><b>Make a company announcement</b><span>One line of news becomes LinkedIn, Instagram and X posts in the Unifyr voice, plus an on-brand image.</span><span class="go">Make an announcement →</span></a>
+        <a data-go="write" data-voice="company"><span class="ic"><svg><use href="#i-pen"/></svg></span><span class="step">Marketing team</span><b>Make a company post</b><span>One line of news becomes LinkedIn, Instagram and X posts in the Unifyr voice, plus an on-brand image.</span><span class="go">Make an announcement →</span></a>
       </div>
       <div class="card"><div class="head"><h2>What Chorus knows about Unifyr</h2><span class="sub">Every post is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
         <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways Unifyr sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
@@ -583,7 +595,7 @@ canvas,img{max-width:100%}
 
     <!-- ---------- ANNOUNCE ---------- -->
     <div class="page hidden" data-page="write">
-      <h2 class="title" id="writeTitle">Make an <em>announcement</em></h2>
+      <h2 class="title" id="writeTitle">Write a <em>post</em></h2>
       <p class="lede">Chorus writes each post and makes a matching image, ready for you to copy into the app.</p>
       <div class="write">
         <div class="card ask"><div class="body">
@@ -624,7 +636,7 @@ canvas,img{max-width:100%}
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
           <div class="field"><label>LinkedIn profile</label><div style="display:flex;gap:8px"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan it</button></div><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
-                <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span></div><div id="scanLog"></div></div>
+                <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="scanPct"></span></div><div class="sprog"><i id="scanProg"></i></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
           <div class="st" data-s="1"><span class="dot"></span>Reading your LinkedIn posts <span class="n" id="gn1"></span></div>
           <div class="st" data-s="2"><span class="dot"></span>Learning how you write <span class="n" id="gn2"></span></div>
@@ -959,7 +971,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan6');
+console.log('Chorus build 2026-08-31-scan9');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1102,7 +1114,7 @@ function fill(tpl){ const p = state.person; return (tpl||'').replace(/\{first_na
 function fit(src, dst, cssW){ const s = cssW/src.width; const w=Math.round(src.width*s*2), h=Math.round(src.height*s*2); if (dst.width!==w||dst.height!==h){ dst.width=w; dst.height=h; } dst.style.width = cssW+'px'; dst.style.maxWidth='100%'; dst.style.height='auto'; const ctx=dst.getContext('2d'); ctx.clearRect(0,0,w,h); ctx.drawImage(src,0,0,w,h); }
 
 /* ---------- navigation ---------- */
-const PAGES = { home:['Home',''], write:['Announcements',''], brain:['Brand Brain','Settings'], profile:['My LinkedIn','Me'], learn:['Set up','First run'] };
+const PAGES = { home:['Home',''], write:['Posts',''], brain:['Brand Brain','Settings'], profile:['My LinkedIn','Me'], learn:['Set up','First run'] };
 function go(page){
   state.ui.page = page;
   $$('.page').forEach(p=>p.classList.toggle('hidden', p.dataset.page!==page));
@@ -1167,7 +1179,7 @@ function setAud(a){ W.aud = a; }
 function setVoice(v){ W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
   const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ if (state.photoCut && canvases.avatar){ const c=document.createElement('canvas'); c.width=64; c.height=64; c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); av.appendChild(c); } else { const f=faceEl(64); if (f) av.appendChild(f); else { const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } } } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
   if ($('#voiceWhoName')) $('#voiceWhoName').textContent = v==='me' ? (state.person.name||'You') : state.brand.name;
-  if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>announcements</em>' : esc(state.brand.name) + ' <em>announcements</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
+  if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>posts</em>' : esc(state.brand.name) + ' <em>posts</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
 function matchExample(ask){
   const a = ask.toLowerCase();
   if (/agent|mcp/.test(a)) return EXAMPLES[0]; if (/investcorp|\$20|funding|round|invest/.test(a)) return EXAMPLES[1]; if (/app\.unifyr|domain|address|moved/.test(a)) return EXAMPLES[2];
@@ -1537,6 +1549,11 @@ async function renderStyleSamples(){ try { const a = await loadImage(PHOTOS.even
 const LI_API = API_BASE + '/api/profile';
 function scanLine(html, cls){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'sline' + (cls?' '+cls:''); d.innerHTML = html; log.appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
+function scanProg(p){ const i = $('#scanProg'); if (i) i.style.width = p + '%'; const t = $('#scanPct'); if (t) t.textContent = p >= 100 ? 'done' : (p + '%'); }
+function scanCard(prof){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'scard';
+  d.innerHTML = (prof.photo ? '<img src="' + esc(prof.photo) + '" referrerpolicy="no-referrer" alt="">' : '') +
+    '<div><b>' + esc(prof.name || 'You') + '</b><span>' + esc(prof.headline || '') + '</span><span>' + esc(prof.location || '') + (prof.followers ? ' · ' + prof.followers + ' followers' : '') + '</span></div>';
+  log.appendChild(d); d.scrollIntoView({block:'nearest'}); }
 async function liTransport(id, what, mode){
   if (mode === 2) return fetch(PROXY + '?id=' + encodeURIComponent(id) + '&what=' + encodeURIComponent(what));
   if (mode === 1) return fetch(PROXY, { method:'POST', body: JSON.stringify({ scan: { id, what } }) });
@@ -1559,55 +1576,69 @@ async function liFetch(what, url){
 async function liPing(){
   try { const r = await fetch(PROXY + '?ping=1'); return r.ok; } catch (e){ return false; }
 }
+async function usePhotoUrl(u){
+  try {
+    state.person.photoZoom = 1.1; state.person.photoX = 0; state.person.photoY = 0; syncInputs(); state.photoCut = null;
+    state.photoImg = await loadImage(API_BASE + '/api/write?img=' + encodeURIComponent(u), true);
+    render();
+    try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut = null; }
+    renderSwatches(); render(); syncPerson();
+    scanLine('✓ Pulled your profile photo into the photo tool below. It is cut out already, just pick a background colour, or add a different photo any time.', 'ok');
+  } catch(e){ /* photo pull is a bonus, never break the scan */ }
+}
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
   const btn = $('#scanBtn'); btn.disabled = true;
-  const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = '';
+  const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = ''; scanProg(4); const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
   const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
   const l0 = scanSpin('<b>Step 1 of 4</b> · Checking the connection');
-  if (await liPing()){ l0.innerHTML = '✓ <b>Step 1</b> · Connected'; l0.className = 'sline ok'; }
+  if (await liPing()){ l0.innerHTML = '✓ <b>Step 1</b> · Connected'; l0.className = 'sline ok'; scanProg(18); }
   else { l0.innerHTML = 'This device cannot reach the Chorus server, so writing posts will not work either. To see it yourself, <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">open the app here instead</a>, where nothing can block it.'; l0.className = 'sline warn'; btn.disabled = false; return; }
   const l1 = scanSpin('<b>Step 2 of 4</b> · Opening <b>' + esc(handle) + '</b> and reading your profile');
+  scanProg(28);
   try {
     const prof = await liFetch('profile', url);
-    l1.innerHTML = '✓ <b>Step 2</b> · Found <b>' + esc(prof.name || 'you') + '</b>' + (prof.headline ? ', ' + esc(prof.headline) : '') + (prof.location ? ' · ' + esc(prof.location) : '');
-    l1.className = 'sline ok';
-    if (prof.photo){ scanLine('✓ Got your profile photo straight from LinkedIn', 'ok'); }
+    l1.innerHTML = '✓ <b>Step 2</b> · Found your profile'; l1.className = 'sline ok';
+    scanCard(prof); scanProg(52);
+    const photoJob = (prof.photo && !state.photoImg) ? usePhotoUrl(prof.photo) : null;
     if (prof.about) scanLine('✓ Read your About section, ' + prof.about.split(/\s+/).length + ' words', 'ok');
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
     if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || prof.headline.split(/[|·]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
     const l2 = scanSpin('<b>Step 3 of 4</b> · Reading your posts');
+    scanProg(60);
     let posts = [];
     try { posts = (await liFetch('posts', url)).posts || []; } catch(e){ /* posts can fail on their own */ }
     const own = posts.filter(p=>p.text && p.text.length > 60);
     if (own.length){
       const last = own[0];
-      l2.innerHTML = '✓ <b>Step 3</b> · Read ' + own.length + ' of your posts. The last one was <b>' + esc((last.ago || last.date || 'a while back').split(' • ')[0]) + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : '');
+      l2.innerHTML = '✓ <b>Step 3</b> · Read ' + own.length + ' of your posts. The last one was <b>' + esc((last.ago || last.date || 'a while back').split(' • ')[0]) + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : ''); scanProg(78);
       l2.className = 'sline ok';
       const snip = last.text.replace(/\s+/g,' ').slice(0, 90);
       scanLine('“' + esc(snip) + '…” <span class="dim">your most recent post</span>', 'quote');
     } else {
-      l2.innerHTML = '✓ <b>Step 3</b> · Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok';
+      l2.innerHTML = '✓ <b>Step 3</b> · Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok'; scanProg(78);
     }
     state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
     state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
     savePerson(); syncPerson();
     const l3 = scanSpin('<b>Step 4 of 4</b> · Learning how you write');
+    scanProg(86);
     try {
       const sys = 'You are told what was found on a person\'s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
       const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
-      l3.innerHTML = '✓ <b>Step 4</b> · Done'; l3.className = 'sline ok';
+      l3.innerHTML = '✓ <b>Step 4</b> · Done'; l3.className = 'sline ok'; scanProg(100);
       state.person.brief = brief; savePerson();
       scanLine(esc(brief), 'brief');
-    } catch(e){ l3.innerHTML = '✓ <b>Step 4</b> · Read everything'; l3.className='sline ok'; }
+    } catch(e){ l3.innerHTML = '✓ <b>Step 4</b> · Read everything'; l3.className='sline ok'; scanProg(100); }
+    if (photoJob) await photoJob;
     scanLine('That was your real public profile, read just now. It is kept in this browser and nowhere else.', 'dim');
   } catch(e){
     if (e.off){ $('#scanLog').innerHTML=''; scanLine('Scanning is not switched on for this build yet. Fill in your name and title and Chorus will still write everything for you.', 'dim'); }
     else if (/failed to fetch|networkerror|load failed/i.test(e.message||'')){ l1.innerHTML = 'The request could not leave this device. Do a hard refresh (Cmd+Shift+R) and try once more, or try another browser.'; l1.className = 'sline warn'; }
     else { l1.innerHTML = 'Could not read that profile. ' + esc(e.message||''); l1.className = 'sline warn'; }
-  } finally { btn.disabled = false; }
+  } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
 }
 
 async function generateKit(){
@@ -1938,7 +1969,7 @@ async function init(){
   $('#testKey').addEventListener('click', async e=>{ const btn=e.currentTarget; const k = $('#apiKey').value.trim(); if (!k) return toast('Paste your API key first', true); btn.disabled=true; $('#aiHint').textContent='Testing the key…';
     try { const r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body: JSON.stringify({model:'claude-opus-5', max_tokens:20, messages:[{role:'user', content:'Reply with the single word OK.'}]})});
       if (!r.ok){ const t = await r.text(); throw new Error(r.status===401 ? 'That key was rejected. Check it and try again.' : `The API answered ${r.status}. ${t.slice(0,120)}`); }
-      localStorage.setItem('chorus.key', k); syncAiStatus(); flash(btn,'Connected'); $('#aiHint').textContent='Connected. Announcements are now written fresh by AI, from the Brand Brain.'; toast('AI connected');
+      localStorage.setItem('chorus.key', k); syncAiStatus(); flash(btn,'Connected'); $('#aiHint').textContent='Connected. Posts are now written fresh by AI, from the Brand Brain.'; toast('AI connected');
     } catch(err){ $('#aiHint').textContent = (err && err.message && /Failed to fetch/.test(err.message)) ? 'The browser blocked the request. This works on the live site (sereniumai.github.io/wild-digital-chorus), not inside the preview.' : (err.message||'Could not connect'); }
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });

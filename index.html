@@ -319,7 +319,11 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .voicebox b{display:block}
 .voicebox span{color:var(--ink-3);font-size:12.5px}
 
-.bnr{background:var(--panel);border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+.bnr{background:var(--panel);border:2px solid var(--line-2);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.bnr:hover{border-color:var(--ink-4)}
+.bnr[aria-pressed="true"]{border-color:var(--u-violet)}
+.bnr .brow span.sel{font-size:11px;font-weight:700;color:var(--u-violet);display:none}
+.bnr[aria-pressed="true"] .brow span.sel{display:inline}
 .bnr canvas{width:100%;height:auto;display:block}
 .bnr .brow{display:flex;align-items:center;gap:12px;padding:10px 12px}
 .bnr .brow b{display:block;font-size:13.5px}
@@ -370,6 +374,29 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .demo-banner{display:flex;align-items:center;gap:10px;background:var(--brass-soft);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--ink-2)}
 .demo-banner b{color:var(--ink)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+/* ---------- photo editor ---------- */
+.photostage{flex-direction:column;gap:10px;padding:22px 16px 8px}
+.photostage .circle{position:relative;width:230px;height:230px;border-radius:50%;overflow:hidden;background:var(--panel-2);box-shadow:0 8px 26px -12px rgba(11,18,29,.5);cursor:grab;touch-action:none}
+.photostage .circle:active{cursor:grabbing}
+.photostage .circle canvas{width:230px!important;height:230px!important;display:block}
+.photostage .drophint{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:6px;color:var(--ink-3);font-size:12.5px;pointer-events:none;text-align:center}
+.photostage .drophint svg{width:26px;height:26px}
+.photostage.has .drophint{display:none}
+.photostage .dragtip{font-size:11.5px;color:var(--ink-4);visibility:hidden}
+.photostage.has .dragtip{visibility:visible}
+.photo-tools{padding:6px 16px 0;display:flex;flex-direction:column;gap:10px}
+.ptrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ptlabel{font-size:12px;font-weight:600;color:var(--ink-2)}
+.zoomrow{gap:8px}
+.zoomrow input[type=range]{flex:1;min-width:100px;accent-color:var(--u-violet)}
+.zbtn{min-width:34px;justify-content:center;font-size:16px;line-height:1;padding:4px 10px}
+.swatches button{width:28px;height:28px}
+/* badges and buttons sit true to centre */
+.stepn{display:inline-flex!important;align-items:center;justify-content:center;width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--u-violet);color:#fff;font-size:12px;font-weight:700;line-height:1;flex:0 0 auto;margin-right:8px;padding:0;box-sizing:border-box}
+.howto .stepn{margin-right:0}
+.kcard .row b,.card>.head h2{display:flex;align-items:center}
+.card>.head .stepn{align-self:center}
+.btn svg{display:block}
 /* ---------- nothing overflows its box ---------- */
 canvas,img{max-width:100%}
 .li-mock .cover canvas,.imgcard canvas,.bnr canvas,.kcard .thumb canvas,.linkedin-mock .mimg{width:100%!important;height:auto!important}
@@ -396,7 +423,8 @@ canvas,img{max-width:100%}
 /* ---------- premium pass: sidebar follows theme, quiet header, calmer surfaces ---------- */
 :root{--side:#FFFFFF;--side-2:#F6F3FA;--side-ink:#333333;--side-ink-2:#6B6F7A;--side-line:#EEE7F7}
 :root[data-theme="dark"]{--side:#0B121D;--side-2:#18151F;--side-ink:#C9CFD8;--side-ink-2:#8B929E;--side-line:#1F2430}
-.side{background:var(--side);color:var(--side-ink);border-right:1px solid var(--side-line);padding:22px 16px;gap:22px}
+.side{background:var(--side);color:var(--side-ink);border-right:1px solid var(--side-line);padding:22px 16px;gap:18px}
+.side .ws:first-child{padding:2px 6px 6px!important}
 .side .ws{background:transparent;box-shadow:none;padding:0}
 .side .ws:first-child img{max-height:36px!important;max-width:160px!important;background:transparent!important;padding:0!important;border-radius:0!important}
 .side .ws .mark{width:30px;height:30px;border-radius:9px}
@@ -458,8 +486,7 @@ canvas,img{max-width:100%}
 <div class="shell" id="app">
   <aside class="side">
     <div class="ws" style="background:transparent;box-shadow:none;padding:6px 6px 2px"><img id="wsLogo" alt="" style="max-height:30px;max-width:140px;background:#fff;padding:5px 9px;border-radius:8px"></div>
-    <div class="ws"><span class="mark"><i></i></span><div><b>Chorus</b><span>Brand &amp; voice portal</span></div></div>
-    <nav id="nav">
+        <nav id="nav">
       <a data-page="home" aria-current="page"><svg><use href="#i-home"/></svg>Home</a>
       <div class="sec">Me</div>
       <a data-page="profile"><svg><use href="#i-spark"/></svg>My LinkedIn</a>
@@ -526,7 +553,7 @@ canvas,img{max-width:100%}
           <div class="field"><label>No news handy? Try one of these</label><div class="examples" id="examples"></div></div>
           <details><summary style="cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-3)">Or check something you’ve already written</summary><div class="field" style="margin-top:10px"><textarea id="checkText" placeholder="Paste a draft, we’ll flag anything that reads as AI and score it."></textarea><div id="checkOut" style="margin-top:8px"></div></div></details>
         </div></div>
-        <div><div class="outs-head"><h3>Your posts</h3><span>Copy each one and paste it into the app. Edit anything you like first.</span></div><div class="outs" id="outs"><div class="empty"><b>Your posts will appear here</b>Fill in the steps on the left and click “Write the posts”.</div></div></div>
+        <div><div class="outs-head"><h3>Your posts</h3><span>Copy each one and paste it into the app. Edit anything you like first.</span><span class="spacer"></span><button class="btn sm hidden" id="newPost"><svg><use href="#i-spark"/></svg>Start a new post</button></div><div class="outs" id="outs"><div class="empty"><b>Your posts will appear here</b>Fill in the steps on the left and click “Write the posts”.</div></div></div>
       </div>
     </div>
 
@@ -546,24 +573,14 @@ canvas,img{max-width:100%}
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
       <p class="lede">Five quick steps. Chorus builds everything in your voice and on the Unifyr brand. Copy or download each piece into LinkedIn, then tick it off.</p>
       <div class="card" style="padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><b id="doneText" style="font-size:14px">0 of 5 done</b><div class="genbar" style="flex:1;min-width:160px"><i id="doneBar"></i></div><span class="hint">Unifyr can see who has finished. Nothing else is shared.</span></div>
-      <div class="howto"><div><span class="stepn">1</span><b>Details and photo</b></div><div><span class="stepn">2</span><b>Photo and banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>Say you’ve joined</b></div><div><span class="stepn">5</span><b>About</b></div></div>
+      <div class="howto"><div><span class="stepn">1</span><b>Details and photo</b></div><div><span class="stepn">2</span><b>Photo and banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><span class="stepn">1</span><h2>Your details and photo</h2><span class="sub">Only you can see this</span></div><div class="body">
         <div class="grid3">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title"></div>
           <div class="field"><label>LinkedIn profile</label><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput"><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
-        <div class="photo-row">
-          <div class="drop" id="drop" tabindex="0" role="button" aria-label="Add a photo"></div>
-          <div><b style="font-size:13.5px">Photo</b><div class="hint">Head and shoulders, any background, we cut you out. Never leaves your browser.</div></div>
-          <label class="btn sm" style="margin-left:auto"><svg><use href="#i-img"/></svg>Choose photo<input type="file" id="photoFile" accept="image/*" hidden></label>
-        </div>
-        <div class="field" id="bgPick"><label>Background colour <span class="opt">Unifyr colours</span></label><div class="swatches" id="swatches"></div><div class="hint" id="cutHint">Your photo is cut out and placed on the colour you pick.</div></div>
-        <div class="photo-adj" id="photoCtrl" hidden>
-          <div><label>Zoom</label><input type="range" min="1" max="2.5" step="0.01" data-bind="person.photoZoom"></div>
-          <div><label>Left / right</label><input type="range" min="-1" max="1" step="0.01" data-bind="person.photoX"></div>
-          <div><label>Up / down</label><input type="range" min="-1" max="1" step="0.01" data-bind="person.photoY"></div>
-        </div>
+        
         <div class="progress-list hidden" id="genProgress">
           <div class="st" data-s="1"><span class="dot"></span>Reading your LinkedIn posts <span class="n" id="gn1"></span></div>
           <div class="st" data-s="2"><span class="dot"></span>Learning how you write <span class="n" id="gn2"></span></div>
@@ -574,18 +591,29 @@ canvas,img{max-width:100%}
       </div></div>
 
       <div class="kit">
-        <article class="kcard" data-id="avatar"><div class="thumb"><canvas id="th-avatar" style="max-width:180px"></canvas></div><div class="row"><div><b><span class="stepn">2</span>Profile photo</b><span>800 × 800, cut out, on your colour</span></div><button class="btn brand" id="btn-avatar"><svg><use href="#i-down"/></svg>Download photo</button><button class="btn sm done-btn" data-done="photo">Mark done</button></div><div class="where">Then on LinkedIn: your profile, click your photo, <b>Change photo</b>, upload this file.</div></article>
+        <article class="kcard" data-id="avatar"><div class="thumb photostage" id="photoStage">
+          <div class="circle"><canvas id="th-avatar"></canvas><div class="drophint" id="dropHint"><svg><use href="#i-cam"/></svg><span>Add a photo</span></div></div>
+          <div class="dragtip" id="dragTip">Drag to move, scroll to zoom</div>
+        </div>
+        <div class="photo-tools">
+          <div class="ptrow"><label class="btn sm"><svg><use href="#i-img"/></svg><span id="photoBtnLabel">Add photo</span><input type="file" id="photoFile" accept="image/*" hidden></label><button class="btn sm quiet hidden" id="photoReset">Reset position</button></div>
+          <div class="ptrow zoomrow hidden" id="zoomRow"><button class="btn sm zbtn" data-zoom="-1">-</button><input type="range" id="zoomRange" min="1" max="2.5" step="0.01" data-bind="person.photoZoom"><button class="btn sm zbtn" data-zoom="1">+</button></div>
+          <div class="ptrow"><span class="ptlabel">Background</span><div class="swatches" id="swatches"></div></div>
+        </div>
+        <div class="row"><div><b><span class="stepn">2</span>Profile photo</b><span>800 × 800, cut out, on your colour</span></div><button class="btn brand" id="btn-avatar"><svg><use href="#i-down"/></svg>Download photo</button><button class="btn sm done-btn" data-done="photo">Mark done</button></div><div class="where">Then on LinkedIn: your profile, click your photo, <b>Change photo</b>, upload this file.</div></article>
         <article class="kcard" data-id="banner"><div class="thumb" style="flex-direction:column;gap:12px;align-items:stretch;padding:12px">
-          <div class="bnr"><canvas id="th-banner1"></canvas><div class="brow"><div><b>Build better partnerships</b><span>Unifyr’s LinkedIn banner</span></div><button class="btn brand sm" id="btn-banner1"><svg><use href="#i-down"/></svg>Download banner</button></div></div>
-          <div class="bnr"><canvas id="th-banner2"></canvas><div class="brow"><div><b>Arcs</b><span>Alternative</span></div><button class="btn brand sm" id="btn-banner2"><svg><use href="#i-down"/></svg>Download banner</button></div></div>
+          <div class="bnr" data-bnr="1"><canvas id="th-banner1"></canvas><div class="brow"><div><b>Build better partnerships</b><span>Unifyr’s LinkedIn banner <span class="sel">· showing in your preview</span></span></div><button class="btn brand sm" id="btn-banner1"><svg><use href="#i-down"/></svg>Download banner</button></div></div>
+          <div class="bnr" data-bnr="2"><canvas id="th-banner2"></canvas><div class="brow"><div><b>Arcs</b><span>Alternative <span class="sel">· showing in your preview</span></span></div><button class="btn brand sm" id="btn-banner2"><svg><use href="#i-down"/></svg>Download banner</button></div></div>
         </div><div class="row"><div><b><span class="stepn">2</span>Banner</b><span>Set by marketing, the same for everyone. Pick either one.</span></div><button class="btn sm done-btn" data-done="banner" style="margin-left:auto">Mark done</button></div><div class="where">Then on LinkedIn: your profile, camera icon on the cover image, upload, Apply.</div></article>
       </div>
 
       <div class="two">
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="card gen-card"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">Pick one. It shows under your name everywhere on LinkedIn.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
-          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><span class="pill good" id="joinedScore">Reads human</span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="joined"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
-          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="about"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
+
+          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="about"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
+
+          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><span class="pill good" id="joinedScore">Reads human</span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="joined"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
         </div>
         <div class="card" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
@@ -1113,13 +1141,14 @@ async function write(example){
     if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
     else if (localStorage.getItem('chorus.key')){ outputs = await liveWrite(ask); sources = ['Brand Brain (live)']; W.imgKey = 'agent'; }
     else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['Brand Brain (demo writing)', 'your news']; W.imgKey = 'agent'; }
-    W.outputs = { outputs, sources }; renderOuts();
+    W.outputs = { outputs, sources }; renderOuts(); $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write it again';
     const has = Object.keys(W.ch).filter(k=>W.ch[k] && outputs[k]);
   
   } catch(e){ $('#outs').innerHTML = `<div class="empty"><b>Couldn’t write that</b>${esc(e.message||String(e))}</div>`; }
   finally { W.busy = false; }
 }
 function renderOuts(){
+  const nb = $('#newPost'); if (nb) nb.classList.toggle('hidden', !W.outputs);
   const box = $('#outs'); if (!W.outputs){ box.innerHTML = `<div class="empty"><b>Nothing written yet</b>Type what you want to say, or try one of the examples.</div>`; return; }
   box.innerHTML = '';
   if (W.image) box.appendChild(imagePanel());
@@ -1230,7 +1259,8 @@ function renderProfile(){
   const wrap = document.createElement('div'); wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:4px'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
   $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
   $('#genBtn').disabled = !(state.person.name.trim() && state.person.title.trim());
-  if (canvases.banner1){ fit(canvases.banner1, $('#pf-banner'), 520); fit(canvases.avatar, $('#pf-avatar'), 88); }
+  const pick = state.ui.banner || 1; $$('.bnr').forEach(el=>el.setAttribute('aria-pressed', el.dataset.bnr==String(pick)));
+  if (canvases['banner'+pick]){ fit(canvases['banner'+pick], $('#pf-banner'), 520); fit(canvases.avatar, $('#pf-avatar'), 88); }
   if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); const js = humanCheck($('#joinedText').value); $('#joinedScore').textContent = 'Human ' + js.score; $('#joinedScore').className = 'pill ' + (js.score>=85?'good':'warn'); }
   renderDone();
 }
@@ -1328,13 +1358,20 @@ async function generateKit(){
 }
 function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
 /* ---------- done tracking (the company can see who has finished) ---------- */
-const DONE_KEYS = ['photo','banner','headline','joined','about'];
+const DONE_KEYS = ['photo','banner','headline','about','joined'];
 function doneState(){ try { return JSON.parse(localStorage.getItem('chorus.done')||'{}'); } catch(e){ return {}; } }
 function setDone(k, v){ const d = doneState(); d[k] = v; localStorage.setItem('chorus.done', JSON.stringify(d)); renderDone(); }
 function renderDone(){ const d = doneState(); const n = DONE_KEYS.filter(k=>d[k]).length; if ($('#doneText')) $('#doneText').textContent = `${n} of ${DONE_KEYS.length} done`; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; toast('All done. Unifyr can see you are set up.'); } }
 /* ---------- who's set up (Settings) ---------- */
 const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["Luis Ferreira","Head of Partnerships","Partnerships",5],["Priya Natarajan","Product Manager","Product",3],["Sam Whitfield","Customer Success Manager","Customer Success",1],["Ana Lindqvist","Account Executive","Sales",0]];
 function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'Jordan Ellis', state.person.title||'', 'Sales', mine, true], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
+
+function startNewPost(){
+  W.outputs = null; W.imgKey = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
+  $('#askText').value = ''; renderOuts(); $('#askText').focus(); $('#askText').scrollIntoView({behavior:'smooth', block:'center'});
+  $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write the posts';
+  toast('Cleared. Type the next one.');
+}
 
 /* ---------- home / team ---------- */
 function renderHome(){ $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
@@ -1369,19 +1406,35 @@ async function cutOut(img){
   ctx.drawImage(mask, 0, 0, W, H); ctx.globalCompositeOperation = 'source-in'; ctx.drawImage(src, 0, 0); ctx.globalCompositeOperation = 'source-over';
   // soften the edge slightly
   const soft = document.createElement('canvas'); soft.width=W; soft.height=H; const sc = soft.getContext('2d'); sc.filter='blur(1.2px)'; sc.drawImage(out,0,0); sc.filter='none'; sc.globalCompositeOperation='source-in'; sc.drawImage(out,0,0);
-  return soft;
+  // trim to the person so the circle can be filled with no empty gap
+  let x0=W, y0=H, x1=0, y1=0;
+  try { const d = soft.getContext('2d').getImageData(0,0,W,H).data;
+    for (let y=0;y<H;y++){ for (let x=0;x<W;x++){ if (d[(y*W+x)*4+3] > 24){ if (x<x0) x0=x; if (x>x1) x1=x; if (y<y0) y0=y; if (y>y1) y1=y; } } }
+  } catch(e){ x0=0; y0=0; x1=W-1; y1=H-1; }
+  if (x1<=x0 || y1<=y0){ x0=0; y0=0; x1=W-1; y1=H-1; }
+  const tw = x1-x0+1, th = y1-y0+1;
+  const trimmed = document.createElement('canvas'); trimmed.width = tw; trimmed.height = th;
+  trimmed.getContext('2d').drawImage(soft, x0, y0, tw, th, 0, 0, tw, th);
+  return trimmed;
 }
 function swatchColors(){ return ['#0B121D', '#CB148B', '#822287', '#43318B', '#5D5DC5', '#FFFFFF']; }
-function renderSwatches(){ const box = $('#swatches'); box.innerHTML=''; swatchColors().forEach((col,i)=>{ const b=document.createElement('button'); b.style.background=col; b.title=col; b.setAttribute('aria-pressed', (state.person.bg||0)===i); b.addEventListener('click', ()=>{ state.person.bg=i; renderSwatches(); render(); }); box.appendChild(b); }); $('#cutHint').textContent = state.photoCut ? 'Your photo is cut out and placed on the colour you pick.' : (state.photoImg ? 'Cut-out needs the app on its own domain, showing the ring style here.' : 'Add a photo to see it on a colour.'); }
+function renderSwatches(){ const box = $('#swatches'); box.innerHTML=''; swatchColors().forEach((col,i)=>{ const b=document.createElement('button'); b.style.background=col; b.title=col; b.setAttribute('aria-pressed', (state.person.bg||0)===i); b.addEventListener('click', ()=>{ state.person.bg=i; renderSwatches(); render(); }); box.appendChild(b); }); }
 R.avatar = (ctx, w, h) => {
   const c = state.brand.colors, col = swatchColors()[state.person.bg||0]; const cx=w/2, cy=h/2, r=w*0.46; const p = state.person;
   ctx.fillStyle = col; ctx.fillRect(0,0,w,h);
   if (state.photoCut){
-    // person cut-out, bottom-anchored like a portrait, scaled with the same zoom/offset controls
+    // the trimmed person fills the circle: covers both ways, a little head room, body runs off the bottom
     ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.clip();
-    const im = state.photoCut; const z = Number(p.photoZoom)||1; const base = Math.max((2*r)/im.width, (2*r)/im.height) * z; const iw = im.width*base, ih = im.height*base;
-    const ox = (Number(p.photoX)||0) * (iw-2*r)/2 * -1, oy = (Number(p.photoY)||0) * (ih-2*r)/2 * -1;
-    ctx.drawImage(im, cx - iw/2 + ox, cy - ih/2 + oy + r*0.08, iw, ih); ctx.restore();
+    const im = state.photoCut; const z = Number(p.photoZoom)||1; const d = 2*r;
+    const base = Math.max(d/im.width, d/im.height) * 1.06 * z; const iw = im.width*base, ih = im.height*base;
+    const headroom = d*0.06;
+    let x = cx - iw/2, y = cy - r + headroom;            // head near the top
+    if (y + ih < cy + r) y = cy + r - ih;                 // never leave a gap at the bottom
+    x += (Number(p.photoX)||0) * Math.max(0, (iw-d)/2) * -1;
+    y += (Number(p.photoY)||0) * Math.max(6, (ih-d)/2) * -1;
+    if (y > cy - r) y = cy - r;                           // and never a gap at the top
+    if (y + ih < cy + r) y = cy + r - ih;
+    ctx.drawImage(im, x, y, iw, ih); ctx.restore();
     // subtle vignette ring so the circle reads on LinkedIn
     ctx.strokeStyle = 'rgba(0,0,0,.06)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(cx, cy, r-3, 0, Math.PI*2); ctx.stroke();
   } else {
@@ -1463,12 +1516,17 @@ async function renderNow(){
     try { await Promise.race([document.fonts.load('700 60px "Playfair Display"'), new Promise(r=>setTimeout(r,2000))]); } catch(e){}
     const SIZES = {banner1:[1584,396], banner2:[1584,396], avatar:[800,800]};
     for (const id of ['banner1','banner2','avatar']){ const k={w:SIZES[id][0],h:SIZES[id][1]}; let cv=canvases[id]; if(!cv){ cv=document.createElement('canvas'); cv.width=k.w; cv.height=k.h; canvases[id]=cv; } const ctx=cv.getContext('2d'); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,k.w,k.h); ctx.globalAlpha=1; ctx.textAlign='left'; ctx.textBaseline='alphabetic'; R[id](ctx,k.w,k.h); }
-    fit(canvases.banner1, $('#th-banner1'), 900); fit(canvases.banner2, $('#th-banner2'), 900); fit(canvases.avatar, $('#th-avatar'), 180);
+    fit(canvases.banner1, $('#th-banner1'), 900); fit(canvases.banner2, $('#th-banner2'), 900); fit(canvases.avatar, $('#th-avatar'), 230);
     renderAvatarBox(); syncPerson(); renderProfile();
   } finally { rendering=false; if (renderQueued){ renderQueued=false; renderNow(); } }
 }
-function renderAvatarBox(){ const box=$('#drop'); box.innerHTML=''; const c=document.createElement('canvas'); c.width=128; c.height=128; drawPhoto(c.getContext('2d'),64,64,64,0,null); box.appendChild(c); $('#photoCtrl').hidden = !state.photoImg; box.title = state.photoImg ? 'Change photo' : 'Add a photo'; }
-function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Jordan Ellis'; $('#sideRole').textContent = p.title||''; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
+function renderAvatarBox(){
+  const has = !!state.photoImg; const stage = $('#photoStage'); if (stage) stage.classList.toggle('has', has);
+  const zr = $('#zoomRow'); if (zr) zr.classList.toggle('hidden', !has);
+  const pr = $('#photoReset'); if (pr) pr.classList.toggle('hidden', !has);
+  const lbl = $('#photoBtnLabel'); if (lbl) lbl.textContent = has ? 'Change photo' : 'Add photo';
+}
+function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Jordan Ellis'; $('#sideRole').textContent = p.title||''; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); } else drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }
 async function downloadCanvas(id, btn){
@@ -1515,6 +1573,7 @@ async function init(){
   $('#saveBrain').addEventListener('click', e=>{ flash(btn,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); });
   // write
   $('#writeBtn').addEventListener('click', ()=>write());
+  $('#newPost').addEventListener('click', ()=>{ startNewPost(); });
   $('#chChips').addEventListener('click', e=>{ const c=e.target.closest('.chip'); if (!c) return; W.ch[c.dataset.ch] = !W.ch[c.dataset.ch]; c.setAttribute('aria-pressed', W.ch[c.dataset.ch]); renderOuts(); });
   $('#imgChip').addEventListener('click', e=>{ W.image = !W.image; e.currentTarget.setAttribute('aria-pressed', W.image); renderOuts(); });
   $('#themeBtn').addEventListener('click', ()=>setTheme(document.documentElement.dataset.theme==='dark' ? 'light' : 'dark'));
@@ -1524,8 +1583,21 @@ async function init(){
   $('#askText').addEventListener('keydown', e=>{ if ((e.metaKey||e.ctrlKey) && e.key==='Enter') write(); });
   // kit
   $('#photoFile').addEventListener('change', e=>usePhotoFile(e.target.files[0]));
-  $('#drop').addEventListener('click', ()=>$('#photoFile').click());
+  const circle = $('#photoStage').querySelector('.circle');
+  circle.addEventListener('click', ()=>{ if (!state.photoImg) $('#photoFile').click(); });
+  let drag = null;
+  circle.addEventListener('pointerdown', e=>{ if (!state.photoImg) return; circle.setPointerCapture(e.pointerId); drag = {x:e.clientX, y:e.clientY, px:Number(state.person.photoX)||0, py:Number(state.person.photoY)||0, w:circle.getBoundingClientRect().width}; });
+  circle.addEventListener('pointermove', e=>{ if (!drag) return; const dx=(e.clientX-drag.x)/drag.w*2, dy=(e.clientY-drag.y)/drag.w*2; state.person.photoX = Math.max(-1, Math.min(1, drag.px - dx)); state.person.photoY = Math.max(-1, Math.min(1, drag.py - dy)); syncInputs(); render(); });
+  const endDrag = e=>{ if (drag){ try{ circle.releasePointerCapture(e.pointerId); }catch(err){} drag=null; } };
+  circle.addEventListener('pointerup', endDrag); circle.addEventListener('pointercancel', endDrag);
+  circle.addEventListener('wheel', e=>{ if (!state.photoImg) return; e.preventDefault(); const z=(Number(state.person.photoZoom)||1)+(e.deltaY<0?0.06:-0.06); state.person.photoZoom=Math.max(1,Math.min(2.5,z)); syncInputs(); render(); }, {passive:false});
+  $$('.zbtn').forEach(b=>b.addEventListener('click', ()=>{ const z=(Number(state.person.photoZoom)||1)+Number(b.dataset.zoom)*0.12; state.person.photoZoom=Math.max(1,Math.min(2.5,z)); syncInputs(); render(); }));
+  $('#photoReset').addEventListener('click', ()=>{ state.person.photoZoom=1; state.person.photoX=0; state.person.photoY=0; syncInputs(); render(); toast('Back to the middle'); });
+  ['dragenter','dragover'].forEach(ev=>circle.addEventListener(ev, e=>{ e.preventDefault(); circle.style.outline='2px dashed var(--u-violet)'; }));
+  ['dragleave','drop'].forEach(ev=>circle.addEventListener(ev, e=>{ e.preventDefault(); circle.style.outline=''; }));
+  circle.addEventListener('drop', e=>{ const f=e.dataTransfer&&e.dataTransfer.files[0]; if (f) usePhotoFile(f); });
   $('#genBtn').addEventListener('click', generateKit);
+  $$('.bnr').forEach(el=>el.addEventListener('click', e=>{ if (e.target.closest('button')) return; state.ui.banner = Number(el.dataset.bnr); renderProfile(); setDone('banner', true); toast('Showing that banner in your preview'); }));
   $$('.done-btn').forEach(b=>b.addEventListener('click', ()=>setDone(b.dataset.done, !doneState()[b.dataset.done])));
   $$('[data-regen]').forEach(b=>b.addEventListener('click', ()=>regen(b.dataset.regen)));
   ['banner1','banner2','avatar'].forEach(id=>$('#btn-'+id).addEventListener('click', e=>downloadCanvas(id, e.currentTarget)));

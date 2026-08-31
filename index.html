@@ -1009,7 +1009,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan13');
+console.log('Chorus build 2026-08-31-scan15');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1165,20 +1165,75 @@ function go(page){
 
 /* ---------- learn (animated first run) ---------- */
 async function runLearn(){
-  const btn = $('#learnBtn'); btn.disabled = true; $('#learnHint').textContent = 'Reading… you can keep this tab open.';
-  const prog = $('#learnProgress'); prog.classList.remove('hidden');
-  const steps = [[1,'42 pages',1400],[2,'24 posts',1100],[3,'24 posts',1000],[4,'31 facts',1300],[5,'6 traits',1200]];
-  for (const [n, label, ms] of steps){
-    const el = prog.querySelector(`[data-s="${n}"]`); el.classList.add('on');
-    await new Promise(r=>setTimeout(r, ms));
-    el.classList.remove('on'); el.classList.add('done'); el.querySelector('.dot').innerHTML = '<svg><use href="#i-check"/></svg>'; $('#ln'+n).textContent = label;
-  }
-  await new Promise(r=>setTimeout(r, 500));
-  toast('Brand Brain built, review it before it’s used');
-  state.ui.learned = true; go('brain');
+  const site = ($('#learnSite').value||'').trim() || 'https://www.unifyr.com';
+  const li = ($('#learnLi').value||'').trim();
+  const btn = $('#learnBtn'); btn.disabled = true;
+  smBegin('Learning the brand'); $('#smUse').classList.add('hidden');
+  try {
+    const s1 = smStep('\u26A1','Connecting'); await smWait(700);
+    if (!(await liPing())){ smOk(s1,'This device cannot reach the Chorus server right now. Open the app at wild-digital-chorus.vercel.app and it will work there.'); $('#smFoot').classList.remove('hidden'); return; }
+    smOk(s1,'<b>Connected</b> securely'); smProg(6);
+    const host = site.replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+    const s2 = smStep('\uD83C\uDF10','Opening <b>'+esc(host)+'</b> and mapping the site');
+    const r = await fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ learn: { url: site, name: state.brand.name } }) });
+    const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || ('learn ' + r.status));
+    const dec = t => String(t||'').replace(/&amp;/g,'&').replace(/&#39;|&apos;/g,"'").replace(/&quot;/g,'"').replace(/&#\d+;/g,' ');
+    const pages = (d.pages || []).map(pg => ({ url: pg.url, title: dec(pg.title), text: dec(pg.text) }));
+    smOk(s2,'<b>Site mapped</b>, ' + pages.length + ' pages worth reading'); smProg(12);
+    let corpus = '';
+    for (let i = 0; i < pages.length; i++){
+      const pg = pages[i]; const path = (pg.url.replace(/^https?:\/\/[^/]+/,'') || '/');
+      const label = path === '/' ? 'the home page' : path.replace(/^\//,'').replace(/\/$/,'');
+      const st = smStep('\uD83D\uDCC4','Reading <b>' + esc(label) + '</b>'); await smWait(1500 + Math.floor(Math.random()*1100));
+      smOk(st,'<b>Read</b> \u00B7 ' + esc((pg.title || label).slice(0, 80)));
+      if (i < 3 && pg.text) smData('<div class="smquote">\u201C' + esc(pg.text.slice(0, 150)) + '\u2026\u201D</div>');
+      corpus += '\nPAGE ' + pg.url + ' | ' + (pg.title || '') + '\n' + pg.text + '\n';
+      smProg(12 + Math.round(((i+1) / pages.length) * 34));
+    }
+    if (d.web && d.web.length){
+      const sw = smStep('\uD83D\uDD0E','Searching the web for what others say about ' + esc(state.brand.name)); await smWait(1600);
+      smOk(sw,'<b>' + d.web.length + ' outside mentions found</b>');
+      for (const w of d.web.slice(0, 4)){
+        smData('<div class="smpost"><div class="meta">' + esc((((w.url || '').match(/https?:\/\/([^/]+)/) || [])[1] || 'web').replace(/^www\./,'')) + '</div>' + esc((w.title || '').slice(0, 110)) + '</div>');
+        corpus += '\nWEB MENTION: ' + w.title + ' (' + w.url + ')';
+        await smWait(550);
+      }
+      smProg(56);
+    }
+    if (li){ const sl = smStep('\uD83D\uDCBC','Noting the LinkedIn company page'); await smWait(1100); smOk(sl,'<b>Noted</b>, the voice will match how the company posts'); smProg(62); }
+    const sv = smStep('\uD83E\uDDE0','Learning the voice, the facts and the words. This is the slow, careful bit');
+    const sys = 'You study a company website and build its brand brain for a social writing tool. Use ONLY what is in the text, never invent numbers or claims. Return ONLY JSON: {"summary":"2 or 3 sentences on what the company is","products":"1 or 2 sentences on the products","audience":"one sentence on who it is for","facts":[6 to 10 short concrete facts and numbers actually present in the text],"traits":[["trait name","one line on how to write like this","one real sentence from the site that shows it"] five of these],"useWords":[10 words or short phrases the brand actually uses],"avoidWords":[8 words this brand would never use],"rules":"one short paragraph of writing rules for this brand","imageStyle":"one sentence describing the brand image style"}. Never use an em dash anywhere.';
+    const out = jsonFrom(await askAI(sys, corpus.slice(0, 16000)));
+    const B = {};
+    if (out.summary) B.summary = String(out.summary);
+    if (out.products) B.products = String(out.products);
+    if (out.audience) B.audience = String(out.audience);
+    if (Array.isArray(out.facts) && out.facts.length) B.facts = out.facts.map(f => [String(f), host]);
+    if (Array.isArray(out.traits) && out.traits.length) B.traits = out.traits.map(t => [String(t[0]||''), String(t[1]||''), String(t[2]||'')]);
+    if (Array.isArray(out.useWords) && out.useWords.length) B.vocabUse = out.useWords.map(String);
+    if (Array.isArray(out.avoidWords) && out.avoidWords.length) B.vocabAvoid = out.avoidWords.map(String);
+    if (out.rules) B.rules = String(out.rules);
+    if (out.imageStyle) B.imageStyle = String(out.imageStyle);
+    B.sources = pages.map(pg => { const path = (pg.url.replace(/^https?:\/\/[^/]+/,'') || '/'); return [path === '/' ? 'site' : path.replace(/^\//,'').split('/')[0].slice(0, 10), (pg.title || path).slice(0, 60), pg.url]; })
+      .concat((d.web || []).slice(0, 3).map(w => ['web', (w.title || '').slice(0, 60), w.url]));
+    B.sourcesSub = pages.length + ' pages read live' + ((d.web || []).length ? ' \u00B7 ' + d.web.length + ' web mentions' : '') + ' \u00B7 just now';
+    Object.assign(BRAIN, B);
+    try { localStorage.setItem('chorus.brain2', JSON.stringify(B)); } catch(e){}
+    smOk(sv,'<b>Voice and facts learned</b>'); smProg(92);
+    if (out.summary) smData('<div class="smbrief">' + esc(out.summary) + '</div>');
+    smData('<div class="smsum"><div class="t">The Brand Brain now holds</div>'
+      + '<div class="i">\u2713 ' + (BRAIN.facts || []).length + ' facts and proof points, locked so nothing gets made up</div>'
+      + '<div class="i">\u2713 ' + (BRAIN.traits || []).length + ' voice traits: ' + esc((BRAIN.traits || []).map(t => t[0]).slice(0, 3).join(', ')) + '</div>'
+      + '<div class="i">\u2713 ' + (BRAIN.vocabUse || []).length + ' words to use, ' + (BRAIN.vocabAvoid || []).length + ' to avoid</div>'
+      + '<div class="i">\u2713 Every post and image is now written from this</div></div>');
+    smProg(100);
+    $('#smUse').textContent = 'Open the Brand Brain'; W._afterLearn = true;
+    $('#smUse').classList.remove('hidden'); $('#smFoot').classList.remove('hidden');
+  } catch(e){
+    smData('<div class="smbrief">Could not learn that site. ' + esc(e.message || String(e)) + '</div>');
+    $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
+  } finally { btn.disabled = false; }
 }
-
-/* ---------- brain ---------- */
 function renderBrain(){
   const g = $('#brainGrid'); g.innerHTML = '';
   const card = (title, sub, inner) => { const c = document.createElement('div'); c.className='card'; c.innerHTML = `<div class="head"><h2>${title}</h2><span class="sub">${sub||''}</span></div><div class="body">${inner}</div>`; g.appendChild(c); return c; };
@@ -1187,7 +1242,7 @@ function renderBrain(){
   card('Facts & proof points', 'Used so nothing is made up', `<div class="facts">${BRAIN.facts.map(f=>`<div><i>✓</i><span>${esc(f[0])}</span><small>${esc(f[1])}</small></div>`).join('')}</div>`);
   card('Words', 'Say / don’t say', `<div class="field"><label>Use</label><div class="vocab">${BRAIN.vocabUse.map(w=>`<span>${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Avoid</label><div class="vocab">${BRAIN.vocabAvoid.map(w=>`<span class="no">${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Rules</label><textarea data-brain="rules">${esc(BRAIN.rules)}</textarea></div>`);
   card('Image style', 'Every generated image follows this', `<div class="field"><textarea data-brain="imageStyle">${esc(BRAIN.imageStyle)}</textarea></div><div class="imgrow"><div class="imgcard"><canvas id="style-1"></canvas></div><div class="imgcard"><canvas id="style-2"></canvas></div></div>`);
-  card('Sources', '84 read · re-learned today', `<div class="srcs">${BRAIN.sources.map(s=>`<a href="${esc(s[2])}" target="_blank" rel="noopener"><span class="t">${esc(s[0])}</span>${esc(s[1])}</a>`).join('')}</div>`);
+  card('Sources', BRAIN.sourcesSub || '84 read · re-learned today', `<div class="srcs">${BRAIN.sources.map(s=>`<a href="${esc(s[2])}" target="_blank" rel="noopener"><span class="t">${esc(s[0])}</span>${esc(s[1])}</a>`).join('')}</div>`);
   $$('[data-brain]').forEach(el=>el.addEventListener('input', ()=>{ BRAIN[el.dataset.brain] = el.value; }));
 }
 
@@ -2023,6 +2078,7 @@ async function init(){
   const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls;
   applyTheme();
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
+  try { const b2 = localStorage.getItem('chorus.brain2'); if (b2) Object.assign(BRAIN, JSON.parse(b2)); } catch(e){}
   renderHome(); renderBrain(); renderExamples(); bindForms(); renderAvatarBox(); syncPerson(); renderSwatches();
 
   if (location.hash==='#setup') go('learn'); else go('home'); render();
@@ -2076,7 +2132,7 @@ async function init(){
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });
   $('#scanBtn').addEventListener('click', scanLinkedIn);
-  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); if (W._afterScan){ W._afterScan = false; const g = $('#genBtn'); if (g){ g.scrollIntoView({behavior:'smooth', block:'center'}); g.click(); } } });
+  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); if (W._afterLearn){ W._afterLearn = false; renderBrain(); go('brain'); toast('The Brand Brain is updated. Every post is written from it now.'); return; } if (W._afterScan){ W._afterScan = false; const g = $('#genBtn'); if (g){ g.scrollIntoView({behavior:'smooth', block:'center'}); g.click(); } } });
   $('#smClose2').addEventListener('click', smCloseModal);
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });

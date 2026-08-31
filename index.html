@@ -1009,7 +1009,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan10');
+console.log('Chorus build 2026-08-31-scan11');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1636,9 +1636,9 @@ async function scanLinkedIn(){
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
   smOpenModal();
   try {
-    const s1 = smStep('\u26A1', '<b>Connecting</b> to your public LinkedIn profile'); await smWait(700);
+    const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
     if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden'); return; }
-    smOk(s1, '<b>Connected</b>, reading as a visitor, nothing is posted'); smProg(12);
+    smOk(s1, '<b>Connected</b> securely'); smProg(12);
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
     smOk(s2, '<b>Profile found</b>'); smProg(30);

@@ -514,6 +514,34 @@ canvas,img{max-width:100%}
 .sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
 @keyframes scsp{to{transform:rotate(360deg)}}
 .avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
+
+.scanmodal{position:fixed;inset:0;z-index:220;display:none;place-items:center;background:rgba(10,7,18,.55);backdrop-filter:blur(6px)}
+.scanmodal.on{display:grid}
+.smpanel{position:relative;width:min(640px,calc(100vw - 32px));max-height:min(84vh,760px);display:flex;flex-direction:column;background:var(--card,var(--panel,#fff));border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:0 30px 90px rgba(10,7,18,.45);overflow:hidden;animation:smin .4s cubic-bezier(.3,.9,.3,1)}
+@keyframes smin{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.smpanel::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#CB148B,#6B6BF0,#CB148B);background-size:200% 100%;animation:scsheen 2.4s linear infinite}
+.smtop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.smtop b{font-size:15px}
+.smbody{overflow-y:auto;padding:4px 2px 8px;flex:1;min-height:220px}
+.smstep{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13.5px;color:var(--ink-2);animation:slin .35s ease both}
+.smstep .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#CB148B22,#6B6BF022);font-size:13px;flex:none}
+.smstep.ok{color:var(--ink)}
+.smstep.ok .ic{background:linear-gradient(135deg,#CB148B,#6B6BF0);color:#fff}
+.smstep .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;animation:scsp .8s linear infinite;margin-left:auto}
+.smdata{margin:2px 0 10px 36px;animation:slin .45s ease both}
+.smid{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--panel,rgba(255,255,255,.03))}
+.smid img{width:54px;height:54px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #CB148B44;flex:none}
+.smid b{display:block;font-size:14px;line-height:1.3}
+.smid span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:2px}
+.smquote{border-left:3px solid #CB148B;padding:2px 0 2px 12px;font-size:12.5px;color:var(--ink-2);font-style:italic;line-height:1.55}
+.smchip{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--ink)}
+.smpost{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12px;color:var(--ink-2);margin-bottom:6px;animation:slin .4s ease both}
+.smpost .meta{font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.smbrief{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:var(--ink);background:var(--panel,rgba(255,255,255,.03))}
+.smsum{margin:4px 0 0 36px;border-top:1px solid var(--line);padding-top:10px}
+.smsum .t{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.smsum div.i{font-size:13px;padding:3px 0;color:var(--ink)}
+.smfoot{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 </style>
 </head>
 <body>
@@ -680,6 +708,16 @@ canvas,img{max-width:100%}
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="copyStage" contenteditable="true" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:640px;background:#fff;color:#000;opacity:0;pointer-events:none"></div>
+
+<div class="scanmodal" id="scanModal" role="dialog" aria-label="Reading your LinkedIn">
+  <div class="smpanel">
+    <div class="smtop"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span></div>
+    <div class="sprog"><i id="smBar"></i></div>
+    <div class="smbody" id="smBody"></div>
+    <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, take me to my kit</button><button class="btn" id="smClose2">Close</button></div>
+  </div>
+</div>
+
 
 <script>
 window.DAYONE_PRESETS = [
@@ -971,7 +1009,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan9');
+console.log('Chorus build 2026-08-31-scan10');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1583,64 +1621,88 @@ async function usePhotoUrl(u){
     render();
     try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut = null; }
     renderSwatches(); render(); syncPerson();
-    scanLine('✓ Pulled your profile photo into the photo tool below. It is cut out already, just pick a background colour, or add a different photo any time.', 'ok');
   } catch(e){ /* photo pull is a bonus, never break the scan */ }
 }
+const smWait = ms => new Promise(r=>setTimeout(r, ms));
+function smProg(p){ const b=$('#smBar'); if(b) b.style.width=p+'%'; const t=$('#smPct'); if(t) t.textContent = p>=100?'complete':(p+'%'); }
+function smStep(icon, label){ const d=document.createElement('div'); d.className='smstep'; d.innerHTML='<span class="ic">'+icon+'</span><div class="lb">'+label+'</div><span class="spin"></span>'; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
+function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.classList.add('ok'); if(label) d.querySelector('.lb').innerHTML=label; }
+function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
+function smOpenModal(){ const m=$('#scanModal'); m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); }
+function smCloseModal(){ $('#scanModal').classList.remove('on'); }
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
-  const btn = $('#scanBtn'); btn.disabled = true;
-  const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = ''; scanProg(4); const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
-  const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
-  const l0 = scanSpin('<b>Step 1 of 4</b> · Checking the connection');
-  if (await liPing()){ l0.innerHTML = '✓ <b>Step 1</b> · Connected'; l0.className = 'sline ok'; scanProg(18); }
-  else { l0.innerHTML = 'This device cannot reach the Chorus server, so writing posts will not work either. To see it yourself, <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">open the app here instead</a>, where nothing can block it.'; l0.className = 'sline warn'; btn.disabled = false; return; }
-  const l1 = scanSpin('<b>Step 2 of 4</b> · Opening <b>' + esc(handle) + '</b> and reading your profile');
-  scanProg(28);
+  const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
+  smOpenModal();
   try {
+    const s1 = smStep('\u26A1', '<b>Connecting</b> to your public LinkedIn profile'); await smWait(700);
+    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden'); return; }
+    smOk(s1, '<b>Connected</b>, reading as a visitor, nothing is posted'); smProg(12);
+    const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
-    l1.innerHTML = '✓ <b>Step 2</b> · Found your profile'; l1.className = 'sline ok';
-    scanCard(prof); scanProg(52);
-    const photoJob = (prof.photo && !state.photoImg) ? usePhotoUrl(prof.photo) : null;
-    if (prof.about) scanLine('✓ Read your About section, ' + prof.about.split(/\s+/).length + ' words', 'ok');
+    smOk(s2, '<b>Profile found</b>'); smProg(30);
+    smData('<div class="smid">' + (prof.photo ? '<img src="'+esc(prof.photo)+'" referrerpolicy="no-referrer" alt="">' : '') + '<div><b>'+esc(prof.name||'You')+'</b><span>'+esc(prof.headline||'')+'</span><span>'+esc(prof.location||'')+(prof.followers?' \u00B7 '+prof.followers+' followers':'')+(prof.connections?' \u00B7 '+prof.connections+' connections':'')+'</span></div></div>');
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
-    if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || prof.headline.split(/[|·]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
-    const l2 = scanSpin('<b>Step 3 of 4</b> · Reading your posts');
-    scanProg(60);
+    if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || (prof.headline||'').split(/[|\u00B7]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
+    await smWait(900);
+    let photoJob = null;
+    if (prof.photo){
+      const s3 = smStep('\uD83D\uDCF7', 'Pulling in your profile photo and cutting out the background');
+      photoJob = usePhotoUrl(prof.photo).then(()=>{ smOk(s3, '<b>Photo added</b> to your kit, cut out and ready for a Unifyr colour'); smProg(48); });
+      await smWait(600);
+    }
+    if (prof.about){
+      const s4 = smStep('\uD83D\uDCC4', 'Reading your About section'); await smWait(900);
+      smOk(s4, '<b>About read</b>, ' + prof.about.split(/\s+/).length + ' words');
+      smData('<div class="smquote">\u201C' + esc(prof.about.replace(/\s+/g,' ').slice(0, 180)) + '\u2026\u201D</div>');
+      smProg(58); await smWait(500);
+    }
+    if (prof.title || prof.company){
+      const s5 = smStep('\uD83D\uDCBC', 'Noting your role'); await smWait(650);
+      smOk(s5, '<b>Role noted</b>');
+      smData('<span class="smchip">' + esc(prof.title || '') + (prof.company ? ' \u00B7 ' + esc(prof.company) : '') + '</span>');
+      smProg(66);
+    }
+    const s6 = smStep('\uD83D\uDCDD', 'Pulling in your posts');
     let posts = [];
-    try { posts = (await liFetch('posts', url)).posts || []; } catch(e){ /* posts can fail on their own */ }
+    try { posts = (await liFetch('posts', url)).posts || []; } catch(e){}
     const own = posts.filter(p=>p.text && p.text.length > 60);
     if (own.length){
-      const last = own[0];
-      l2.innerHTML = '✓ <b>Step 3</b> · Read ' + own.length + ' of your posts. The last one was <b>' + esc((last.ago || last.date || 'a while back').split(' • ')[0]) + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : ''); scanProg(78);
-      l2.className = 'sline ok';
-      const snip = last.text.replace(/\s+/g,' ').slice(0, 90);
-      scanLine('“' + esc(snip) + '…” <span class="dim">your most recent post</span>', 'quote');
-    } else {
-      l2.innerHTML = '✓ <b>Step 3</b> · Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok'; scanProg(78);
-    }
+      smOk(s6, '<b>' + own.length + ' posts pulled in</b>, the last one ' + esc((own[0].ago||own[0].date||'a while back').split(' \u2022 ')[0]));
+      for (const p of own.slice(0,3)){
+        smData('<div class="smpost"><div class="meta">' + esc((p.ago||p.date||'').split(' \u2022 ')[0]) + (p.likes ? ' \u00B7 ' + p.likes + ' reactions' : '') + '</div>' + esc(p.text.replace(/\s+/g,' ').slice(0,110)) + '\u2026</div>');
+        await smWait(500);
+      }
+    } else { smOk(s6, '<b>No recent posts found</b>, plenty of people post rarely'); }
+    smProg(80);
     state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
     state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
     savePerson(); syncPerson();
-    const l3 = scanSpin('<b>Step 4 of 4</b> · Learning how you write');
-    scanProg(86);
+    const s7 = smStep('\uD83E\uDDE0', 'Analysing how you write');
     try {
-      const sys = 'You are told what was found on a person\'s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
+      const sys = 'You are told what was found on a person\u2019s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
       const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
-      l3.innerHTML = '✓ <b>Step 4</b> · Done'; l3.className = 'sline ok'; scanProg(100);
       state.person.brief = brief; savePerson();
-      scanLine(esc(brief), 'brief');
-    } catch(e){ l3.innerHTML = '✓ <b>Step 4</b> · Read everything'; l3.className='sline ok'; scanProg(100); }
+      smOk(s7, '<b>Voice learned</b>');
+      smData('<div class="smbrief">' + esc(brief) + '</div>');
+    } catch(e){ smOk(s7, '<b>Read everything</b>'); }
     if (photoJob) await photoJob;
-    scanLine('That was your real public profile, read just now. It is kept in this browser and nowhere else.', 'dim');
+    smProg(100);
+    const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
+    if (prof.photo) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any Unifyr colour behind it</div>');
+    sum.push('<div class="i">\u2713 Name and job title filled in</div>');
+    sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
+    sum.push('<div class="i">\u2713 Nothing stored anywhere except this browser</div></div>');
+    smData(sum.join(''), '');
+    $('#smUse').classList.remove('hidden');
+    $('#smFoot').classList.remove('hidden');
   } catch(e){
-    if (e.off){ $('#scanLog').innerHTML=''; scanLine('Scanning is not switched on for this build yet. Fill in your name and title and Chorus will still write everything for you.', 'dim'); }
-    else if (/failed to fetch|networkerror|load failed/i.test(e.message||'')){ l1.innerHTML = 'The request could not leave this device. Do a hard refresh (Cmd+Shift+R) and try once more, or try another browser.'; l1.className = 'sline warn'; }
-    else { l1.innerHTML = 'Could not read that profile. ' + esc(e.message||''); l1.className = 'sline warn'; }
+    smData('<div class="smbrief">Could not read that profile. ' + esc(e.message||'') + '</div>');
+    $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
   } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
 }
-
 async function generateKit(){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
   const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Reading your LinkedIn and writing in your voice. About 10 seconds.';
@@ -1974,6 +2036,8 @@ async function init(){
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });
   $('#scanBtn').addEventListener('click', scanLinkedIn);
+  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); toast('All set. Hit Generate and everything is written in your voice'); const g=$('#genBtn'); if (g) g.scrollIntoView({behavior:'smooth', block:'center'}); });
+  $('#smClose2').addEventListener('click', smCloseModal);
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });

@@ -1514,7 +1514,7 @@ async function renderStyleSamples(){ try { const a = await loadImage(PHOTOS.even
 
 /* ---------- generate kit (learn voice, then write) ---------- */
 /* ===== Real LinkedIn scan ===== */
-const LI_API = 'https://chorus-api-roan.vercel.app/api/linkedin';
+const LI_API = 'https://chorus-api-roan.vercel.app/api/profile';
 function scanLine(html, cls){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'sline' + (cls?' '+cls:''); d.innerHTML = html; log.appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
 async function liFetch(what, url){
@@ -1569,6 +1569,7 @@ async function scanLinkedIn(){
     scanLine('That was your real public profile, read just now. It is kept in this browser and nowhere else.', 'dim');
   } catch(e){
     if (e.off){ $('#scanLog').innerHTML=''; scanLine('Scanning is not switched on for this build yet. Fill in your name and title and Chorus will still write everything for you.', 'dim'); }
+    else if (/failed to fetch|networkerror|load failed/i.test(e.message||'')){ l1.innerHTML = 'Your browser blocked the scan, this is usually an ad blocker. Turn it off for this page and try again.'; l1.className = 'sline warn'; }
     else { l1.innerHTML = 'Could not read that profile. ' + esc(e.message||''); l1.className = 'sline warn'; }
   } finally { btn.disabled = false; }
 }

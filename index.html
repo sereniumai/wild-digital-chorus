@@ -93,7 +93,7 @@ code{font-family:var(--mono);font-size:12px}
 :root{--u-violet:#CB148B;--u-indigo:#06426A;--u-cyan:#2BB5CF;--u-black:#0B121D;--u-dark:#333;--u-light:#EEE7F7;--u-lightest:#FAFAFF;--u-grad:linear-gradient(94deg,#CB148B,#06426A);--u-text-grad:linear-gradient(135deg,#D70E86 0%,#194CC9 140%);--u-light-grad:linear-gradient(155deg,#D70E8612 10%,#24388B17 90%)}
 h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
 .page h2.title,.hello h2,.learn h2.title{font-family:var(--title);font-weight:700;letter-spacing:0}
-.page h2.title em,.hello h2 em{font-style:normal;background:var(--u-text-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.page h2.title em,.hello h2 em{font-style:normal;background:none;-webkit-text-fill-color:currentColor;color:inherit}
 .btn{border-radius:999px;font-weight:600;min-height:40px;padding:8px 16px}
 .btn.sm{min-height:34px;padding:6px 12px}
 .btn.lg{min-height:48px;padding:12px 22px}
@@ -518,7 +518,7 @@ canvas,img{max-width:100%}
   </aside>
 
   <div class="main">
-    <div class="topbar"><h1 id="pageTitle">Home</h1><span class="crumb" id="pageCrumb"></span><span class="spacer"></span><button class="pill brass" id="modePill" style="cursor:pointer" title="Add an API key to write anything live">Demo writing</button><button class="tbtn" id="themeBtn" title="Light / dark"><svg id="themeIco"><use href="#i-moon"/></svg></button></div>
+    <div class="topbar"><h1 id="pageTitle">Home</h1><span class="crumb" id="pageCrumb"></span><span class="spacer"></span><button class="pill brass" id="modePill" style="cursor:pointer" title="Add an API key to write anything live">AI writing on</button><button class="tbtn" id="themeBtn" title="Light / dark"><svg id="themeIco"><use href="#i-moon"/></svg></button></div>
 
     <!-- ---------- LEARN (first run) ---------- -->
     <div class="page hidden" data-page="learn">
@@ -544,14 +544,6 @@ canvas,img{max-width:100%}
 
     <!-- ---------- HOME ---------- -->
     <div class="page" data-page="home">
-      <div class="welcome-card hidden" id="welcomeCard">
-        <div class="wc-head"><span class="wc-eye"><svg><use href="#i-spark"/></svg></span><div><b>Welcome to Chorus, a demo built for Unifyr</b><span>Chorus read unifyr.com and their LinkedIn, learned what the company does and how it sounds, and now writes everything from that.</span></div><button class="btn sm quiet" id="wcClose">Got it</button></div>
-        <div class="wc-grid">
-          <div><b>For the marketing team</b><span>Type one line of news or paste a link. Get LinkedIn, Instagram and X posts in the Unifyr voice, with an on-brand image.</span></div>
-          <div><b>For everyone else</b><span>Your profile photo, banner, headline, About and first post, all written in your own voice on the Unifyr brand.</span></div>
-          <div><b>Nothing leaves your browser</b><span>Your photo is cut out on your own machine. Writing runs from templates until a key is added in Settings.</span></div>
-        </div>
-      </div>
       <div class="hello"><div><h2 id="helloH">Good morning.</h2><p>What do you want to do? Each of these takes a minute or two.</p></div></div>
       <div class="quick">
         <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><span class="step">New here? Start with this</span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go">Set up my LinkedIn →</span></a>
@@ -567,7 +559,7 @@ canvas,img{max-width:100%}
     <!-- ---------- ANNOUNCE ---------- -->
     <div class="page hidden" data-page="write">
       <h2 class="title" id="writeTitle">Make an <em>announcement</em></h2>
-      <p class="lede">Type the news and choose where it goes. Chorus writes each post and makes a matching image, ready for you to copy into the app.</p>
+      <p class="lede">Chorus writes each post and makes a matching image, ready for you to copy into the app.</p>
       <div class="write">
         <div class="card ask"><div class="body">
           <div class="field"><label class="big">Posting as</label><div class="voicebox" style="padding:10px 14px"><span class="avatar" id="voiceWhoAv">U</span><div><b id="voiceWhoName">Unifyr</b><span id="voiceHint" style="display:block">In the Unifyr voice, on the company page.</span></div></div></div>
@@ -586,7 +578,7 @@ canvas,img{max-width:100%}
     <!-- ---------- BRAIN ---------- -->
     <div class="page hidden" data-page="brain">
       <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Settings: Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus learned about Unifyr from 84 public pages and posts. Every post is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
-      <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">Without this, Chorus writes from templates. With it, every post is written fresh.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
+      <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">AI writing is already on for this demo. Add your own key to run it on your account instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
         <div class="grid2"><div class="field"><label>Anthropic API key</label><input type="password" id="apiKey" placeholder="sk-ant-…" autocomplete="off"><div class="hint">Stored only in this browser. Get one at console.anthropic.com.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
         <div class="hint" id="aiHint"></div>
       </div></div>
@@ -598,7 +590,7 @@ canvas,img{max-width:100%}
     <!-- ---------- MY LINKEDIN ---------- -->
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
-      <p class="lede">Add your details and hit Generate. Chorus writes the five pieces below in your voice, on the Unifyr brand. Copy or download each one into LinkedIn and tick it off.</p>
+      <p class="lede">Add your details and hit Generate. Chorus writes the five pieces below in your voice, on the Unifyr brand.</p>
       <div class="card progress-strip"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your details</h2><span class="sub">Only you can see this. Everything below is written from it.</span></div><div class="body">
@@ -606,6 +598,8 @@ canvas,img{max-width:100%}
           <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
           <div class="field"><label>LinkedIn profile</label><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput"><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
+        </div>
+        <div class="field"><label>Paste two or three of your own LinkedIn posts <span class="opt">optional, but this is what makes it sound like you</span></label><textarea data-bind="person.samples" placeholder="Paste a couple of posts you have written. Chorus copies your rhythm, your openers and the way you sign off." style="min-height:90px"></textarea><div class="hint">Nothing is stored anywhere but your own browser.</div>
         </div>
         
         <div class="progress-list hidden" id="genProgress">
@@ -1143,7 +1137,7 @@ function humanCheck(text){
 function renderCheck(box, res){ box.className='hc'; box.innerHTML = res.issues.length ? res.issues.map(i=>`<div class="issue"><i>!</i><span>${esc(i)}</span></div>`).join('') : (res.score ? '<div class="ok">Reads human. No AI tells, no hashtag wall, first line fits the fold.</div>' : ''); }
 
 /* ---------- write ---------- */
-const W = { voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
+const W = { aiImage:null, voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
 function renderExamples(){ const box = $('#examples'); box.innerHTML=''; EXAMPLES.forEach(ex=>{ const b=document.createElement('button'); b.textContent = ex.label; b.addEventListener('click', ()=>{ $('#askText').value = ex.label; setAud(ex.aud); write(ex); }); box.appendChild(b); }); const u=document.createElement('button'); u.innerHTML='<span style="color:var(--ink-4)">Paste a link →</span> unifyr.com/newsroom/investcorp-leads-20-million-investment-round'; u.addEventListener('click', ()=>{ $('#askText').value = 'https://www.unifyr.com/newsroom/investcorp-leads-20-million-investment-round-into-unifyr-to-scale-ai-driven-partner-experience-platform/'; setAud('press'); write(); }); box.appendChild(u); }
 function setAud(a){ W.aud = a; }
 function setVoice(v){ W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
@@ -1163,7 +1157,7 @@ async function write(example){
     let outputs = null, sources = [];
     const ex = example || matchExample(ask);
     if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
-    else if (localStorage.getItem('chorus.key')){ outputs = await liveWrite(ask); sources = ['Brand Brain (live)']; W.imgKey = 'agent'; }
+    else if (AI_ON){ const raw = await liveWrite(ask); W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene }; delete raw.headline; delete raw.highlight; delete raw.scene; outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent'; }
     else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['Brand Brain (demo writing)', 'your news']; W.imgKey = 'agent'; }
     W.outputs = { outputs, sources }; renderOuts(); $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write it again';
     const has = Object.keys(W.ch).filter(k=>W.ch[k] && outputs[k]);
@@ -1209,6 +1203,34 @@ function renderOuts(){
   });
   if (!any) box.innerHTML = `<div class="empty"><b>No posts to show</b>Choose at least one app in step 3 on the left.</div>`;
 }
+let AI_ON = true;
+const QQ = String.fromCharCode(34,34,34);
+async function liveWrite(ask){
+  const chans = Object.keys(W.ch).filter(k=>W.ch[k]);
+  const isMe = W.voice === 'me'; const p = state.person;
+  const persona = isMe
+    ? 'WRITE AS A PERSON: ' + (p.name||'an employee') + ', ' + (p.title||'') + ' at ' + state.brand.name + '. First person, their own opinion, not a company announcement.'
+      + (p.samples ? '\n\nTHIS IS HOW THEY WRITE. Copy the rhythm, sentence length, openers and sign offs:\n' + QQ + String(p.samples).slice(0,2500) + QQ : '')
+      + (W.angle==='learned' ? '\nAngle: what I learned or got wrong.' : W.angle==='plain' ? '\nAngle: plain and short, no story.' : '\nAngle: a customer story or something that happened.')
+    : 'WRITE AS THE COMPANY on its own page.';
+  const system = 'You write social posts for ' + state.brand.name + '. Use ONLY the facts below. Never invent numbers, customers or claims.\n\n'
+    + 'WHAT THE COMPANY IS: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products + '\nAUDIENCE: ' + BRAIN.audience
+    + '\nFACTS: ' + BRAIN.facts.map(f=>f[0]).join('; ')
+    + '\nHOW IT SOUNDS: ' + BRAIN.traits.map(t=>t[0]+' - '+t[1]).join('; ')
+    + '\nUSE THESE WORDS: ' + BRAIN.vocabUse.join(', ') + '\nNEVER USE: ' + BRAIN.vocabAvoid.join(', ') + '\nRULES: ' + BRAIN.rules
+    + '\n\n' + persona
+    + '\n\nNever use an em dash. No hashtags. At most one emoji. Do not end on a generic question.'
+    + '\nLinkedIn: 900 to 1600 characters, short paragraphs, a strong first line under 140 characters.'
+    + '\nInstagram: 400 to 800 characters. X: under 280 characters.'
+    + '\n\nAlso return, in the same object:'
+    + '\n"headline": a poster headline for the image, 3 to 6 words, no full stop, that reads as a complete phrase and never stops mid thought.'
+    + '\n"highlight": one single word taken from that headline, the most important one, to be coloured.'
+    + '\n"scene": one plain sentence describing a photograph to go with this news. Describe people, place and moment. No text or logos in it.'
+    + '\nReturn ONLY a JSON object with the keys ' + chans.map(c=>'"'+c+'"').join(', ') + ', "headline", "highlight" and "scene", and nothing else.';
+  const src = (ask.length > 400 || /^https?:\/\//i.test(ask)) ? ('Write the announcement from this source material:\n\n' + ask) : ask;
+  return jsonFrom(await askAI(system, src));
+}
+
 /* Demo writing without an API key: shapes the user's own news with the Brand Brain, in the two voices. */
 function templateWrite(ask, fromSource){
   const co = state.brand.name, p = state.person;
@@ -1229,8 +1251,23 @@ function templateWrite(ask, fromSource){
     x: `${cap(short)}. One place for partners to register deals, find content and see pipeline. More at unifyr.com.`
   };
 }
-/* Live writing: raw HTTP to the Claude API from the browser (works on Chorus’s own domain). */
-async function liveWrite(ask){
+const PROXY = 'https://chorus-api-roan.vercel.app/api/write';
+async function askAI(system, message){
+  const key = localStorage.getItem('chorus.key');
+  if (key){
+    const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({ model:'claude-opus-5', max_tokens:3000, output_config:{effort:'medium'}, system, messages:[{role:'user', content: message}] }) });
+    if (!r.ok) throw new Error('API ' + r.status);
+    const d = await r.json(); return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+  }
+  const r = await fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ system, message }) });
+  const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || ('API ' + r.status));
+  return d.text || '';
+}
+function jsonFrom(text){ const m = text.match(/\{[\s\S]*\}/); if (!m) throw new Error('No JSON in the reply'); return JSON.parse(m[0]); }
+/* Live writing: through the hosted proxy, or the viewer's own key if they add one. */
+
+async function liveWriteOld(ask){
   const key = localStorage.getItem('chorus.key');
   const chans = Object.keys(W.ch).filter(k=>W.ch[k]);
   const system = `You write for ${state.brand.name}. Use ONLY the Brand Brain below for facts; never invent numbers, customers or product claims.\n\nBRAND BRAIN\nSummary: ${BRAIN.summary}\nProducts: ${BRAIN.products}\nAudience: ${BRAIN.audience}\nFacts: ${BRAIN.facts.map(f=>f[0]).join('; ')}\nVoice traits: ${BRAIN.traits.map(t=>t[0]+', '+t[1]).join('; ')}\nUse these words: ${BRAIN.vocabUse.join(', ')}\nAvoid: ${BRAIN.vocabAvoid.join(', ')}\nRules: ${BRAIN.rules}\n\n${W.voice==='me' ? `VOICE: write in first person as ${state.person.name||'the employee'}, ${state.person.title||''}. Personal voice: ${MY_VOICE.traits}` : 'VOICE: write as the company.'}\nAudience: ${W.aud}.\n\nReturn ONLY a JSON object with keys ${chans.map(c=>'"'+c+'"').join(', ')}, each a finished social post for that platform: LinkedIn 900-1,600 characters, short paragraphs, no hashtags, at most one emoji, no generic closing question; Instagram 400-800 characters, up to 3 hashtags at the end; X under 280 characters, no hashtags.`;
@@ -1352,15 +1389,16 @@ function suggestPoster(){
   const low = (src + ' ' + news).toLowerCase();
   const scene = /event|conference|summit|catalyst|booth|keynote|meet us|stand/.test(low) ? 'event' : /office|munich|city|opening|hq|europe|expand/.test(low) ? 'city' : /team|hire|joined|welcome|customer|partner|people/.test(low) ? 'team' : 'abstract';
   IMG.headline = headline; IMG.hl = capital || (cand.length ? cand.reduce((a,b)=>b.w.length>a.w.length?b:a).w : ''); IMG.sub = state.brand.tagline || ''; IMG.scene = scene;
-  IMG.desc = scene==='event' ? 'People talking at a partner event, dark venue, warm lights' : scene==='city' ? 'City skyline at night, bridge and lights' : scene==='team' ? 'Two colleagues in a modern office at dusk' : 'Abstract glowing lines in Unifyr colours';
+  if (W.aiImage){ if (W.aiImage.headline) IMG.headline = String(W.aiImage.headline).replace(/[.]+$/,''); if (W.aiImage.highlight) IMG.hl = String(W.aiImage.highlight).replace(/[^\w'-]/g,''); }
+  IMG.desc = W.aiImage && W.aiImage.scene ? String(W.aiImage.scene) : scene==='event' ? 'People talking at a partner event, dark venue, warm lights' : scene==='city' ? 'City skyline at night, bridge and lights' : scene==='team' ? 'Two colleagues in a modern office at dusk' : 'Abstract glowing lines in Unifyr colours';
 }
 function imagePanel(){
   suggestPoster();
   const el = document.createElement('div'); el.className='imgpanel';
-  el.innerHTML = `<div class="oh"><span class="ch" style="background:#0B121D;color:#fff;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:800">img</span><b>Image</b><span class="pill brand">Unifyr layout</span><span class="spacer"></span><span class="pill" id="imgState">Not made yet</span></div>
+  el.innerHTML = `<div class="oh"><span class="ch" style="background:#0B121D;color:#fff;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:800">img</span><b>Image</b><span class="pill brand">Unifyr layout</span><span class="spacer"></span><span class="pill${IMG.base?' good':''}" id="imgState">${IMG.base?'Ready. Download the size you need':'Not made yet'}</span></div>
     <div class="body">
       <div class="poster-fields">
-        <div class="field" style="grid-column:1/-1"><label>What should the picture show?</label><textarea id="pDesc">${esc(IMG.desc)}</textarea><div class="hint">Describe it in plain words. People, places, moments all work. Chorus keeps it in Unifyr’s dark, magenta-lit style.</div></div>
+        <div class="field" style="grid-column:1/-1"><label>What should the picture show?</label><textarea id="pDesc" style="min-height:84px">${esc(IMG.desc)}</textarea><div class="hint">Chorus has written this from your news. Change it if you want a different picture, then make it again.</div></div>
         <div class="field"><label>Headline on the image</label><input type="text" id="pHead" value="${esc(IMG.headline)}"></div>
         <div class="field"><label>Word to highlight in the gradient</label><input type="text" id="pHl" value="${esc(IMG.hl)}"></div>
         <div class="field" style="grid-column:1/-1"><label>Small line under it <span class="opt">optional</span></label><input type="text" id="pSub" value="${esc(IMG.sub)}"></div>
@@ -1373,15 +1411,54 @@ function imagePanel(){
   if (IMG.base && IMG.key===W.imgKey) renderFrames(el);
   return el;
 }
-function pickPhoto(desc){ const d = (desc||'').toLowerCase(); if (/event|conference|summit|people talking|crowd|booth|venue|catalyst/.test(d)) return PHOTOS.event; if (/city|skyline|bridge|munich|new york|night|office opening|street/.test(d)) return PHOTOS.city; if (/team|colleague|office|screen|meeting|two people|desk/.test(d)) return PHOTOS.team; return AI_IMAGES[W.imgKey] || AI_IMAGES.agent; }
+const SCENES = { partners:'scenes/partners.jpg', network:'scenes/network.jpg', growth:'scenes/growth.jpg', team2:'scenes/team2.jpg', stage:'scenes/stage.jpg', award:'scenes/award.jpg', product:'scenes/product.jpg' };
+const IMG_API = 'https://chorus-api-roan.vercel.app/api/image';
+function scenePrompt(desc){
+  const d = (desc||'').trim() || 'an abstract network of connected nodes and light trails, modern and clean';
+  return 'Editorial brand photograph for a B2B partner management software company. The picture shows: ' + d + '. '
+    + 'Style: bright, clean, premium corporate photography, natural daylight, soft contrast, deep navy and violet colour grade with a subtle magenta accent light, gentle depth of field, no neon, not murky, well exposed faces. '
+    + 'Composition: leave the left third of the frame calm and uncluttered so a headline can sit over it. '
+    + 'No text, no words, no letters, no logos, no watermarks anywhere in the image.';
+}
+async function generateScene(desc){
+  const r = await fetch(IMG_API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ prompt: scenePrompt(desc), ratio:'16:9' }) });
+  const d = await r.json();
+  if (!r.ok || !d.image) throw new Error(d.error || ('image API ' + r.status));
+  return d.image;
+}
+function pickPhoto(desc){
+  const d = (desc||'').toLowerCase();
+  const hits = [
+    [/partner|handshake|deal|agreement|sign|alliance|reseller|channel/, 'partners'],
+    [/award|recognit|leader|idc|analyst|winner|badge|top |best /, 'award'],
+    [/event|conference|summit|keynote|stage|booth|webinar|catalyst|speak/, 'stage'],
+    [/dashboard|product|feature|portal|screen|platform|launch|release|interface|app/, 'product'],
+    [/growth|revenue|pipeline|results|chart|numbers|record|quarter|milestone/, 'growth'],
+    [/team|hire|colleague|people|office|joined|welcome|culture|staff/, 'team2'],
+    [/integrat|connect|api|network|data|automation|sync|ecosystem/, 'network'],
+    [/city|skyline|bridge|munich|new york|night|street|expansion|region|market/, '_city']
+  ];
+  for (const [re, key] of hits){ if (!re.test(d)) continue; if (key === '_city' && PHOTOS.city) return PHOTOS.city; if (SCENES[key]) return SCENES[key]; }
+  if (PHOTOS.event && /event/.test(d)) return PHOTOS.event;
+  return SCENES.network || AI_IMAGES[W.imgKey] || AI_IMAGES.agent;
+}
 async function makeImage(el){
-  const btn = el.querySelector('#imgGen'); btn.disabled = true; const bar = el.querySelector('#genBar'); bar.classList.remove('hidden'); const st = el.querySelector('#imgState');
+  const btn = el.querySelector('#imgGen'); btn.disabled = true; const bar = el.querySelector('#genBar'); bar.classList.remove('hidden'); const st = el.querySelector('#imgState'); st.className='pill';
   IMG.headline = el.querySelector('#pHead').value; IMG.hl = el.querySelector('#pHl').value; IMG.sub = el.querySelector('#pSub').value; const desc = el.querySelector('#pDesc').value;
-  const steps = [['Writing the picture brief in Unifyr’s style…',25],['Generating the photo…',70],['Laying out the headline and logo…',92]];
-  for (const [t,p] of steps){ st.textContent = t; bar.querySelector('i').style.width = p+'%'; await new Promise(r=>setTimeout(r, 1000)); }
-  try { IMG.base = await loadImage(pickPhoto(desc)); IMG.key = W.imgKey; } catch(e){ st.textContent='Couldn’t load the image'; btn.disabled=false; return; }
+  IMG.desc = desc;
+  let src = null, live = false;
+  const tick = (t, p) => { st.textContent = t; bar.querySelector('i').style.width = p+'%'; };
+  tick('Writing the picture brief in Unifyr’s style', 18);
+  const job = generateScene(desc).then(x=>{ src = x; live = true; }).catch(()=>{});
+  const marks = [['Generating the picture', 45],['Still painting it', 72],['Nearly there', 88]];
+  for (const [t,p] of marks){ if (src) break; tick(t,p); await new Promise(r=>setTimeout(r, 3500)); }
+  await job;
+  if (!src) src = pickPhoto(desc);
+  tick('Laying out the headline and logo', 96);
+  try { IMG.base = await loadImage(src); IMG.key = W.imgKey; }
+  catch(e){ try { IMG.base = await loadImage(pickPhoto(desc)); IMG.key = W.imgKey; } catch(e2){ try { IMG.base = await loadImage(AI_IMAGES.agent); IMG.key = W.imgKey; } catch(e3){ st.textContent='That picture would not load'; st.className='pill warn'; bar.classList.add('hidden'); btn.disabled=false; return; } } }
   bar.querySelector('i').style.width='100%'; await new Promise(r=>setTimeout(r, 250)); bar.classList.add('hidden'); btn.disabled=false; btn.innerHTML='<svg><use href="#i-spark"/></svg>Make it again';
-  st.textContent = 'Ready. Download the size you need'; st.className='pill good';
+  st.textContent = live ? 'Made fresh. Download the size you need' : 'Ready. Download the size you need'; st.className='pill good';
   renderFrames(el); renderOuts(); const el2 = $('#outs .imgpanel'); if (el2) el2.scrollIntoView({behavior:'smooth', block:'start'});
 }
 function wrapWords(ctx, words, maxW){ const lines=[]; let cur=[]; for (const w of words){ const test=[...cur,w].join(' '); if (ctx.measureText(test).width>maxW && cur.length){ lines.push(cur); cur=[w]; } else cur.push(w); } if (cur.length) lines.push(cur); return lines; }
@@ -1416,11 +1493,31 @@ async function generateKit(){
   const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Reading your LinkedIn and writing in your voice. About 10 seconds.';
   const prog = $('#genProgress'); prog.classList.remove('hidden'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
-  const steps = [[1, hasLi ? '38 posts' : 'no profile yet, using a plain clear voice', 1800],[2, hasLi ? '5 traits' : 'done', 1500],[3,'done',1600]];
+  const hasSamples = !!(p.samples && String(p.samples).trim().length > 40);
+  const steps = [[1, hasSamples ? 'your posts' : (hasLi ? 'profile noted' : 'no profile yet'), 1200],[2, hasSamples ? 'your rhythm and openers' : 'a clear plain voice', 1200],[3,'writing', 900]];
   for (const [n,label,ms] of steps){ const el = prog.querySelector(`[data-s="${n}"]`); el.classList.add('on'); await new Promise(r=>setTimeout(r, ms)); el.classList.remove('on'); el.classList.add('done'); el.querySelector('.dot').innerHTML='<svg><use href="#i-check"/></svg>'; $('#gn'+n).textContent = label; }
-  HEADLINES = headlinesFor(p); PF.headline = 0; $('#joinedText').value = joinedFor(p); $('#aboutText').value = aboutFor(p); PF.generated = true;
+  HEADLINES = headlinesFor(p); $('#joinedText').value = joinedFor(p); $('#aboutText').value = aboutFor(p);
+  if (AI_ON){
+    try {
+      const Q = String.fromCharCode(34,34,34);
+      const sys = 'You write LinkedIn profiles. Use ONLY these facts about the company.\n'
+        + 'COMPANY: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products
+        + '\nFACTS: ' + BRAIN.facts.map(f=>f[0]).join('; ')
+        + '\nNEVER USE: ' + BRAIN.vocabAvoid.join(', ') + '\nRULES: ' + BRAIN.rules
+        + '\n\nTHE PERSON: ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'
+        + (p.samples ? '\nTHIS IS HOW THEY WRITE, copy the rhythm, openers and sign offs:\n' + Q + String(p.samples).slice(0,2500) + Q : '')
+        + '\nWrite in first person, as them, not as the company. Never use an em dash. No hashtags. No generic closing question.'
+        + '\n\nReturn ONLY JSON: {"headlines":[three options, each under 200 characters, each containing the job title and the company name],"about":"2 to 4 short paragraphs, under 1800 characters","joined":"a LinkedIn post announcing they have joined, 900 to 1400 characters, short paragraphs"}';
+      const out = jsonFrom(await askAI(sys, 'Write the profile for ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'));
+      if (Array.isArray(out.headlines) && out.headlines.length) HEADLINES = out.headlines.slice(0,3);
+      if (out.about) $('#aboutText').value = out.about;
+      if (out.joined) $('#joinedText').value = out.joined;
+    } catch(e){ toast('Wrote from templates, the AI did not come back', true); }
+  }
+  PF.headline = 0; PF.generated = true;
+
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
-  $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = hasLi ? 'Learned from 38 of your LinkedIn posts: direct, warm, short first line, never uses hashtags. Everything below is written that way.' : 'No LinkedIn profile yet, so this is written in a clear, plain voice. Add your link later and generate again to make it sound like you.';
+  $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = hasSamples ? 'Learned from the posts you pasted. Everything below copies your rhythm, your openers and the way you sign off.' : 'Paste two or three of your own posts above and generate again, and this will sound like you rather than a clear, plain voice.';
   await new Promise(r=>setTimeout(r, 400)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
   renderProfile(); toast('Your LinkedIn kit is ready. Work down the steps.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -1437,7 +1534,7 @@ const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["L
 function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Add your details', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
 
 function startNewPost(){
-  W.outputs = null; W.imgKey = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
+  W.outputs = null; W.imgKey = null; W.aiImage = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
   $('#askText').value = ''; renderOuts(); $('#askText').focus(); $('#askText').scrollIntoView({behavior:'smooth', block:'center'});
   $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write the posts';
   toast('Cleared. Type the next one.');
@@ -1641,7 +1738,7 @@ async function downloadCanvas(id, btn){
 }
 function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } renderSwatches(); render(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
 
-function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Connected' : 'Not connected'; s.className = 'pill ' + (on ? 'good' : ''); } $('#modePill').textContent = on ? 'AI writing on' : 'Demo writing'; $('#modePill').title = on ? 'Connected to the Claude API' : 'Writing from templates. Click to connect AI.'; $('#modePill').className = 'pill ' + (on ? 'good' : 'brass'); }
+function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, hosted for this demo'; s.className = 'pill good'; } $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; $('#modePill').title = on ? 'Using the key saved in this browser' : 'Hosted by Wild Digital for this demo'; $('#modePill').className = 'pill good'; }
 /* ---------- portal theme from the brand (colours, logo) + light/dark ---------- */
 function applyTheme(){
   const c = state.brand.colors; const ink = '#0B121D';
@@ -1669,8 +1766,6 @@ async function init(){
   const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls;
   applyTheme();
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
-  if (!localStorage.getItem('chorus.seen')) $('#welcomeCard').classList.remove('hidden');
-  $('#wcClose').addEventListener('click', ()=>{ $('#welcomeCard').classList.add('hidden'); try{ localStorage.setItem('chorus.seen','1'); }catch(e){} });
   renderHome(); renderBrain(); renderExamples(); bindForms(); renderAvatarBox(); syncPerson(); renderSwatches();
 
   if (location.hash==='#setup') go('learn'); else go('home'); render();

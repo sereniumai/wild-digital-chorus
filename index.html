@@ -182,6 +182,7 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .sline{font-size:13px;line-height:1.55;padding:3px 0;color:var(--ink-2)}
 .sline.ok{color:var(--ink)}
 .sline.warn{color:#b45309}
+.sline a{color:inherit;text-decoration:underline}
 .sline.dim{color:var(--ink-3);font-size:12px;margin-top:6px}
 .sline.quote{border-left:3px solid #CB148B;padding-left:10px;margin:4px 0;font-style:italic}
 .sline.brief{background:var(--bg, transparent);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
@@ -958,7 +959,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan4');
+console.log('Chorus build 2026-08-31-scan5');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1563,44 +1564,43 @@ async function scanLinkedIn(){
   const btn = $('#scanBtn'); btn.disabled = true;
   const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = '';
   const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
-  const l0 = scanSpin('Checking the connection');
-  if (await liPing()){ l0.innerHTML = '✓ Connected'; l0.className = 'sline ok'; }
-  else { l0.innerHTML = 'This device cannot reach the Chorus server at all right now, so writing posts will not work either. A VPN, firewall or security tool is stopping it. Try another network or browser.'; l0.className = 'sline warn'; btn.disabled = false; return; }
-  const l1 = scanSpin('Opening <b>' + esc(handle) + '</b> and reading your profile');
+  const l0 = scanSpin('<b>Step 1 of 4</b> · Checking the connection');
+  if (await liPing()){ l0.innerHTML = '✓ <b>Step 1</b> · Connected'; l0.className = 'sline ok'; }
+  else { l0.innerHTML = 'This device cannot reach the Chorus server, so writing posts will not work either. To see it yourself, <a href="https://chorus-api-roan.vercel.app/api/write?ping=1" target="_blank" rel="noopener">open this test link</a>: if it does not show ok true, this network or a security tool is blocking vercel.app addresses. Try a phone hotspot or another browser.'; l0.className = 'sline warn'; btn.disabled = false; return; }
+  const l1 = scanSpin('<b>Step 2 of 4</b> · Opening <b>' + esc(handle) + '</b> and reading your profile');
   try {
     const prof = await liFetch('profile', url);
-    const postP = liFetch('posts', url).catch(e=>({ posts: [], failed: true }));
-    l1.innerHTML = '✓ Found <b>' + esc(prof.name || 'you') + '</b>' + (prof.headline ? ', ' + esc(prof.headline) : '') + (prof.location ? ' · ' + esc(prof.location) : '');
+    l1.innerHTML = '✓ <b>Step 2</b> · Found <b>' + esc(prof.name || 'you') + '</b>' + (prof.headline ? ', ' + esc(prof.headline) : '') + (prof.location ? ' · ' + esc(prof.location) : '');
     l1.className = 'sline ok';
     if (prof.photo){ scanLine('✓ Got your profile photo straight from LinkedIn', 'ok'); }
     if (prof.about) scanLine('✓ Read your About section, ' + prof.about.split(/\s+/).length + ' words', 'ok');
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
     if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || prof.headline.split(/[|·]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
-    const l2 = scanSpin('Reading your posts');
+    const l2 = scanSpin('<b>Step 3 of 4</b> · Reading your posts');
     let posts = [];
-    try { posts = (await postP).posts || []; } catch(e){ /* posts can fail on their own */ }
+    try { posts = (await liFetch('posts', url)).posts || []; } catch(e){ /* posts can fail on their own */ }
     const own = posts.filter(p=>p.text && p.text.length > 60);
     if (own.length){
       const last = own[0];
-      l2.innerHTML = '✓ Read ' + own.length + ' of your posts. The last one was <b>' + esc(last.ago || last.date || 'a while back') + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : '');
+      l2.innerHTML = '✓ <b>Step 3</b> · Read ' + own.length + ' of your posts. The last one was <b>' + esc((last.ago || last.date || 'a while back').split(' • ')[0]) + '</b>' + (last.likes ? ', ' + last.likes + ' reactions' : '');
       l2.className = 'sline ok';
       const snip = last.text.replace(/\s+/g,' ').slice(0, 90);
       scanLine('“' + esc(snip) + '…” <span class="dim">your most recent post</span>', 'quote');
     } else {
-      l2.innerHTML = '✓ Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok';
+      l2.innerHTML = '✓ <b>Step 3</b> · Looked for your posts. Nothing recent found, plenty of people post rarely'; l2.className='sline ok';
     }
     state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
     state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
     savePerson(); syncPerson();
-    const l3 = scanSpin('Working out how you write');
+    const l3 = scanSpin('<b>Step 4 of 4</b> · Learning how you write');
     try {
       const sys = 'You are told what was found on a person\'s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
       const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
-      l3.innerHTML = '✓ Done'; l3.className = 'sline ok';
+      l3.innerHTML = '✓ <b>Step 4</b> · Done'; l3.className = 'sline ok';
       state.person.brief = brief; savePerson();
       scanLine(esc(brief), 'brief');
-    } catch(e){ l3.innerHTML = '✓ Read everything'; l3.className='sline ok'; }
+    } catch(e){ l3.innerHTML = '✓ <b>Step 4</b> · Read everything'; l3.className='sline ok'; }
     scanLine('That was your real public profile, read just now. It is kept in this browser and nowhere else.', 'dim');
   } catch(e){
     if (e.off){ $('#scanLog').innerHTML=''; scanLine('Scanning is not switched on for this build yet. Fill in your name and title and Chorus will still write everything for you.', 'dim'); }

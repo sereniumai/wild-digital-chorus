@@ -497,7 +497,7 @@ canvas,img{max-width:100%}
       <div class="sec">Settings</div>
       <a data-page="brain"><svg><use href="#i-brain"/></svg>Brand Brain</a>
     </nav>
-    <div class="foot"><span class="avatar" id="sideAvatar">JE</span><div><b id="sideName">Jordan Ellis</b><span id="sideRole">Senior Account Executive</span></div></div>
+    <div class="foot"><span class="avatar" id="sideAvatar"></span><div><b id="sideName">Your name</b><span id="sideRole">Add your details</span></div></div>
   </aside>
 
   <div class="main">
@@ -527,7 +527,7 @@ canvas,img{max-width:100%}
 
     <!-- ---------- HOME ---------- -->
     <div class="page" data-page="home">
-      <div class="hello"><div><h2 id="helloH">Good morning, <em>Jordan</em>.</h2><p>What do you want to do? Each of these takes a minute or two.</p></div></div>
+      <div class="hello"><div><h2 id="helloH">Good morning.</h2><p>What do you want to do? Each of these takes a minute or two.</p></div></div>
       <div class="quick">
         <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><span class="step">New here? Start with this</span><b>Set up my LinkedIn</b><span>Your profile photo on a Unifyr colour, the company banner, a headline, your About and your “I’ve joined” post. All in your own words.</span><span class="go">Set up my LinkedIn →</span></a>
         <a data-go="write" data-voice="me"><span class="ic"><svg><use href="#i-spark"/></svg></span><span class="step">For everyone</span><b>Post about company news, as me</b><span>Type the news. Get a LinkedIn post in your own voice, with an image, ready to copy.</span><span class="go">Write my post →</span></a>
@@ -577,8 +577,8 @@ canvas,img{max-width:100%}
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your details</h2><span class="sub">Only you can see this. Everything below is written from it.</span></div><div class="body">
         <div class="grid3">
-          <div class="field"><label>Name</label><input type="text" data-bind="person.name"></div>
-          <div class="field"><label>Job title</label><input type="text" data-bind="person.title"></div>
+          <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
+          <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
           <div class="field"><label>LinkedIn profile</label><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput"><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
         
@@ -587,7 +587,7 @@ canvas,img{max-width:100%}
           <div class="st" data-s="2"><span class="dot"></span>Learning how you write <span class="n" id="gn2"></span></div>
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
-        <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv">JE</span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
+        <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Generate my LinkedIn kit</button><span class="hint" id="genHint">Fill in your name, job title and LinkedIn link, then click Generate. Change your title later and click again.</span></div>
       </div></div>
 
@@ -610,7 +610,7 @@ canvas,img{max-width:100%}
 
       <div class="two">
         <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="card gen-card"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">Pick one. It shows under your name everywhere on LinkedIn.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
 
           <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="about"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
 
@@ -619,7 +619,7 @@ canvas,img{max-width:100%}
         <div class="card" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
             <div class="cover"><canvas id="pf-banner"></canvas><div class="av"><canvas id="pf-avatar"></canvas></div></div>
-            <div class="pbody"><b id="pfName">Jordan Ellis</b><div class="hl" id="pfHeadline"></div><small id="pfLoc">Cary, North Carolina · Unifyr</small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
+            <div class="pbody"><b id="pfName">Your name</b><div class="hl" id="pfHeadline"></div><small id="pfLoc">Cary, North Carolina · Unifyr</small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
           </div>
         </div></div>
       </div>
@@ -1375,7 +1375,7 @@ function startNewPost(){
 }
 
 /* ---------- home / team ---------- */
-function renderHome(){ $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
+function renderHome(){ if (!first()){ $('#helloH').textContent = greeting() + '.'; } else $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
 function greeting(){ const h = new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
 function renderTeam_unused(){ $('#teamBody').innerHTML = TEAM.map(t=>`<tr><td><div class="who"><span class="avatar">${t[0].split(' ').map(s=>s[0]).join('')}</span><div><b>${esc(t[0])}</b><span>${esc(t[1])}</span></div></div></td><td>${esc(t[2])}</td><td>${t[3]?'<span class="pill good">Learned</span>':'<span class="pill warn">Not yet</span>'}</td><td>${t[4]?'<span class="pill good">Done</span>':'<span class="pill">, </span>'}</td><td style="color:var(--ink-3)">${esc(t[5])}</td><td style="text-align:right"><button class="btn sm quiet">Remind</button></td></tr>`).join(''); }
 
@@ -1518,7 +1518,7 @@ async function renderNow(){
     const SIZES = {banner1:[1584,396], banner2:[1584,396], avatar:[800,800]};
     for (const id of ['banner1','banner2','avatar']){ const k={w:SIZES[id][0],h:SIZES[id][1]}; let cv=canvases[id]; if(!cv){ cv=document.createElement('canvas'); cv.width=k.w; cv.height=k.h; canvases[id]=cv; } const ctx=cv.getContext('2d'); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,k.w,k.h); ctx.globalAlpha=1; ctx.textAlign='left'; ctx.textBaseline='alphabetic'; R[id](ctx,k.w,k.h); }
     fit(canvases.banner1, $('#th-banner1'), 900); fit(canvases.banner2, $('#th-banner2'), 900); fit(canvases.avatar, $('#th-avatar'), 230);
-    renderAvatarBox(); syncPerson(); renderProfile();
+    renderAvatarBox(); syncPerson(); renderProfile(); renderHome(); setVoice(W.voice);
   } finally { rendering=false; if (renderQueued){ renderQueued=false; renderNow(); } }
 }
 function renderAvatarBox(){
@@ -1527,7 +1527,7 @@ function renderAvatarBox(){
   const pr = $('#photoReset'); if (pr) pr.classList.toggle('hidden', !has);
   const lbl = $('#photoBtnLabel'); if (lbl) lbl.textContent = has ? 'Change photo' : 'Add photo';
 }
-function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Jordan Ellis'; $('#sideRole').textContent = p.title||''; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); } else drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
+function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); } else drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }
 async function downloadCanvas(id, btn){
@@ -1552,12 +1552,15 @@ function applyTheme(){
 function setTheme(t, silent){ document.documentElement.dataset.theme = t; localStorage.setItem('chorus.theme', t); try { const wl = t==='dark' ? whiteLogo() : null; $('#wsLogo').src = wl ? wl.toDataURL('image/png') : (state.brand.logoData||normUrl(state.brand.logo)); } catch(e){} const u = $('#themeIco use'); if (u) u.setAttribute('href', t==='dark' ? '#i-sun' : '#i-moon'); if (!silent) toast(t==='dark' ? 'Dark mode' : 'Light mode'); }
 
 /* ---------- bindings & init ---------- */
-function bindForms(){ $$('[data-bind]').forEach(el=>el.addEventListener('input', ()=>{ set(el.dataset.bind, el.type==='range'?Number(el.value):el.value); render(); })); }
+function savePerson(){ try { const p = Object.assign({}, state.person); delete p.photoData; localStorage.setItem('chorus.person', JSON.stringify(p)); } catch(e){} }
+function loadPerson(){ try { const s = JSON.parse(localStorage.getItem('chorus.person')||'null'); if (s) Object.assign(state.person, s); } catch(e){} }
+function bindForms(){ $$('[data-bind]').forEach(el=>el.addEventListener('input', ()=>{ set(el.dataset.bind, el.type==='range'?Number(el.value):el.value); if (el.dataset.bind.startsWith('person.')) savePerson(); render(); })); }
 function syncInputs(){ $$('[data-bind]').forEach(el=>{ const v=get(el.dataset.bind); el.value = v==null?'':v; }); }
 async function init(){
   // workspace: Unifyr preset; person: Jordan
   state.brand = deepMerge(DEFAULT_BRAND, PRESETS[0]); state.brand.teams = deepClone(PRESETS[0].teams); state.teamId = 'sales';
-  Object.assign(state.person, {name:'Jordan Ellis', title:'Senior Account Executive', calendly:'https://calendly.com/jordan-ellis/30min', linkedin:'https://linkedin.com/in/jordanellis', email:'jordan@unifyr.com', phone:'+1 415 555 0100'});
+  // no fake details: the person fills these in and Chorus remembers them
+  loadPerson();
   state.ui.page='home';
   await loadLogo(); syncInputs();
   const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls;

@@ -301,7 +301,18 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .linkedin-mock.ig{max-width:420px}
 .linkedin-mock.ig .mimg{border-radius:4px;margin:0 -12px;width:calc(100% + 24px)}
 .linkedin-mock .noimg{background:#f3f4f6;color:#888;font-size:12px;text-align:center;padding:40px 12px;border-radius:6px}
-.linkedin-mock .igact{font-size:16px;color:#333;padding:8px 0 4px}
+.linkedin-mock.ig .ighd{position:relative}
+.linkedin-mock.ig .igring{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:conic-gradient(from 210deg,#f9ce34,#ee2a7b,#6228d7,#f9ce34);flex:none}
+.linkedin-mock.ig .igring canvas,.linkedin-mock.ig .igring .av,.linkedin-mock.ig .igring .avimg,.linkedin-mock.ig .igring img{width:38px;height:38px;border-radius:50%;border:2px solid #fff;box-sizing:border-box}
+.linkedin-mock.ig .ighd b{font-size:13px}
+.linkedin-mock.ig .ighd span{font-size:11px;color:#737373}
+.linkedin-mock.ig .igdots{position:absolute;right:0;top:8px;color:#262626;font-weight:700;letter-spacing:1px;font-size:14px}
+.linkedin-mock .igact{display:flex;justify-content:space-between;align-items:center;padding:10px 0 6px}
+.linkedin-mock .igact .l{display:flex;gap:14px}
+.linkedin-mock .igact svg{width:22px;height:22px;fill:none;stroke:#262626;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.linkedin-mock .iglikes{font-size:12.5px;margin-bottom:5px;color:#262626}
+.linkedin-mock .igcap{font-size:12.5px}
+.linkedin-mock .igtime{font-size:10px;color:#8e8e8e;text-transform:uppercase;letter-spacing:.03em;margin-top:6px}
 .linkedin-mock .xact{display:flex;gap:22px;color:#666;font-size:12px;padding-top:10px}
 .linkedin-mock .fold{font-size:11px;color:#999;margin-top:8px;border-top:1px solid #eef0f2;padding-top:6px}
 .hc{display:flex;flex-direction:column;gap:6px}
@@ -1213,7 +1224,13 @@ function renderOuts(){
       m.innerHTML = `<div class="hd">${avatarHtml}<div><b>${who}</b><span>${sub} · Just now</span></div></div><p class="pt"></p>${imgHtml}<div class="fold">How it looks on LinkedIn (phone). Tap “see more” to expand.</div>`;
       const pt = m.querySelector('.pt'); let open = false; const paint = ()=>{ pt.innerHTML = open ? esc(full) : esc(cut) + (full.length>140 ? ' <span class="more">…see more</span>' : ''); const mo = pt.querySelector('.more'); if (mo) mo.addEventListener('click', ()=>{ open = true; paint(); }); }; paint();
     } else if (ch==='instagram'){
-      m.classList.add('ig'); m.innerHTML = `<div class="hd">${avatarHtml}<div><b>${isMe ? esc((state.person.name||'jordan.ellis').toLowerCase().replace(/\s+/g,'.')) : esc(state.brand.name.toLowerCase())}</b><span>Just now</span></div></div>${imgHtml || '<div class="noimg">No image yet. Make one above and it shows here.</div>'}<div class="igact">♡ &nbsp; ○ &nbsp; ➤</div><p><b>${isMe ? esc((state.person.name||'jordan.ellis').toLowerCase().replace(/\s+/g,'.')) : esc(state.brand.name.toLowerCase())}</b> ${esc(full)}</p><div class="fold">How it looks on Instagram.</div>`;
+      m.classList.add('ig');
+      const igName = isMe ? esc((state.person.name||'jordan.ellis').toLowerCase().replace(/\s+/g,'.')) : esc(state.brand.name.toLowerCase());
+      const icoHeart = '<svg viewBox="0 0 24 24"><path d="M12 21s-8.2-5.4-8.2-11A4.7 4.7 0 0 1 12 6.4 4.7 4.7 0 0 1 20.2 10c0 5.6-8.2 11-8.2 11z"/></svg>';
+      const icoCmt = '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.6-.8L3 21l1.8-5.9A8.5 8.5 0 1 1 21 11.5z"/></svg>';
+      const icoSend = '<svg viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+      const icoSave = '<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+      m.innerHTML = `<div class="hd ighd"><span class="igring">${avatarHtml}</span><div><b>${igName}</b><span>Original post</span></div><span class="igdots">···</span></div>${imgHtml || '<div class="noimg">No image yet. Make one above and it shows here.</div>'}<div class="igact"><span class="l">${icoHeart}${icoCmt}${icoSend}</span><span class="r">${icoSave}</span></div><div class="iglikes">Liked by <b>your team</b> and others</div><p class="igcap"><b>${igName}</b> ${esc(full)}</p><div class="igtime">Just now</div><div class="fold">How it looks on Instagram.</div>`;
     } else {
       m.classList.add('xm'); m.innerHTML = `<div class="hd">${avatarHtml}<div><b>${who} <span style="font-weight:400;color:#666">@${isMe ? esc((state.person.name||'jordanellis').toLowerCase().replace(/\s+/g,'')) : esc(state.brand.name.toLowerCase())} · now</span></b></div></div><p>${esc(full)}</p>${imgHtml}<div class="xact"><span>💬 12</span><span>↻ 8</span><span>♡ 64</span></div><div class="fold">How it looks on X.</div>`;
     }

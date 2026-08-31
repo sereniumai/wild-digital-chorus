@@ -958,7 +958,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan3');
+console.log('Chorus build 2026-08-31-scan4');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1535,14 +1535,27 @@ async function renderStyleSamples(){ try { const a = await loadImage(PHOTOS.even
 const LI_API = 'https://chorus-api-roan.vercel.app/api/profile';
 function scanLine(html, cls){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'sline' + (cls?' '+cls:''); d.innerHTML = html; log.appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
+async function liTransport(id, what, mode){
+  if (mode === 2) return fetch(PROXY + '?id=' + encodeURIComponent(id) + '&what=' + encodeURIComponent(what));
+  if (mode === 1) return fetch(PROXY, { method:'POST', body: JSON.stringify({ scan: { id, what } }) });
+  return fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ scan: { id, what } }) });
+}
 async function liFetch(what, url){
   const m = (url.startsWith('http') ? url : 'https://' + url).match(/\/in\/([^/?#]+)/i);
   const id = m ? decodeURIComponent(m[1]) : '';
-  const r = await fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ scan: { id, what } }) });
+  let r = null, lastNet = null;
+  for (const mode of [0, 1, 2]){
+    try { r = await liTransport(id, what, mode); lastNet = null; break; }
+    catch (e){ lastNet = e; await new Promise(x=>setTimeout(x, 400)); }
+  }
+  if (!r) throw lastNet || new Error('no connection');
   const d = await r.json().catch(()=>({}));
   if (r.status === 503) throw Object.assign(new Error('off'), { off:true });
   if (!r.ok) throw new Error(d.error || ('scan ' + r.status));
   return d;
+}
+async function liPing(){
+  try { const r = await fetch(PROXY + '?ping=1'); return r.ok; } catch (e){ return false; }
 }
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
@@ -1550,11 +1563,13 @@ async function scanLinkedIn(){
   const btn = $('#scanBtn'); btn.disabled = true;
   const box = $('#scanBox'); box.classList.remove('hidden'); $('#scanLog').innerHTML = '';
   const handle = url.replace(/^https?:\/\/(www\.)?/i,'').replace(/\/+$/,'');
+  const l0 = scanSpin('Checking the connection');
+  if (await liPing()){ l0.innerHTML = '✓ Connected'; l0.className = 'sline ok'; }
+  else { l0.innerHTML = 'This device cannot reach the Chorus server at all right now, so writing posts will not work either. A VPN, firewall or security tool is stopping it. Try another network or browser.'; l0.className = 'sline warn'; btn.disabled = false; return; }
   const l1 = scanSpin('Opening <b>' + esc(handle) + '</b> and reading your profile');
   try {
-    const profP = liFetch('profile', url);
+    const prof = await liFetch('profile', url);
     const postP = liFetch('posts', url).catch(e=>({ posts: [], failed: true }));
-    const prof = await profP;
     l1.innerHTML = '✓ Found <b>' + esc(prof.name || 'you') + '</b>' + (prof.headline ? ', ' + esc(prof.headline) : '') + (prof.location ? ' · ' + esc(prof.location) : '');
     l1.className = 'sline ok';
     if (prof.photo){ scanLine('✓ Got your profile photo straight from LinkedIn', 'ok'); }

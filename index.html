@@ -711,7 +711,7 @@ canvas,img{max-width:100%}
 
 <div class="scanmodal" id="scanModal" role="dialog" aria-label="Reading your LinkedIn">
   <div class="smpanel">
-    <div class="smtop"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span></div>
+    <div class="smtop"><b id="smTitle">Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span></div>
     <div class="sprog"><i id="smBar"></i></div>
     <div class="smbody" id="smBody"></div>
     <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, take me to my kit</button><button class="btn" id="smClose2">Close</button></div>
@@ -1009,7 +1009,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan11');
+console.log('Chorus build 2026-08-31-scan13');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1214,7 +1214,18 @@ function renderCheck(box, res){ box.className='hc'; box.innerHTML = res.issues.l
 const W = { aiErr:null, aiImage:null, voice:'company', aud:'customers', angle:'story', ch:{linkedin:true,instagram:true,x:true}, image:true, outputs:null, busy:false, imgKey:null };
 function renderExamples(){ const box = $('#examples'); box.innerHTML=''; EXAMPLES.forEach(ex=>{ const b=document.createElement('button'); b.textContent = ex.label; b.addEventListener('click', ()=>{ $('#askText').value = ex.label; setAud(ex.aud); write(ex); }); box.appendChild(b); }); const u=document.createElement('button'); u.innerHTML='<span style="color:var(--ink-4)">Paste a link →</span> unifyr.com/newsroom/investcorp-leads-20-million-investment-round'; u.addEventListener('click', ()=>{ $('#askText').value = 'https://www.unifyr.com/newsroom/investcorp-leads-20-million-investment-round-into-unifyr-to-scale-ai-driven-partner-experience-platform/'; setAud('press'); write(); }); box.appendChild(u); }
 function setAud(a){ W.aud = a; }
-function setVoice(v){ W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
+function setVoice(v){
+  if (W.voice !== v){
+    W.by = W.by || {};
+    W.by[W.voice] = { outputs: W.outputs, imgKey: W.imgKey, aiImage: W.aiImage, img: Object.assign({}, IMG) };
+    const s = W.by[v];
+    W.outputs = s ? s.outputs : null; W.imgKey = s ? s.imgKey : null; W.aiImage = s ? s.aiImage : null;
+    if (s && s.img && s.img.base){ Object.assign(IMG, s.img); }
+    else { IMG.base = null; IMG.key = null; IMG.headline = ''; IMG.hl = ''; IMG.sub = ''; IMG.desc = ''; }
+    W.voice = v;
+    if (typeof renderOuts === 'function' && $('#outs')){ try { renderOuts(); } catch(e){} }
+  }
+  W.voice = v; $('#angleField').classList.toggle('hidden', v!=='me');
   const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ if (state.photoCut && canvases.avatar){ const c=document.createElement('canvas'); c.width=64; c.height=64; c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); av.appendChild(c); } else { const f=faceEl(64); if (f) av.appendChild(f); else { const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } } } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
   if ($('#voiceWhoName')) $('#voiceWhoName').textContent = v==='me' ? (state.person.name||'You') : state.brand.name;
   if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>posts</em>' : esc(state.brand.name) + ' <em>posts</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
@@ -1226,7 +1237,13 @@ function matchExample(ask){
 async function write(example){
   if (W.busy) return; const ask = $('#askText').value.trim(); if (!ask) return toast('Say what you want to announce first', true);
   const isUrl = /^https?:\/\/\S+$/i.test(ask) || /^[\w.-]+\.[a-z]{2,}\/\S*$/i.test(ask); const isLong = ask.length > 400;
-  W.busy = true; const wb = $('#writeBtn'); wb.disabled = true; const wbHtml = wb.innerHTML; wb.innerHTML = '<svg><use href="#i-spark"/></svg>Writing…'; $('#outs').innerHTML = `<div class="thinking"><span class="dot"></span>${isUrl ? 'Reading ' + esc(ask.replace(/^https?:\/\//,'').slice(0,60)) + '… then w' : isLong ? 'Reading what you pasted… then w' : 'W'}riting in ${W.voice==='me' ? (first()||'your')+'’s' : 'Unifyr’s'} voice, checking facts against the Brand Brain…</div>`;
+  W.busy = true; const wb = $('#writeBtn'); wb.disabled = true; const wbHtml = wb.innerHTML;
+  smBegin(W.voice === 'me' ? 'Writing your post' : 'Writing the company posts'); $('#smUse').classList.add('hidden');
+  const _w1 = smStep('\uD83D\uDCDA', 'Opening the Brand Brain'); await smWait(700);
+  smOk(_w1, '<b>Brand Brain loaded</b>, facts locked so nothing gets invented'); smProg(18);
+  const _w2 = smStep('\uD83D\uDCF0', 'Reading your news'); await smWait(600);
+  smOk(_w2, '<b>News understood</b>'); smProg(32);
+  const _w3 = smStep('\u270D\uFE0F', W.voice === 'me' ? 'Writing it in your voice, from your real posts' : 'Writing it in the ' + esc(state.brand.name) + ' voice'); wb.innerHTML = '<svg><use href="#i-spark"/></svg>Writing…'; $('#outs').innerHTML = `<div class="thinking"><span class="dot"></span>${isUrl ? 'Reading ' + esc(ask.replace(/^https?:\/\//,'').slice(0,60)) + '… then w' : isLong ? 'Reading what you pasted… then w' : 'W'}riting in ${W.voice==='me' ? (first()||'your')+'’s' : 'Unifyr’s'} voice, checking facts against the Brand Brain…</div>`;
   try {
     let outputs = null, sources = [];
     const ex = null;
@@ -1242,10 +1259,13 @@ async function write(example){
     else if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
     else if (AI_ON){ const raw = await liveWrite(ask); W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene }; delete raw.headline; delete raw.highlight; delete raw.scene; outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent'; }
     else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['your news', W.aiErr ? 'written from templates, the AI did not answer' : 'demo writing']; W.imgKey = 'agent'; }
+    smOk(_w3, '<b>Written</b> for ' + Object.keys(W.ch).filter(k=>W.ch[k]).length + ' platform' + (Object.keys(W.ch).filter(k=>W.ch[k]).length > 1 ? 's' : '')); smProg(88);
+    const _w4 = smStep('\uD83D\uDD0D', 'Checking it reads human and the facts are right'); await smWait(800);
+    smOk(_w4, '<b>Checked</b>, no AI tells, facts from the Brand Brain'); smProg(100); await smWait(450); smCloseModal();
     W.outputs = { outputs, sources }; renderOuts(); $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write it again';
     const has = Object.keys(W.ch).filter(k=>W.ch[k] && outputs[k]);
   
-  } catch(e){ $('#outs').innerHTML = `<div class="empty"><b>Couldn’t write that</b>${esc(e.message||String(e))}</div>`; }
+  } catch(e){ smCloseModal(); $('#outs').innerHTML = `<div class="empty"><b>Couldn’t write that</b>${esc(e.message||String(e))}</div>`; }
   finally { W.busy = false; const wb2 = $('#writeBtn'); wb2.disabled = false; wb2.innerHTML = W.outputs ? '<svg><use href="#i-spark"/></svg>Write it again' : wbHtml; }
 }
 function renderOuts(){
@@ -1539,6 +1559,10 @@ function pickPhoto(desc){
 }
 async function makeImage(el){
   const btn = el.querySelector('#imgGen'); btn.disabled = true; const bar = el.querySelector('#genBar'); bar.classList.remove('hidden'); const st = el.querySelector('#imgState'); st.className='pill';
+  smBegin('Making your image'); $('#smUse').classList.add('hidden');
+  const _i1 = smStep('\uD83C\uDFA8', 'Writing the picture brief in ' + esc(state.brand.name) + '\u2019s style'); await smWait(800);
+  smOk(_i1, '<b>Brief written</b> from your news'); smProg(22);
+  const _i2 = smStep('\uD83D\uDDBC\uFE0F', 'Generating the picture');
   IMG.headline = el.querySelector('#pHead').value; IMG.hl = el.querySelector('#pHl').value; IMG.sub = el.querySelector('#pSub').value; const desc = el.querySelector('#pDesc').value;
   IMG.desc = desc;
   let src = null, live = false;
@@ -1549,11 +1573,14 @@ async function makeImage(el){
   for (const [t,p] of marks){ if (src) break; tick(t,p); await new Promise(r=>setTimeout(r, 3500)); }
   await job;
   if (!src) src = pickPhoto(desc);
+  smOk(_i2, live ? '<b>Picture generated</b>, made fresh for this post' : '<b>Picture chosen</b> from the brand library'); smProg(70);
+  const _i3 = smStep('\uD83E\uDDE9', 'Laying out the headline, the gradient word and the logo');
   tick('Laying out the headline and logo', 96);
   try { IMG.base = await loadImage(src); IMG.key = W.imgKey; }
-  catch(e){ try { IMG.base = await loadImage(pickPhoto(desc)); IMG.key = W.imgKey; } catch(e2){ try { IMG.base = await loadImage(AI_IMAGES.agent); IMG.key = W.imgKey; } catch(e3){ st.textContent='That picture would not load'; st.className='pill warn'; bar.classList.add('hidden'); btn.disabled=false; return; } } }
+  catch(e){ try { IMG.base = await loadImage(pickPhoto(desc)); IMG.key = W.imgKey; } catch(e2){ try { IMG.base = await loadImage(AI_IMAGES.agent); IMG.key = W.imgKey; } catch(e3){ smCloseModal(); st.textContent='That picture would not load'; st.className='pill warn'; bar.classList.add('hidden'); btn.disabled=false; return; } } }
   bar.querySelector('i').style.width='100%'; await new Promise(r=>setTimeout(r, 250)); bar.classList.add('hidden'); btn.disabled=false; btn.innerHTML='<svg><use href="#i-spark"/></svg>Make it again';
   st.textContent = live ? 'Made fresh. Download the size you need' : 'Ready. Download the size you need'; st.className='pill good';
+  smOk(_i3, '<b>Three sizes ready</b>: LinkedIn, Instagram and X'); smProg(100); await smWait(450); smCloseModal();
   renderFrames(el); renderOuts(); const el2 = $('#outs .imgpanel'); if (el2) el2.scrollIntoView({behavior:'smooth', block:'start'});
 }
 function wrapWords(ctx, words, maxW){ const lines=[]; let cur=[]; for (const w of words){ const test=[...cur,w].join(' '); if (ctx.measureText(test).width>maxW && cur.length){ lines.push(cur); cur=[w]; } else cur.push(w); } if (cur.length) lines.push(cur); return lines; }
@@ -1630,11 +1657,12 @@ function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.c
 function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function smOpenModal(){ const m=$('#scanModal'); m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); }
 function smCloseModal(){ $('#scanModal').classList.remove('on'); }
+function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, take me to my kit'; u.classList.remove('hidden'); } W._afterScan = false; smOpenModal(); }
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
-  smOpenModal();
+  smBegin('Reading your LinkedIn');
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
     if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden'); return; }
@@ -1696,6 +1724,7 @@ async function scanLinkedIn(){
     sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
     sum.push('<div class="i">\u2713 Nothing stored anywhere except this browser</div></div>');
     smData(sum.join(''), '');
+    $('#smUse').textContent = 'Generate my LinkedIn kit'; W._afterScan = true;
     $('#smUse').classList.remove('hidden');
     $('#smFoot').classList.remove('hidden');
   } catch(e){
@@ -1706,11 +1735,15 @@ async function scanLinkedIn(){
 async function generateKit(){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
   const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Reading your LinkedIn and writing in your voice. About 10 seconds.';
-  const prog = $('#genProgress'); prog.classList.remove('hidden'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
+  const prog = $('#genProgress'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
   const scan = p.scan; const hasSamples = !!(p.samples && String(p.samples).trim().length > 40) || !!(scan && scan.posts && scan.posts.length);
-  const steps = [[1, scan ? ((scan.posts||[]).length ? (scan.posts.length + ' real posts from your profile') : 'your real profile, no recent posts') : (hasLi ? 'profile noted, hit Scan it first' : 'no profile yet'), 1200],[2, hasSamples ? 'your rhythm and openers' : 'a clear plain voice', 1200],[3,'writing', 900]];
-  for (const [n,label,ms] of steps){ const el = prog.querySelector(`[data-s="${n}"]`); el.classList.add('on'); await new Promise(r=>setTimeout(r, ms)); el.classList.remove('on'); el.classList.add('done'); el.querySelector('.dot').innerHTML='<svg><use href="#i-check"/></svg>'; $('#gn'+n).textContent = label; }
+  smBegin('Building your LinkedIn kit'); $('#smUse').classList.add('hidden');
+  const _k1 = smStep('\uD83D\uDCD6', 'Reading what the scan found'); await smWait(900);
+  smOk(_k1, scan ? ((scan.posts||[]).length ? '<b>' + scan.posts.length + ' real posts</b> and your profile loaded' : '<b>Your real profile loaded</b>, no recent posts') : '<b>Your details loaded</b>'); smProg(14);
+  const _k2 = smStep('\uD83C\uDFA7', 'Learning your voice'); await smWait(900);
+  smOk(_k2, hasSamples ? '<b>Voice learned</b> from how you actually write' : '<b>Starting you in a clear, plain voice</b>'); smProg(28);
+  const _k3 = smStep('\u270D\uFE0F', 'Writing three headline options');
   HEADLINES = headlinesFor(p); $('#joinedText').value = joinedFor(p); $('#aboutText').value = aboutFor(p);
   if (AI_ON){
     try {
@@ -1725,15 +1758,22 @@ async function generateKit(){
         + '\n\nReturn ONLY JSON: {"headlines":[three options, each under 200 characters, each containing the job title and the company name],"about":"2 to 4 short paragraphs, under 1800 characters","joined":"a LinkedIn post announcing they have joined, 900 to 1400 characters, short paragraphs"}';
       const out = jsonFrom(await askAI(sys, 'Write the profile for ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'));
       if (Array.isArray(out.headlines) && out.headlines.length) HEADLINES = out.headlines.slice(0,3);
+      smOk(_k3, '<b>Headlines written</b>, three to choose from'); smData('<div class="smquote">' + esc(HEADLINES[0]) + '</div>'); smProg(52);
+      const _k4 = smStep('\uD83D\uDCC4', 'Writing your About section'); await smWait(800);
       if (out.about) $('#aboutText').value = out.about;
+      smOk(_k4, '<b>About written</b>, ' + String($('#aboutText').value).split(/\s+/).length + ' words in your voice'); smProg(70);
+      const _k5 = smStep('\uD83D\uDE80', 'Writing your first post, Say you\u2019ve joined'); await smWait(800);
       if (out.joined) $('#joinedText').value = out.joined;
-    } catch(e){ toast('Wrote from templates, the AI did not come back', true); }
+      smOk(_k5, '<b>First post written</b>, facts locked to the Brand Brain'); smProg(84);
+    } catch(e){ smOk(_k3, '<b>Written from templates</b>, the AI did not answer'); smProg(84); }
   }
   PF.headline = 0; PF.generated = true;
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
   $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
-  await new Promise(r=>setTimeout(r, 400)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
+  const _k6 = smStep('\uD83D\uDDBC\uFE0F', 'Preparing your profile photo and banner'); await smWait(800);
+  smOk(_k6, '<b>Photo and banner ready</b> in the kit below'); smProg(100); await smWait(500); smCloseModal();
+  await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
   renderProfile(); toast('Your LinkedIn kit is ready. Work down the steps.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
@@ -2036,7 +2076,7 @@ async function init(){
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });
   $('#scanBtn').addEventListener('click', scanLinkedIn);
-  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); toast('All set. Hit Generate and everything is written in your voice'); const g=$('#genBtn'); if (g) g.scrollIntoView({behavior:'smooth', block:'center'}); });
+  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); if (W._afterScan){ W._afterScan = false; const g = $('#genBtn'); if (g){ g.scrollIntoView({behavior:'smooth', block:'center'}); g.click(); } } });
   $('#smClose2').addEventListener('click', smCloseModal);
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });

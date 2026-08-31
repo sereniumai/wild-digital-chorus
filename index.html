@@ -1156,7 +1156,16 @@ async function write(example){
   try {
     let outputs = null, sources = [];
     const ex = example || matchExample(ask);
-    if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
+    if (AI_ON){
+      try {
+        const raw = await liveWrite(ask);
+        W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene };
+        delete raw.headline; delete raw.highlight; delete raw.scene;
+        outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent';
+      } catch(err){ outputs = null; }
+    }
+    if (outputs){ /* written live */ }
+    else if (ex){ await new Promise(r=>setTimeout(r, isUrl||isLong ? 2600 : 1400)); outputs = Object.assign({}, ex[W.voice], ex[W.voice+'_extra']||{}); if (W.voice==='me' && W.angle!=='story' && ex.meAngles && ex.meAngles[W.angle]) outputs.linkedin = ex.meAngles[W.angle]; W.imgKey = ex.id; sources = ex.sources; if (W.voice==='me') sources = [...sources, "Jordan’s LinkedIn (voice)"]; }
     else if (AI_ON){ const raw = await liveWrite(ask); W.aiImage = { headline: raw.headline, highlight: raw.highlight, scene: raw.scene }; delete raw.headline; delete raw.highlight; delete raw.scene; outputs = raw; sources = ['Brand Brain', 'written live by AI']; W.imgKey = 'agent'; }
     else { await new Promise(r=>setTimeout(r, isUrl||isLong ? 2400 : 1200)); outputs = templateWrite(ask, isUrl||isLong); sources = ['Brand Brain (demo writing)', 'your news']; W.imgKey = 'agent'; }
     W.outputs = { outputs, sources }; renderOuts(); $('#writeBtn').innerHTML = '<svg><use href="#i-spark"/></svg>Write it again';
@@ -1381,7 +1390,7 @@ function suggestPoster(){
   src = src.replace(/^[“”"']+|[“”"']+$/g,'').replace(/https?:\/\/\S+/g,'').replace(/\s+/g,' ').trim();
   const clause = (src.split(/(?<=[.!?])\s/)[0] || src).split(/[,;:]/)[0].trim();
   let words = clause.split(/\s+/).filter(Boolean).slice(0, 6);
-  const TRAIL = new Set(['and','or','but','with','for','to','of','in','on','at','that','the','a','an','can','will','is','are','as','from','by','our','their','we','they','it']);
+  const TRAIL = new Set(['and','or','but','with','for','to','of','in','on','at','that','the','a','an','can','will','is','are','as','from','by','our','their','we','they','it','so','when','if','because','after','before','into','over','through','about','than','then','while','via','have','has','been','be','now','also','who','which','not','more','all','its','his','her','your','my']);
   while (words.length > 2 && TRAIL.has(words[words.length-1].toLowerCase().replace(/[^\w'-]/g,''))) words.pop();
   const headline = words.join(' ').replace(/[.,;:]+$/,'');
   const cand = words.map((w,i)=>({w:w.replace(/[^\w'-]/g,''), i})).filter(o=>o.w.length>3 && !STOP.has(o.w.toLowerCase()) && !/['’]/.test(o.w));

@@ -563,9 +563,9 @@ canvas,img{max-width:100%}
 .wnav .btn.brand{min-width:132px;justify-content:center}
 
 /* ---------- one thing at a time, Typeform style ---------- */
-.kitwiz .kit{display:block!important}
-.kitwiz .two{display:grid!important;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
-.kitwiz .two > div:first-child{display:block!important}
+.kitwiz .kit{display:block}
+.kitwiz .two{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.kitwiz .two > div:first-child{display:block}
 .kitwiz .howto{display:none!important}
 .kitwiz .wstep{max-width:none}
 
@@ -601,6 +601,15 @@ canvas,img{max-width:100%}
 .asker textarea{min-height:64px;border-radius:11px}
 
 @media (max-width:1040px){ .kitwiz .two{grid-template-columns:1fr!important} }
+
+.kitwiz .wstep .stepn{display:none!important}
+.kitwiz .wstep .head h2,.kitwiz .wstep .row b{letter-spacing:-.01em}
+/* the preview only reveals what you have actually reached */
+.li-mock .hl.veiled,.li-mock #pfAbout.veiled,.li-mock h4.veiled{filter:blur(4px);opacity:.35;pointer-events:none;user-select:none}
+.li-mock .cover.veiled{filter:blur(3px);opacity:.5}
+.wdoneCard{text-align:center;padding:38px 24px}
+.wdoneCard .big{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.wdoneCard p{color:var(--ink-2);font-size:14px;max-width:420px;margin:0 auto 18px}
 </style>
 </head>
 <body>
@@ -690,15 +699,15 @@ canvas,img{max-width:100%}
     <!-- ---------- MY LINKEDIN ---------- -->
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
-      <p class="lede">Add your details and hit Generate. Chorus writes the five pieces below in your voice, on the Unifyr brand.</p>
+      <p class="lede">Six quick steps. Chorus reads your real LinkedIn, then writes each piece in your voice, on the Unifyr brand.</p>
       <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
       <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
-      <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your details</h2><span class="sub">Only you can see this. Everything below is written from it.</span></div><div class="body">
-        <div class="grid3">
+      <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your LinkedIn</h2><span class="sub" id="s1sub">Paste your profile link. Chorus reads it and fills the rest in for you.</span></div><div class="body">
+        <div class="grid3" id="s1grid">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
-          <div class="field"><label>LinkedIn profile</label><div style="display:flex;gap:8px"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan it</button></div><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
+          <div class="field"><label>LinkedIn profile</label><div style="display:flex;gap:8px"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
                 <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="scanPct"></span></div><div class="sprog"><i id="scanProg"></i></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
@@ -707,7 +716,7 @@ canvas,img{max-width:100%}
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
         <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Generate my LinkedIn kit</button><span class="hint" id="genHint">Fill in your name, job title and LinkedIn link, then click Generate. Change your title later and click again.</span></div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Generate my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
       </div></div>
 
       <div class="kit">
@@ -735,7 +744,7 @@ canvas,img{max-width:100%}
         <div class="card" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
             <div class="cover"><canvas id="pf-banner"></canvas><div class="av"><canvas id="pf-avatar"></canvas></div></div>
-            <div class="pbody"><b id="pfName">Your name</b><div class="hl" id="pfHeadline"></div><small id="pfLoc">Cary, North Carolina · Unifyr</small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
+            <div class="pbody"><b id="pfName">Your name</b><div class="hl" id="pfHeadline"></div><small id="pfLoc"></small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
           </div>
         </div></div>
       </div>
@@ -1568,6 +1577,8 @@ let HEADLINES = [];
 function renderProfile(){
   const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); }); h.appendChild(b); });
   const wrap = document.createElement('div'); wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:4px'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
+  const _sc = state.person.scan || {};
+  if ($('#pfLoc')) $('#pfLoc').textContent = [(_sc.location || ''), state.brand.name].filter(Boolean).join(' \u00B7 ');
   $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
   const ready = !!(state.person.name.trim() && state.person.title.trim()); $('#genBtn').disabled = !ready;
   if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Ready. Click Generate and Chorus writes your headline, About and first post.' : 'Add your name and job title first, then click Generate.';
@@ -1808,6 +1819,7 @@ async function scanLinkedIn(){
       smData('<div class="smbrief">' + esc(brief) + '</div>');
     } catch(e){ smOk(s7, '<b>Read everything</b>'); }
     if (photoJob) await photoJob;
+    try { s1Sync(); } catch(e){}
     smProg(100);
     const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
     if (prof.photo) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any Unifyr colour behind it</div>');
@@ -2117,10 +2129,12 @@ async function init(){
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
   try { const b2 = localStorage.getItem('chorus.brain2'); if (b2) Object.assign(BRAIN, JSON.parse(b2)); } catch(e){}
   renderHome(); renderBrain(); renderExamples(); bindForms();
+  try { s1Sync(); } catch(e){}
   try { wizStart(); } catch(e){} renderAvatarBox(); syncPerson(); renderSwatches();
 
   if (location.hash==='#setup') go('learn'); else go('home'); render();
   // nav
+  if ($('#noLiCb')) $('#noLiCb').addEventListener('change', ()=>{ try { s1Sync(); } catch(e){} });
   $$('#nav a').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.page); }));
   $$('[data-go]').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.go); }));
   $('#learnBtn').addEventListener('click', runLearn);
@@ -2181,7 +2195,7 @@ document.addEventListener('DOMContentLoaded', init);
 
 /* ---------- Step by step kit, one section at a time ---------- */
 const WIZ = { steps: [], i: 0, on: false };
-const WIZ_LABEL = { details: 'Your details', photo: 'Profile photo', banner: 'Banner', headline: 'Headline', about: 'About', joined: 'Say you have joined' };
+const WIZ_LABEL = { details: 'Your details', photo: 'Profile photo', banner: 'Banner', headline: 'Headline', about: 'About', joined: 'Say you\u2019ve joined' };
 
 function wizEls(){
   const byDone = k => { const b = document.querySelector('[data-done="' + k + '"]'); return b ? (b.closest('.gen-card') || b.closest('.kcard')) : null; };
@@ -2235,6 +2249,7 @@ function wizGo(n){
   if (!WIZ.on || !WIZ.steps.length) return;
   WIZ.i = Math.max(0, Math.min(n, WIZ.steps.length - 1));
   WIZ.steps.forEach((st, k) => st.el.classList.toggle('cur', k === WIZ.i));
+  const _dc = document.getElementById('wDoneCard'); if (_dc) _dc.style.display = 'none';
   const st = WIZ.steps[WIZ.i];
   const d = doneState();
   const nav = st.el.querySelector('.wnav');
@@ -2243,6 +2258,16 @@ function wizGo(n){
     if (nx) nx.textContent = d[st.key] ? (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Next') : (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next');
   }
   if ($('#nextHint')) $('#nextHint').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length + ': ' + WIZ_LABEL[st.key];
+  const hideEmpty = sel => {
+    const c = document.querySelector(sel); if (!c) return;
+    c.style.display = '';
+    const any = [...c.children].some(ch => ch.getBoundingClientRect().height > 4);
+    c.style.display = any ? '' : 'none';
+  };
+  const prev = document.querySelector('.li-mock') ? document.querySelector('.li-mock').closest('.card') : null;
+  if (prev) prev.style.display = (WIZ.i === 0 || !PF.generated) ? 'none' : '';
+  const twoCol = document.querySelector('.page[data-page="profile"] .two');
+  if (twoCol) twoCol.style.gridTemplateColumns = (prev && !prev.classList.contains('hidden')) ? '' : 'minmax(0,1fr)';
   if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length;
   if ($('#wRailNow')) $('#wRailNow').textContent = WIZ_LABEL[st.key];
   if ($('#wRailBar')) $('#wRailBar').style.width = Math.round(((WIZ.i + 1) / WIZ.steps.length) * 100) + '%';
@@ -2256,6 +2281,14 @@ function wizGo(n){
     chip.classList.toggle('wcur', k + 1 === WIZ.i);
     chip.classList.toggle('wdoneStep', !!d[(WIZ.steps[k + 1] || {}).key]);
   });
+  const seen = k => { const at = WIZ.steps.findIndex(x => x.key === k); return at >= 0 && WIZ.i >= at; };
+  const veil = (el, ok) => { if (el) el.classList.toggle('veiled', !ok); };
+  veil(document.querySelector('.li-mock .cover'), seen('banner') || seen('photo'));
+  veil(document.querySelector('.li-mock .hl'), seen('headline'));
+  veil(document.querySelector('.li-mock #pfAbout'), seen('about'));
+  veil(document.querySelector('.li-mock h4'), seen('about'));
+  hideEmpty('.page[data-page="profile"] .kit');
+  hideEmpty('.page[data-page="profile"] .two');
   try { st.el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
 }
 
@@ -2264,7 +2297,32 @@ function wizAdvance(key){
   const at = WIZ.steps.findIndex(s => s.key === key);
   if (at < 0) return;
   if (at < WIZ.steps.length - 1) wizGo(at + 1);
-  else { wizGo(at); toast('That is everything. Your LinkedIn is ready to update.'); }
+  else { wizFinish(); }
+}
+
+function wizFinish(){
+  const host = document.querySelector('.page[data-page="profile"] .two');
+  const step = WIZ.steps[WIZ.steps.length - 1];
+  if (step) step.el.classList.remove('cur');
+  let card = document.getElementById('wDoneCard');
+  if (!card){
+    card = document.createElement('div');
+    card.className = 'card wdoneCard';
+    card.id = 'wDoneCard';
+    card.innerHTML = '<div class="big">That is your LinkedIn done.</div>'
+      + '<p>Your photo, banner, headline, About and first post are all written in your voice, on the Unifyr brand. Copy each one across to LinkedIn whenever you are ready.</p>'
+      + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
+      + '<a class="btn brand" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open LinkedIn</a>'
+      + '<button class="btn" id="wDoneBack">Go back through the steps</button></div>';
+    const parent = (WIZ.steps[0] && WIZ.steps[0].el.parentElement) || host;
+    if (parent) parent.appendChild(card);
+    card.addEventListener('click', e => { if (e.target.id === 'wDoneBack'){ card.style.display = 'none'; wizGo(1); } });
+  }
+  card.style.display = '';
+  if ($('#wRailNow')) $('#wRailNow').textContent = 'All done';
+  if ($('#wRailBar')) $('#wRailBar').style.width = '100%';
+  try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
+  toast('That is everything. Your LinkedIn is ready to update.');
 }
 
 /* ---------- Tell Chorus what to include, then rewrite ---------- */
@@ -2319,6 +2377,34 @@ async function rewriteSection(key, btn){
     toast('Rewritten with your note');
   } catch(e){ toast('Could not rewrite that just now', true); }
   finally { btn.disabled = false; btn.innerHTML = old; }
+}
+
+/* ---------- step one reveals itself in the right order ---------- */
+function s1Ready(){
+  const noLi = $('#noLiCb');
+  return !!(state.person.scan) || !!(noLi && noLi.checked);
+}
+function s1Sync(){
+  const grid = $('#s1grid'); if (!grid) return;
+  const ready = s1Ready();
+  const fields = [...grid.children];
+  fields.forEach(f => {
+    const inp = f.querySelector('[data-bind]');
+    const key = inp ? inp.getAttribute('data-bind') : '';
+    if (key === 'person.linkedin'){ f.style.order = '-1'; return; }
+    f.style.display = ready ? '' : 'none';
+  });
+  const row = $('#genRow'); if (row) row.style.display = ready ? '' : 'none';
+  const sb = $('#scanBtn');
+  if (sb){
+    const scanned = !!state.person.scan;
+    sb.classList.toggle('brand', !scanned);
+    sb.textContent = scanned ? 'Scan again' : 'Scan my LinkedIn';
+  }
+  const sub = $('#s1sub');
+  if (sub) sub.textContent = ready
+    ? 'Check these look right, then generate. Only you can see this.'
+    : 'Paste your profile link. Chorus reads it and fills the rest in for you.';
 }
 </script>
 </body>

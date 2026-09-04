@@ -6,7 +6,7 @@
 <title>Chorus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation@0.1.1675465747/selfie_segmentation.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 :root{
   --ground:#EEF0F3; --panel:#FFFFFF; --panel-2:#F6F7F9; --line:#DCE0E6; --line-2:#EAEDF1;
@@ -16,7 +16,7 @@
   --focus:#2F6FE4; --shadow:0 1px 2px rgba(21,26,34,.06), 0 8px 24px -12px rgba(21,26,34,.18);
   --side:#151A22; --side-2:#1E2530; --side-ink:#C9CFD8; --side-ink-2:#8B929E;
   --brand:#CB148B; --brand-on:#FFFFFF; --brand-soft:rgba(203,20,139,.12);
-  --display:"Inter","Helvetica Neue",Arial,sans-serif; --title:"Playfair Display",Georgia,serif; --ui:"Inter","Helvetica Neue",Arial,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --display:"Inter","Helvetica Neue",Arial,sans-serif; --title:"Inter","Helvetica Neue",Arial,sans-serif; --ui:"Inter","Helvetica Neue",Arial,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --ground:#0F1217; --panel:#171B22; --panel-2:#1E232C; --line:#2C323D; --line-2:#242A34;
@@ -160,23 +160,12 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .genbar{height:6px;border-radius:3px;background:var(--line-2);overflow:hidden}
 .genbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#D40E83,#822287,#43318B);transition:width .4s}
 /* ---------- login ---------- */
-.login{position:fixed;inset:0;background:var(--ground);display:grid;place-items:center;z-index:60;padding:20px}
-.login .box{width:100%;max-width:400px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:30px 30px 26px;display:flex;flex-direction:column;gap:14px}
-.login .wm{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.02em}
-.login .wm small{font-family:var(--ui);font-size:11px;font-weight:600;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
-.mark{width:28px;height:28px;border-radius:8px;background:var(--brass);display:grid;place-items:center;flex:none}
-.mark i{display:block;width:12px;height:12px;border-radius:50%;box-shadow:-5px 0 0 -2px var(--brass-ink), 5px 0 0 -2px var(--brass-ink), 0 0 0 2px var(--brass-ink) inset;background:transparent}
-.login h1{font-size:22px;font-weight:800}
-.login p{margin:0;color:var(--ink-3);font-size:13.5px}
-.login .google{justify-content:center;padding:11px;border-radius:10px}
-.login .or{display:flex;align-items:center;gap:10px;color:var(--ink-4);font-size:11.5px}
-.login .or::before,.login .or::after{content:"";flex:1;height:1px;background:var(--line-2)}
-.login .foot{font-size:11.5px;color:var(--ink-4);text-align:center}
+
 
 /* ---------- app shell ---------- */
 .shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
 @media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-.voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
+.voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines > button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
 .side{background:var(--side);color:var(--side-ink);display:flex;flex-direction:column;padding:18px 14px;gap:16px;position:sticky;top:0;height:100vh}
 .side .wm{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:19px;color:#fff;padding:2px 6px;letter-spacing:-.02em}
 .side .ws{display:flex;align-items:center;gap:10px;background:var(--side-2);border-radius:10px;padding:10px;font-size:12.5px}
@@ -262,7 +251,7 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 @media (max-width:960px){.write{grid-template-columns:1fr}}
 .write .ask textarea{min-height:120px;font-size:15px;padding:12px 14px}
 .write .examples{display:flex;flex-direction:column;gap:6px}
-.write .examples button,#headlines button{text-align:left;line-height:1.45;border:1px solid var(--line-2);background:var(--panel-2);border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
+.write .examples button,#headlines > button{text-align:left;line-height:1.45;border:1px solid var(--line-2);background:var(--panel-2);border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--ink-2);cursor:pointer}
 .write .examples button:hover{border-color:var(--brand);color:var(--ink)}
 .outs{display:flex;flex-direction:column;gap:14px}
 .out{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
@@ -641,6 +630,238 @@ canvas,img{max-width:100%}
 .finrow .btn{flex:none}
 .finacts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .finacts .btn.lg{height:46px;padding:0 22px;border-radius:12px}
+
+/* =====================================================================
+   Design pass, 2026-09-04. One token set, one elevation scale, one
+   motion system, real interaction states. Appended last so it wins
+   over the three earlier layers without unpicking them.
+   ===================================================================== */
+:root{
+  --ground:#F1F3F7; --panel:#FFFFFF; --panel-2:#F5F6F9;
+  --line:#DDE1E8; --line-2:#EAECF1; --line-3:#C3C9D4;
+  --ink:#0F1319; --ink-2:#454C58; --ink-3:#6B7280; --ink-4:#9AA1AC;
+  --good:#0E8A4F; --good-soft:#E4F4EB;
+  --warn:#B87908; --warn-soft:#FDF3E0;
+  --bad:#C2453A;  --bad-soft:#FBE8E6;
+  --brand:#CB148B; --brand-text:#B00F78; --brand-hover:#B21279; --brand-active:#98105F;
+  --brand-soft:rgba(203,20,139,.10); --brand-soft-2:rgba(203,20,139,.18);
+  --brand-ring:rgba(203,20,139,.28);
+  --focus:#CB148B;
+  --surface-hover:#EDEFF4; --surface-active:#E4E7EE;
+  /* the gradient survives in exactly one place: the progress fill */
+  --brand-grad:linear-gradient(90deg,#CB148B 0%,#8B2C7E 55%,#06426A 100%);
+  --r-1:8px; --r-2:12px; --r-3:16px; --r-full:999px;
+  --e-1:0 1px 2px rgba(11,18,29,.05),0 1px 1px rgba(11,18,29,.04);
+  --e-2:0 1px 2px rgba(11,18,29,.05),0 6px 16px -8px rgba(11,18,29,.14);
+  --e-3:0 2px 4px rgba(11,18,29,.05),0 16px 32px -12px rgba(11,18,29,.18);
+  --e-4:0 8px 16px -8px rgba(11,18,29,.10),0 32px 64px -24px rgba(11,18,29,.28);
+  --d-1:90ms; --d-2:160ms; --d-3:240ms; --d-4:400ms; --d-5:640ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+  --ease-spring:cubic-bezier(.22,1.2,.36,1);
+}
+:root[data-theme="dark"]{
+  /* three real steps: canvas, sidebar, card. The old values sat 0.4% apart. */
+  --ground:#0A0D13; --panel:#161B24; --panel-2:#1C222D;
+  --line:#2A313E; --line-2:#1E2530; --line-3:#3B4453;
+  --ink:#F2F4F7; --ink-2:#C3C9D4; --ink-3:#8D95A3; --ink-4:#626A78;
+  --good:#2FA96C; --good-soft:#0E2A1D;
+  --warn:#D69A2E; --warn-soft:#2C2314;
+  --bad:#D65A4E;  --bad-soft:#2E1917;
+  --brand:#CB148B; --brand-text:#F06FBE; --brand-hover:#DA2C9B; --brand-active:#B01276;
+  --brand-soft:rgba(203,20,139,.16); --brand-soft-2:rgba(203,20,139,.26);
+  --brand-ring:rgba(240,111,190,.32);
+  --focus:#F06FBE;
+  --surface-hover:#1F2531; --surface-active:#272E3C;
+  --side:#10141C; --side-2:#1F2531; --side-line:#2A313E;
+  --brand-grad:linear-gradient(90deg,#CB148B 0%,#8B2C9E 55%,#0A5E96 100%);
+  --e-1:0 0 0 1px rgba(255,255,255,.04),0 1px 2px rgba(0,0,0,.5);
+  --e-2:0 0 0 1px rgba(255,255,255,.05),0 6px 16px -8px rgba(0,0,0,.7);
+  --e-3:0 0 0 1px rgba(255,255,255,.06),0 16px 32px -12px rgba(0,0,0,.8);
+  --e-4:0 0 0 1px rgba(255,255,255,.09),0 32px 64px -24px rgba(0,0,0,.92);
+}
+@media (prefers-reduced-motion:reduce){:root{--d-1:1ms;--d-2:1ms;--d-3:1ms;--d-4:1ms;--d-5:1ms}}
+
+/* ---- typography: one family, one scale ---- */
+h1,h2,h3,h4,.page h2.title,.hello h2,.learn h2.title{
+  font-family:var(--ui); font-weight:600; letter-spacing:-.021em;
+}
+.page h2.title,.hello h2{font-size:30px;line-height:1.14;letter-spacing:-.028em;font-weight:600}
+.page h2.title em,.hello h2 em{font-style:normal;color:var(--brand-text)}
+.card>.head h2{font-size:17px;letter-spacing:-.015em;font-weight:600}
+.card>.head .sub{font-size:13px;color:var(--ink-3);font-weight:400}
+.pill,.wrail .lbl,.side nav .sec,.topbar h1{font-variant-numeric:tabular-nums}
+.brainstat b{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* ---- elevation, applied one level per component ---- */
+.card,.kcard,.out,.imgpanel,.quick a{box-shadow:var(--e-2);border-color:var(--line)}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .kcard,
+:root[data-theme="dark"] .out,:root[data-theme="dark"] .imgpanel{box-shadow:var(--e-2);border-color:var(--line)}
+.smpanel{box-shadow:var(--e-4)}
+.scanbox{box-shadow:var(--e-2)}
+.toast{box-shadow:var(--e-3)}
+
+/* ---- buttons: flat brand, no glows, real states ---- */
+.btn{
+  transition:background-color var(--d-2) var(--ease-out),border-color var(--d-2) var(--ease-out),
+             color var(--d-2) var(--ease-out),box-shadow var(--d-2) var(--ease-out),
+             transform var(--d-1) var(--ease-out);
+}
+.btn:not(.brand):not(.primary):not(.quiet){
+  background:var(--panel); color:var(--ink);
+  border:1px solid var(--line); box-shadow:var(--e-1);
+}
+.btn:not(.brand):not(.primary):not(.quiet):hover{background:var(--surface-hover);border-color:var(--line-3)}
+.btn:not(.brand):not(.primary):not(.quiet):active{background:var(--surface-active);box-shadow:none;transform:translateY(1px)}
+:root[data-theme="dark"] .btn:not(.brand):not(.primary):not(.quiet){box-shadow:var(--e-1)}
+
+.btn.brand{
+  background:var(--brand); background-image:none; color:#fff; border-color:transparent;
+  box-shadow:var(--e-1);
+}
+.btn.brand:hover{background:var(--brand-hover);background-image:none;box-shadow:var(--e-2)}
+.btn.brand:active{background:var(--brand-active);transform:translateY(1px);box-shadow:none}
+.btn.primary:hover{background:var(--ink);filter:none;opacity:.9}
+.btn.primary:active{transform:translateY(1px)}
+.btn.quiet{color:var(--ink-2)}
+.btn.quiet:hover{background:var(--surface-hover);color:var(--ink)}
+.btn.quiet:active{background:var(--surface-active);transform:translateY(1px)}
+/* disabled never uses opacity: it composites through borders and shadows and reads as broken */
+.btn[disabled],.btn[aria-disabled="true"]{
+  background:var(--panel-2)!important; background-image:none!important; color:var(--ink-4)!important;
+  border-color:var(--line-2)!important; box-shadow:none!important; opacity:1; transform:none; cursor:not-allowed;
+}
+:focus-visible{outline:none}
+.btn:focus-visible,.chip:focus-visible,.quick a:focus-visible,.side nav a:focus-visible,.tbtn:focus-visible{
+  outline:none; box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--focus);
+}
+
+/* ---- chips, inputs, swatches ---- */
+.chip{transition:background-color var(--d-2) var(--ease-out),border-color var(--d-2) var(--ease-out),color var(--d-2) var(--ease-out),transform var(--d-1) var(--ease-out)}
+.chip:hover{background:var(--surface-hover);border-color:var(--line-3);color:var(--ink)}
+.chip:active{transform:translateY(1px)}
+.field input,.field textarea,.field select,.input{transition:border-color var(--d-2) var(--ease-out),box-shadow var(--d-2) var(--ease-out),background-color var(--d-2) var(--ease-out)}
+.field input:hover,.field textarea:hover,.field select:hover{border-color:var(--line-3)}
+.field input:focus,.field textarea:focus,.field select:focus{
+  background:var(--panel); border-color:var(--brand); box-shadow:0 0 0 3px var(--brand-ring); outline:none;
+}
+.field input:disabled,.field textarea:disabled{background:var(--panel-2);color:var(--ink-4);opacity:1;cursor:not-allowed}
+.swatches button{transition:box-shadow var(--d-2) var(--ease-out),transform var(--d-1) var(--ease-out)}
+.swatches button:hover{transform:scale(1.06)}
+.side nav a{transition:background-color var(--d-2) var(--ease-out),color var(--d-2) var(--ease-out)}
+.side nav a:active{background:var(--surface-active)}
+.quick a:active{transform:translateY(0);box-shadow:var(--e-1)}
+#headlines > button,.write .examples button{transition:border-color var(--d-2) var(--ease-out),background-color var(--d-2) var(--ease-out)}
+#headlines > button:active{transform:translateY(1px)}
+
+/* ---- the sticky rail: the topbar is static, so 60px was a stale offset.
+       An 82% translucent background was letting the photo show through it. ---- */
+.wrail{
+  top:8px; background:var(--panel); box-shadow:var(--e-3);
+  border-color:var(--line); backdrop-filter:none;
+}
+@supports (backdrop-filter:blur(1px)){
+  .wrail{background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(14px) saturate(1.3)}
+}
+.wrail .track{height:4px;background:var(--line-2)}
+.wrail .track i{background:var(--brand-grad);transition:width var(--d-5) var(--ease-out)}
+.wrail .dots{display:none}          /* the bar and the label already say it */
+.wrail .lbl{color:var(--ink-3)}
+.wnav .wcount{display:none}         /* the rail is the single source of step number */
+/* the page must not scroll content under the rail */
+html{scroll-padding-top:76px}
+
+/* ---- gradient survives only on the progress fills ---- */
+.sprog i,.genbar i{background:var(--brand-grad)}
+.smstep .ic{background:var(--brand-soft);color:var(--brand-text)}
+.smstep.ok .ic{background:var(--brand);color:#fff}
+.scanbox::before,.smpanel::before{background:var(--brand-grad);background-size:200% 100%}
+
+/* ---- selection needs more than a border ---- */
+#headlines > button[aria-pressed="true"],.bnr[aria-pressed="true"]{
+  border-color:var(--brand); background:var(--brand-soft); color:var(--ink);
+  box-shadow:0 0 0 3px var(--brand-ring);
+}
+
+/* ---- mobile: the URL field was collapsing to ~155px beside the scan button ---- */
+.inputrow{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.inputrow>input,.inputrow>.input{flex:1 1 240px;min-width:0}
+.inputrow>.btn{flex:0 1 auto}
+@media (max-width:560px){
+  .inputrow>.btn{flex:1 0 100%;justify-content:center}
+  .wnav{flex-direction:column-reverse;align-items:stretch}
+  .wnav .btn{width:100%;justify-content:center}
+  .wnav .sp{display:none}
+}
+@media (max-width:860px){
+  .input,.field input,.field select,.field textarea{font-size:16px}  /* stops iOS zooming on focus */
+  .brainstat{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important}
+  .side{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .side::-webkit-scrollbar{display:none}
+  .wrail{top:0;border-radius:0;margin-inline:-14px;padding-inline:14px}
+}
+@media (pointer:coarse){.btn.sm,.tbtn,.zbtn{min-height:44px}.swatches button{width:36px;height:36px}}
+
+
+/* the step and the preview are two columns of one grid, for every step */
+.kitwiz #wizStage{display:grid;grid-template-columns:minmax(0,640px) minmax(0,380px);gap:24px;align-items:start}
+.kitwiz #wizMain{display:flex;flex-direction:column;gap:16px;min-width:0}
+.kitwiz #wizSide{min-width:0;position:sticky;top:76px}
+.kitwiz #wizSide .card{margin:0}
+.kitwiz .kit,.kitwiz .two{display:none!important}
+.kitwiz .wstep{max-width:none;width:100%}
+.kitwiz .wstep.cur{box-shadow:var(--e-3);border-radius:var(--r-3)}
+@media (max-width:1100px){.kitwiz #wizStage{grid-template-columns:minmax(0,1fr)}.kitwiz #wizSide{position:static;display:none}}
+
+
+/* the step card header stacks now the column is 640px wide */
+.kitwiz .wstep > .head{flex-direction:column;align-items:flex-start;gap:5px;padding:18px 20px 10px}
+.kitwiz .wstep > .head .spacer{display:none}
+.kitwiz .wstep > .head .sub{max-width:56ch}
+.wnav.empty{display:none}
+.card > .head:empty{display:none}
+
+/* the rail now sits at the top of the step column and matches its width */
+.kitwiz .wrail{margin:0 0 4px;top:12px}
+
+/* home: a real primary button instead of a coloured text link */
+.quick .go .btn{pointer-events:none}
+.quick a{gap:10px}
+.quick .go{margin-top:12px;padding-top:0}
+
+/* finish: a drawn mark, not an OS emoji that renders differently on every machine */
+.fintick{width:48px;height:48px;border-radius:50%;background:var(--brand-soft);color:var(--brand-text);
+  display:grid;place-items:center;margin:0 auto 14px;animation:pop var(--d-4) var(--ease-spring) both}
+.fintick svg{width:24px;height:24px}
+.wdoneCard .conf-emoji{display:none}
+.finlist{max-width:100%}
+
+/* step 0 help sits under the field, where the hesitation happens */
+#liHelp{margin-top:8px;max-width:56ch}
+#liHelp a{color:var(--brand-text);font-weight:600}
+
+
+/* the zoom control was a default range input flanked by two square buttons */
+.zoomrow{align-items:center;gap:8px}
+.zbtn{min-width:30px;width:30px;height:30px;min-height:30px;padding:0;border-radius:50%;
+  font-size:15px;font-weight:600;display:grid;place-items:center;flex:none}
+#zoomRange{-webkit-appearance:none;appearance:none;background:transparent;height:20px;flex:1;min-width:0;cursor:pointer}
+#zoomRange::-webkit-slider-runnable-track{height:4px;border-radius:99px;
+  background:linear-gradient(90deg,var(--brand) var(--zpct,30%),var(--line) var(--zpct,30%))}
+#zoomRange::-moz-range-track{height:4px;border-radius:99px;background:var(--line)}
+#zoomRange::-moz-range-progress{height:4px;border-radius:99px;background:var(--brand)}
+#zoomRange::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;
+  background:var(--panel);border:1px solid var(--line-3);box-shadow:var(--e-1);margin-top:-6px;
+  transition:transform var(--d-1) var(--ease-out),box-shadow var(--d-2) var(--ease-out)}
+#zoomRange::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--panel);
+  border:1px solid var(--line-3);box-shadow:var(--e-1)}
+#zoomRange:hover::-webkit-slider-thumb{transform:scale(1.12)}
+#zoomRange:active::-webkit-slider-thumb{transform:scale(1.02);box-shadow:none}
+#zoomRange:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--brand-ring)}
+.photo-tools .ptlabel{font-size:12.5px;color:var(--ink-3);font-weight:500}
+#liHelp{max-width:none}
+/* the drag hint belongs beside the control it describes */
+.dragtip{font-size:12px;color:var(--ink-4)}
+
 </style>
 </head>
 <body>
@@ -707,7 +928,7 @@ canvas,img{max-width:100%}
     <div class="page" data-page="home">
       <div class="hello"><div><h2 id="helloH">Good morning.</h2><p>Set up your LinkedIn from your real profile. It takes a minute or two.</p></div></div>
       <div class="quick">
-        <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><span class="step">New here? Start with this</span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go">Set up my LinkedIn →</span></a>
+        <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
       <div class="card"><div class="head"><h2>What Chorus knows about Unifyr</h2><span class="sub">Every post is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
         <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways Unifyr sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
@@ -734,11 +955,11 @@ canvas,img{max-width:100%}
       <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
       <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
-      <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your LinkedIn</h2><span class="sub" id="s1sub">Paste your profile link. Chorus reads it and fills the rest in for you.</span></div><div class="body">
+      <div class="card"><div class="head"><h2>Your LinkedIn</h2><span class="sub" id="s1sub">Paste your profile link. Chorus reads it and fills the rest in for you.</span></div><div class="body">
         <div class="grid3" id="s1grid">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
-          <div class="field"><label>LinkedIn profile</label><div style="display:flex;gap:8px"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><label class="chip lite" style="align-self:flex-start;margin-top:4px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
+          <div class="field"><label>LinkedIn profile</label><div class="inputrow"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><div class="hint" id="liHelp">Not sure where to find it? <a href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open your LinkedIn profile</a> and copy the address from the top of the browser. It looks like linkedin.com/in/your-name.</div><label class="chip lite" style="align-self:flex-start;margin-top:8px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
         </div>
                 <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="scanPct"></span></div><div class="sprog"><i id="scanProg"></i></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
@@ -772,7 +993,7 @@ canvas,img{max-width:100%}
 
           <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><span class="pill good hidden" id="joinedScore">Human</span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="joined"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
         </div>
-        <div class="card" style="position:sticky;top:118px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
+        <div class="card wizpreview" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
             <div class="cover"><canvas id="pf-banner"></canvas><div class="av"><canvas id="pf-avatar"></canvas></div></div>
             <div class="pbody"><b id="pfName">Your name</b><div class="hl" id="pfHeadline"></div><small id="pfLoc"></small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
@@ -1894,7 +2115,7 @@ async function generateKit(){
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
   $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
   await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
-  renderProfile(); toast('Your kit is ready. Step 1 of 5: your profile photo.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
+  renderProfile(); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
 /* ---------- done tracking (the company can see who has finished) ---------- */
@@ -2183,7 +2404,12 @@ async function init(){
   const endDrag = e=>{ if (drag){ try{ circle.releasePointerCapture(e.pointerId); }catch(err){} drag=null; } };
   circle.addEventListener('pointerup', endDrag); circle.addEventListener('pointercancel', endDrag);
   circle.addEventListener('wheel', e=>{ if (!state.photoImg) return; e.preventDefault(); const z=(Number(state.person.photoZoom)||1)+(e.deltaY<0?0.06:-0.06); state.person.photoZoom=Math.max(1,Math.min(2.5,z)); syncInputs(); render(); }, {passive:false});
-  $$('.zbtn').forEach(b=>b.addEventListener('click', ()=>{ const z=(Number(state.person.photoZoom)||1)+Number(b.dataset.zoom)*0.12; state.person.photoZoom=Math.max(1,Math.min(2.5,z)); syncInputs(); render(); }));
+  const _zr=$('#zoomRange');
+  const _zsync=()=>{ if(!_zr) return; const mn=+_zr.min||1, mx=+_zr.max||2.5;
+    _zr.style.setProperty('--zpct', Math.round(((+_zr.value-mn)/(mx-mn))*100)+'%'); };
+  if (_zr){ _zr.addEventListener('input', _zsync); _zsync(); }
+  window.zoomSync = _zsync;
+  $$('.zbtn').forEach(b=>b.addEventListener('click', ()=>{ const z=(Number(state.person.photoZoom)||1)+Number(b.dataset.zoom)*0.12; state.person.photoZoom=Math.max(1,Math.min(2.5,z)); syncInputs(); if(window.zoomSync) window.zoomSync(); render(); }));
   $('#photoReset').addEventListener('click', ()=>{ state.person.photoZoom=1; state.person.photoX=0; state.person.photoY=0; syncInputs(); render(); toast('Back to the middle'); });
   ['dragenter','dragover'].forEach(ev=>circle.addEventListener(ev, e=>{ e.preventDefault(); circle.style.outline='2px dashed var(--u-violet)'; }));
   ['dragleave','drop'].forEach(ev=>circle.addEventListener(ev, e=>{ e.preventDefault(); circle.style.outline=''; }));
@@ -2236,7 +2462,8 @@ const WIZ_LABEL = { details: 'Your details', photo: 'Profile photo', banner: 'Ba
 
 function wizEls(){
   const byDone = k => { const b = document.querySelector('[data-done="' + k + '"]'); return b ? (b.closest('.gen-card') || b.closest('.kcard')) : null; };
-  const details = document.querySelector('.startpill') ? document.querySelector('.startpill').closest('.card') : null;
+  const liEl = document.querySelector('#liInput');
+  const details = liEl ? liEl.closest('.card') : null;
   return [
     { key: 'details', el: details },
     { key: 'photo', el: document.querySelector('.kcard[data-id="avatar"]') },
@@ -2274,12 +2501,34 @@ function wizInit(){
   });
   const page = document.querySelector('.page[data-page="profile"]');
   if (page) page.classList.add('kitwiz');
+  wizStage();
   WIZ.on = true;
   wizAskers();
 }
 
+
+/* Move the five step cards and the profile preview into a single two column grid.
+   They started life in two separate containers stacked vertically, so on the photo
+   and banner steps the preview rendered far below the card instead of beside it. */
+function wizStage(){
+  const page = document.querySelector('.page[data-page="profile"]');
+  if (!page || document.getElementById('wizStage')) return;
+  const stage = document.createElement('div'); stage.id = 'wizStage';
+  const main  = document.createElement('div'); main.id  = 'wizMain';
+  const side  = document.createElement('div'); side.id  = 'wizSide';
+  stage.appendChild(main); stage.appendChild(side);
+  const rail = document.getElementById('wRail');
+  if (rail && rail.parentElement === page) rail.insertAdjacentElement('beforebegin', stage);
+  else page.appendChild(stage);
+  if (rail) main.appendChild(rail);
+  WIZ.steps.forEach(st => { if (st.el) main.appendChild(st.el); });
+  const prev = document.querySelector('.li-mock');
+  const prevCard = prev ? prev.closest('.card') : null;
+  if (prevCard) side.appendChild(prevCard);
+}
+
 function wizStart(){
-  if (!document.querySelector('.startpill')) return;
+  if (!document.querySelector('#liInput')) return;
   wizInit();
   const d = doneState();
   if (!PF.generated){ wizGo(0); return; }
@@ -2301,6 +2550,10 @@ function wizGo(n){
       else { nx.style.display = ''; nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : (d[st.key] ? 'Next' : 'Done, next'); }
     }
   }
+  if (nav){
+    const live = [...nav.querySelectorAll('.btn')].filter(b => b.style.display !== 'none');
+    nav.classList.toggle('empty', live.length === 0);
+  }
   if ($('#nextHint')) $('#nextHint').textContent = WIZ_LABEL[st.key];
   const hideEmpty = sel => {
     const c = document.querySelector(sel); if (!c) return;
@@ -2309,9 +2562,11 @@ function wizGo(n){
     c.style.display = any ? '' : 'none';
   };
   const prev = document.querySelector('.li-mock') ? document.querySelector('.li-mock').closest('.card') : null;
-  if (prev) prev.style.display = (WIZ.i === 0 || !PF.generated) ? 'none' : '';
-  const twoCol = document.querySelector('.page[data-page="profile"] .two');
-  if (twoCol) twoCol.style.gridTemplateColumns = (prev && !prev.classList.contains('hidden')) ? '' : 'minmax(0,1fr)';
+  if (prev) prev.style.display = '';
+  const stage = document.getElementById('wizStage');
+  if (stage) stage.style.gridTemplateColumns = (prev && prev.style.display !== 'none') ? '' : 'minmax(0,640px)';
+  const lede = document.querySelector('.page[data-page="profile"] p.lede');
+  if (lede) lede.style.display = WIZ.i === 0 ? '' : 'none';
   if ($('#wRailLbl')) $('#wRailLbl').textContent = WIZ.i === 0 ? 'Setting up' : ('Step ' + WIZ.i + ' of ' + (WIZ.steps.length - 1));
   if ($('#wRailNow')) $('#wRailNow').textContent = WIZ_LABEL[st.key];
   if ($('#wRailBar')) $('#wRailBar').style.width = Math.round(((WIZ.i + 1) / WIZ.steps.length) * 100) + '%';
@@ -2362,7 +2617,7 @@ function wizFinish(){
     card = document.createElement('div');
     card.className = 'card wdoneCard';
     card.id = 'wDoneCard';
-    const parent = (WIZ.steps[0] && WIZ.steps[0].el.parentElement) || document.querySelector('.page[data-page="profile"] .two');
+    const parent = document.getElementById('wizMain') || (WIZ.steps[0] && WIZ.steps[0].el.parentElement);
     if (parent) parent.appendChild(card);
     card.addEventListener('click', e => {
       const a = e.target.closest('[data-fin]');
@@ -2398,9 +2653,9 @@ function wizFinish(){
     ['joined', 'Say you’ve joined', joined ? words(joined) + ' words, ready to post' : 'Not written yet', 'Copy']
   ];
 
-  card.innerHTML = '<div class="conf-emoji">🎉</div>'
-    + '<div class="big">' + esc((p.name || '').split(' ')[0] || 'You') + ', your LinkedIn is all set up.</div>'
-    + '<p>Everything below is written in your voice, on the ' + esc(state.brand.name) + ' brand. Take them across to LinkedIn whenever you are ready.</p>'
+  card.innerHTML = '<div class="fintick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
+    + '<div class="big">' + esc((p.name || '').split(' ')[0] || 'You') + ', your five pieces are ready.</div>'
+    + '<p>Nothing has changed on LinkedIn yet. Copy each one across and you are done, it takes about two minutes.</p>'
     + '<div class="finlist">' + rows.map(r =>
         '<div class="finrow"><span class="tick">✓</span>'
         + '<div class="fintxt"><b>' + r[1] + '</b><span>' + r[2] + '</span></div>'
@@ -2439,7 +2694,7 @@ function wizAskers(){
     box.innerHTML = '<label>' + label + '</label>'
       + '<div class="arow"><textarea data-ask="' + key + '" placeholder="' + ph + '"></textarea>'
       + '<button class="btn" data-rewrite="' + key + '"><svg><use href="#i-spark"/></svg>Rewrite with this</button></div>'
-      + '<div class="hint">Chorus keeps your voice and the Unifyr facts, and works your note in.</div>';
+      + '';
     body.appendChild(box);
     box.querySelector('[data-rewrite]').addEventListener('click', e => rewriteSection(key, e.currentTarget));
   }

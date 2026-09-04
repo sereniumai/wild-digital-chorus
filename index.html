@@ -782,7 +782,7 @@ html{scroll-padding-top:76px}
 .kitwiz .kit,.kitwiz .two{display:none!important}
 .kitwiz .wstep{max-width:none;width:100%}
 .kitwiz .wstep.cur{box-shadow:var(--e-3);border-radius:var(--r-3)}
-@media (max-width:1100px){.kitwiz #wizStage{grid-template-columns:minmax(0,1fr)}.kitwiz #wizSide{position:static;display:none}}
+@media (max-width:1100px){.kitwiz #wizStage{grid-template-columns:minmax(0,1fr)!important}.kitwiz #wizSide{position:static;display:block;order:2;max-height:none}.kitwiz #wizSide .card{max-height:none}}
 
 
 /* the step card header stacks now the column is 640px wide */
@@ -885,6 +885,97 @@ html{scroll-padding-top:76px}
 .quietcard > .head h2{font-size:15px;color:var(--ink-2)}
 .quietcard .brainstat div{background:transparent;border:1px solid var(--line-2)}
 .quietcard .brainstat b{font-size:19px}
+
+
+/* ============ second review fixes ============ */
+
+/* native controls followed the light theme in dark mode, so the checkbox painted
+   bright white and read as already ticked */
+:root{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;height:16px}
+#aboutText,#joinedText,.asker textarea{resize:vertical}
+
+/* one forward button, one appearance: magenta gets the asset, ink commits and moves on */
+.wnav{display:flex;align-items:center;gap:12px}
+.wnav .btn{height:42px;min-height:42px;border-radius:10px;padding:0 18px}
+.wnav [data-wiz="next"]{background:var(--ink);border-color:var(--ink);color:var(--panel);
+  box-shadow:var(--e-1);min-width:150px;justify-content:center;font-weight:600}
+.wnav [data-wiz="next"]:hover{background:var(--ink-2);border-color:var(--ink-2);box-shadow:var(--e-2)}
+.wnav [data-wiz="next"]:active{transform:translateY(1px);box-shadow:none}
+.wnav [data-wiz="next"].is-ready{box-shadow:0 0 0 3px var(--brand-ring)}
+:root[data-theme="dark"] .wnav [data-wiz="next"]{background:#F2F4F7;border-color:#F2F4F7;color:#0A0D13}
+:root[data-theme="dark"] .wnav [data-wiz="next"]:hover{background:#fff;border-color:#fff}
+
+/* the finish rows told people to tick them off and gave them a decorative number */
+.finrow .tick{width:24px;height:24px;border-radius:6px;background:var(--panel);
+  border:2px solid var(--line-3);display:grid;place-items:center;cursor:pointer;padding:0}
+.finrow .tick .n{display:none}
+.finrow .tick svg{width:14px;height:14px;display:block;opacity:0;color:var(--good)}
+.finrow .tick:hover{border-color:var(--good);background:var(--good-soft)}
+.finrow .tick:hover svg{opacity:.4}
+.finrow.done .tick{background:var(--good);border-color:var(--good)}
+.finrow.done .tick svg{opacity:1;color:#fff}
+.fincount{display:flex;align-items:center;gap:10px;justify-content:center;text-transform:none;
+  letter-spacing:0;font-size:13px;font-weight:600;color:var(--ink-2);margin:0 auto 14px;max-width:520px}
+.fincount::after{content:"";width:140px;height:6px;border-radius:99px;flex:none;
+  background:linear-gradient(90deg,var(--good) 0 var(--fin,0%),var(--line) var(--fin,0%))}
+
+/* the track started wherever the step name happened to end, so it slid on every step */
+.kitwiz .wrail{display:grid;grid-template-columns:88px 150px minmax(0,1fr);align-items:center;gap:14px;flex-wrap:nowrap}
+.wrail .now{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:560px){.kitwiz .wrail{grid-template-columns:auto 1fr}
+  .kitwiz .wrail .track{grid-column:1 / -1;margin-top:10px}}
+
+/* the progress fill faded into a navy that is not in the brand */
+:root{--brand-grad:#CB148B}
+:root[data-theme="dark"]{--brand-grad:#E0479F}
+.genbar i{background:var(--brand-grad)}
+
+/* one button radius, one field radius: pills on square inputs was the loudest
+   "assembled in passes" signal in the file */
+:root{--r-btn:10px}
+.btn{border-radius:var(--r-btn)}
+.btn.sm{border-radius:8px}
+.btn.lg{border-radius:12px}
+.field input,.field textarea,.field select,.input,.asker textarea{border-radius:10px}
+.wgate .btn{border-radius:var(--r-btn)}
+.chip,.pill,.avatar{border-radius:var(--r-full)}
+
+/* Home ended at one x, the wizard at another, so the right edge shifted between pages.
+   Scoped above the stacking breakpoint so it cannot outrank it. */
+@media (min-width:1101px){.kitwiz #wizStage{grid-template-columns:minmax(0,640px) minmax(0,452px)}}
+
+/* the two columns had completely different silhouettes on every step */
+.kitwiz .wstep{display:flex;flex-direction:column}
+.kitwiz .wstep:not([data-step="1"]){min-height:560px}
+.kitwiz .wstep > .body{flex:1}
+.kitwiz .wnav{margin-top:auto;border-top:1px solid var(--line-2)}
+.kitwiz #wizSide{align-self:start}
+.kitwiz #wizSide .card{max-height:calc(100vh - 104px);display:flex;flex-direction:column}
+.kitwiz #wizSide .card > .body{overflow:auto;overscroll-behavior:contain}
+
+/* the LinkedIn mock is deliberately white, but unframed in dark mode it read as a bug */
+:root[data-theme="dark"] .li-mock{border-radius:10px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.10),0 18px 40px -20px rgba(0,0,0,.9)}
+:root[data-theme="dark"] #wizSide .card > .body{background:var(--panel-2);padding:14px}
+
+/* in dark mode the selected nav item was identical to hover, and the brand vanished */
+:root[data-theme="dark"] .side nav a[aria-current="page"]{background:rgba(203,20,139,.18);
+  color:#F7A8D8;box-shadow:inset 2px 0 0 #CB148B}
+:root[data-theme="dark"] .side nav a:hover:not([aria-current="page"]){background:#1A2130}
+.side nav a:active{background:var(--side-2)}
+.side nav a:focus-visible{box-shadow:0 0 0 2px var(--side),0 0 0 4px var(--focus)}
+.finrow{background:var(--panel-2)}
+
+/* at 390px the third nav item was off the edge entirely */
+@media (max-width:560px){
+  .side .ws:first-child img{max-height:20px!important;max-width:64px!important}
+  .side nav a{padding:8px 9px;font-size:12.5px;gap:6px}
+  .side nav a svg{width:15px;height:15px}
+  .side{-webkit-mask-image:none;mask-image:none}
+}
 
 </style>
 </head>
@@ -1013,9 +1104,9 @@ html{scroll-padding-top:76px}
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="card gen-card" data-sec="headline"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn sm" data-regen="about"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn sm" data-regen="joined"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
         </div>
         <div class="card wizpreview" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
@@ -2626,7 +2717,7 @@ function wizNudge(key){
   const st = WIZ.steps[WIZ.i]; if (!st || st.key !== key) return;
   const nav = st.el.querySelector('.wnav'); if (!nav) return;
   const nx = nav.querySelector('[data-wiz="next"]');
-  if (nx){ nx.className = 'btn brand'; nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next'; }
+  if (nx){ nx.classList.add('is-ready'); nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next'; }
   let tip = nav.querySelector('.wtip');
   if (!tip){ tip = document.createElement('span'); tip.className = 'wtip'; nav.insertBefore(tip, nav.querySelector('.sp')); }
   tip.textContent = 'Saved. Paste it into LinkedIn, then carry on.';
@@ -2653,7 +2744,8 @@ function finSync(){
     const t = row.querySelector('[data-tick]'); if (t) t.setAttribute('aria-pressed', FIN_PASTED[k] ? 'true' : 'false');
   });
   const c = document.getElementById('finCount');
-  if (c) c.textContent = n === keys.length ? 'All five are on your profile.' : n + ' of ' + keys.length + ' moved across';
+  if (c) c.textContent = n === keys.length ? 'All five are on your profile.' : n + ' of ' + keys.length + ' pasted into LinkedIn';
+  card.style.setProperty('--fin', Math.round(n / keys.length * 100) + '%');
   const big = card.querySelector('.big');
   const sub = card.querySelector('p');
   const first = ((state.person.name || '').split(' ')[0]) || 'You';

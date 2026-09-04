@@ -1438,7 +1438,7 @@ function renderOuts(){
       m.classList.add('xm'); m.innerHTML = `<div class="hd">${avatarHtml}<div><b>${who} <span style="font-weight:400;color:#666">@${isMe ? esc((state.person.name||'jordanellis').toLowerCase().replace(/\s+/g,'')) : esc(state.brand.name.toLowerCase())} · now</span></b></div></div><p>${esc(full)}</p>${imgHtml}<div class="xact"><span>💬 12</span><span>↻ 8</span><span>♡ 64</span></div><div class="fold">How it looks on X.</div>`;
     }
     el.appendChild(m);
-    const mav = m.querySelector('.mav'); if (mav){ if (state.photoCut && canvases.avatar){ mav.width=80; mav.height=80; mav.getContext('2d').drawImage(canvases.avatar,0,0,80,80); } else if (facePhoto()){ const i=document.createElement('img'); i.src=facePhoto(); i.className=mav.className; i.alt=''; i.referrerPolicy='no-referrer'; i.style.objectFit='cover'; i.style.borderRadius='50%'; mav.replaceWith(i); } else { mav.width=80; mav.height=80; drawPhoto(mav.getContext('2d'), 40, 40, 40, 0, null); } }
+    const mav = m.querySelector('.mav'); if (mav){ if (state.photoCut && canvases.avatar){ mav.width=80; mav.height=80; mav.getContext('2d').drawImage(canvases.avatar,0,0,80,80); } else if (facePhoto()){ const i=document.createElement('img'); i.crossOrigin='anonymous'; i.src=photoSrc(facePhoto()); i.className=mav.className; i.alt=''; i.referrerPolicy='no-referrer'; i.style.objectFit='cover'; i.style.borderRadius='50%'; mav.replaceWith(i); } else { mav.width=80; mav.height=80; drawPhoto(mav.getContext('2d'), 40, 40, 40, 0, null); } }
     const mi = m.querySelector('.mimg'); if (mi){ const src = canvases['img_'+ch]; mi.width = src.width; mi.height = src.height; mi.getContext('2d').drawImage(src,0,0); }
   });
   if (!any) box.innerHTML = `<div class="empty"><b>No posts to show</b>Choose at least one app in step 3 on the left.</div>`;
@@ -1749,7 +1749,7 @@ function scanLine(html, cls){ const log = $('#scanLog'); const d = document.crea
 function scanSpin(text){ return scanLine('<span class="spin"></span>' + text); }
 function scanProg(p){ const i = $('#scanProg'); if (i) i.style.width = p + '%'; const t = $('#scanPct'); if (t) t.textContent = p >= 100 ? 'done' : (p + '%'); }
 function scanCard(prof){ const log = $('#scanLog'); const d = document.createElement('div'); d.className = 'scard';
-  d.innerHTML = (prof.photo ? '<img src="' + esc(prof.photo) + '" referrerpolicy="no-referrer" alt="">' : '') +
+  d.innerHTML = (prof.photo ? '<img src="' + esc(photoSrc(prof.photo)) + '" crossorigin="anonymous" referrerpolicy="no-referrer" alt="">' : '') +
     '<div><b>' + esc(prof.name || 'You') + '</b><span>' + esc(prof.headline || '') + '</span><span>' + esc(prof.location || '') + (prof.followers ? ' · ' + prof.followers + ' followers' : '') + '</span></div>';
   log.appendChild(d); d.scrollIntoView({block:'nearest'}); }
 async function liTransport(id, what, mode){
@@ -1777,11 +1777,12 @@ async function liPing(){
 async function usePhotoUrl(u){
   try {
     state.person.photoZoom = 1.1; state.person.photoX = 0; state.person.photoY = 0; syncInputs(); state.photoCut = null;
-    state.photoImg = await loadImage(API_BASE + '/api/write?img=' + encodeURIComponent(u), true);
+    state.photoImg = await loadImage(photoSrc(u), true);
     render();
     try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut = null; }
     renderSwatches(); render(); syncPerson();
-  } catch(e){ /* photo pull is a bonus, never break the scan */ }
+    return true;
+  } catch(e){ state.photoFailed = true; return false; }
 }
 const smWait = ms => new Promise(r=>setTimeout(r, ms));
 function smProg(p){ const b=$('#smBar'); if(b) b.style.width=p+'%'; const t=$('#smPct'); if(t) t.textContent = p>=100?'complete':(p+'%'); }
@@ -1803,14 +1804,18 @@ async function scanLinkedIn(){
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
     smOk(s2, '<b>Profile found</b>'); smProg(30);
-    smData('<div class="smid">' + (prof.photo ? '<img src="'+esc(prof.photo)+'" referrerpolicy="no-referrer" alt="">' : '') + '<div><b>'+esc(prof.name||'You')+'</b><span>'+esc(prof.headline||'')+'</span><span>'+esc(prof.location||'')+(prof.followers?' \u00B7 '+prof.followers+' followers':'')+(prof.connections?' \u00B7 '+prof.connections+' connections':'')+'</span></div></div>');
+    smData('<div class="smid">' + (prof.photo ? '<img src="'+esc(photoSrc(prof.photo))+'" crossorigin="anonymous" referrerpolicy="no-referrer" alt="">' : '') + '<div><b>'+esc(prof.name||'You')+'</b><span>'+esc(prof.headline||'')+'</span><span>'+esc(prof.location||'')+(prof.followers?' \u00B7 '+prof.followers+' followers':'')+(prof.connections?' \u00B7 '+prof.connections+' connections':'')+'</span></div></div>');
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
     if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || (prof.headline||'').split(/[|\u00B7]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
     await smWait(900);
     let photoJob = null;
     if (prof.photo){
       const s3 = smStep('\uD83D\uDCF7', 'Pulling in your profile photo and cutting out the background');
-      photoJob = usePhotoUrl(prof.photo).then(()=>{ smOk(s3, '<b>Photo added</b> to your kit, cut out and ready for a Unifyr colour'); smProg(48); });
+      photoJob = usePhotoUrl(prof.photo).then(ok=>{
+        if (ok) smOk(s3, '<b>Photo added</b> to your kit, cut out and ready for a Unifyr colour');
+        else smOk(s3, '<b>Could not load your photo.</b> Add it yourself on the photo step, everything else is ready');
+        smProg(48);
+      });
       await smWait(600);
     }
     if (prof.about){
@@ -2097,8 +2102,14 @@ function renderAvatarBox(){
   const pr = $('#photoReset'); if (pr) pr.classList.toggle('hidden', !has);
   const lbl = $('#photoBtnLabel'); if (lbl) lbl.textContent = has ? 'Change photo' : 'Add photo';
 }
+function pctAll(v){ return String(v).split('').map(function(c){ var n=c.charCodeAt(0); return n<128 ? '%'+n.toString(16).padStart(2,'0').toUpperCase() : encodeURIComponent(c); }).join(''); }
+/* Every profile picture goes through our own origin, and the upstream address is fully
+   percent encoded so the request never carries a readable linkedin or licdn string.
+   Some corporate and browser filters kill any request that does, which silently left
+   people with no photo. */
+function photoSrc(u){ if(!u) return ''; if(/^(data|blob):/i.test(u)) return u; return API_BASE + '/api/write?img=' + pctAll(u); }
 function facePhoto(){ return (state.person.scan && state.person.scan.photo) || ''; }
-function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.src=f; i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
+function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.crossOrigin='anonymous'; i.src=photoSrc(f); i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
 function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }

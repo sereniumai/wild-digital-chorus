@@ -907,6 +907,13 @@ html{scroll-padding-top:76px}
    Hidden rather than removed, because live code still binds to that anchor. */
 .kitwiz .gen-body a.btn[target="_blank"]{display:none}
 
+
+/* the brand facts card is reassurance, not the job: it should sit behind the call to action */
+.quietcard{box-shadow:none;background:transparent;border-color:var(--line-2)}
+.quietcard > .head h2{font-size:15px;color:var(--ink-2)}
+.quietcard .brainstat div{background:transparent;border:1px solid var(--line-2)}
+.quietcard .brainstat b{font-size:19px}
+
 </style>
 </head>
 <body>
@@ -975,9 +982,9 @@ html{scroll-padding-top:76px}
       <div class="quick">
         <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
-      <div class="card"><div class="head"><h2>What Chorus knows about Unifyr</h2><span class="sub">Every post is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
+      <div class="card quietcard"><div class="head"><h2>What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
         <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways Unifyr sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
-        <button class="btn sm" data-go="brain" style="align-self:flex-start">See and edit what it knows</button>
+        <button class="btn sm quiet" data-go="brain" style="align-self:flex-start">See what it knows</button>
       </div></div>
     </div>
 
@@ -2120,7 +2127,7 @@ async function scanLinkedIn(){
     savePerson(); syncPerson();
     const s7 = smStep('\uD83E\uDDE0', 'Analysing how you write');
     try {
-      const sys = 'You are told what was found on a person\u2019s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, say so kindly and tell them Chorus will start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
+      const sys = 'You are told what was found on a person\u2019s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, do not count them and do not say how long it has been. Just say you will keep this simple and start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
       const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
       state.person.brief = brief; savePerson();
@@ -2536,7 +2543,7 @@ function wizInit(){
       const last = n === WIZ.steps.length - 1;
       nav.innerHTML = '<span class="wcount">' + (n === 0 ? 'Setting up' : 'Step ' + n + ' of ' + (WIZ.steps.length - 1)) + '</span>'
         + '<span class="sp"></span>'
-        + (n > 0 ? '<button class="btn sm quiet" data-wiz="skip">Skip for now</button>' : '')
+        + (n > 0 ? '<button class="btn sm quiet" data-wiz="skip" title="You can come back to this step from the finish screen">Skip for now</button>' : '')
         + (n > 0 ? '<button class="btn sm quiet" data-wiz="back">Back</button>' : '')
         + '<button class="btn" data-wiz="next">' + (n === 0 ? 'Continue' : last ? 'Finish' : 'Done, next') + '</button>';
       st.el.appendChild(nav);

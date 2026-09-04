@@ -561,6 +561,46 @@ canvas,img{max-width:100%}
 .howto div.wdoneStep .stepn{background:#16a34a!important;color:#fff!important}
 .kitwiz .done-btn{display:none!important}
 .wnav .btn.brand{min-width:132px;justify-content:center}
+
+/* ---------- one thing at a time, Typeform style ---------- */
+.kitwiz .kit{display:block!important}
+.kitwiz .two{display:grid!important;grid-template-columns:minmax(0,1fr) 360px;gap:22px;align-items:start}
+.kitwiz .two > div:first-child{display:block!important}
+.kitwiz .howto{display:none!important}
+.kitwiz .wstep{max-width:none}
+
+/* the step itself reads as the hero */
+.kitwiz .wstep.cur{animation:stepin .42s cubic-bezier(.22,.9,.3,1) both;box-shadow:0 18px 50px rgba(17,8,32,.10);border-radius:18px}
+@keyframes stepin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.kitwiz .wstep.cur > .head{padding:18px 20px 6px}
+.kitwiz .wstep.cur > .head h2{font-size:21px;letter-spacing:-.01em}
+.kitwiz .wstep.cur > .head .sub{font-size:13px}
+
+/* the step rail replaces the old progress strip */
+.wrail{position:sticky;top:8px;z-index:16;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:13px 18px;margin:2px 0 16px;border:1px solid var(--line);border-radius:16px;
+  backdrop-filter:blur(10px);background:color-mix(in srgb,var(--panel) 82%,transparent)}
+.wrail .lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.wrail .now{font-size:15px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.wrail .track{flex:1;min-width:150px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.wrail .track i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#CB148B,#A04FD8,#6B6BF0);transition:width .55s cubic-bezier(.3,.9,.3,1)}
+.wrail .dots{display:flex;gap:7px}
+.wrail .dots span{width:9px;height:9px;border-radius:50%;background:var(--line-2);transition:all .3s}
+.wrail .dots span.on{background:linear-gradient(135deg,#CB148B,#6B6BF0);transform:scale(1.25)}
+.wrail .dots span.past{background:#16a34a}
+
+/* footer actions read like a form you move through */
+.wnav{padding:16px 20px;gap:12px;background:color-mix(in srgb,var(--panel) 60%,transparent)}
+.wnav .btn.brand{min-width:150px;height:42px;font-size:14.5px;border-radius:11px}
+.wnav .btn.quiet{height:42px;border-radius:11px}
+.wnav .wcount{font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+
+/* the ask box gets room to breathe */
+.asker{margin-top:16px;padding-top:16px}
+.asker label{font-size:13px;margin-bottom:8px}
+.asker textarea{min-height:64px;border-radius:11px}
+
+@media (max-width:1040px){ .kitwiz .two{grid-template-columns:1fr!important} }
 </style>
 </head>
 <body>
@@ -651,7 +691,8 @@ canvas,img{max-width:100%}
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
       <p class="lede">Add your details and hit Generate. Chorus writes the five pieces below in your voice, on the Unifyr brand.</p>
-      <div class="card progress-strip"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
+      <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
+      <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><span class="startpill">Start here</span><h2>Your details</h2><span class="sub">Only you can see this. Everything below is written from it.</span></div><div class="body">
         <div class="grid3">
@@ -1818,7 +1859,7 @@ async function generateKit(){
     } catch(e){ smOk(_k3, '<b>Written from templates</b>, the AI did not answer'); smProg(84); }
   }
   PF.headline = 0; PF.generated = true;
-  try { wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex(x => !_d[x.key]); wizGo(_f < 0 ? 0 : _f); } catch(e){}
+  try { wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex((x, k) => k > 0 && !_d[x.key]); wizGo(_f < 0 ? 1 : _f); } catch(e){}
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
   $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
@@ -2075,7 +2116,8 @@ async function init(){
   applyTheme();
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
   try { const b2 = localStorage.getItem('chorus.brain2'); if (b2) Object.assign(BRAIN, JSON.parse(b2)); } catch(e){}
-  renderHome(); renderBrain(); renderExamples(); bindForms(); renderAvatarBox(); syncPerson(); renderSwatches();
+  renderHome(); renderBrain(); renderExamples(); bindForms();
+  try { wizStart(); } catch(e){} renderAvatarBox(); syncPerson(); renderSwatches();
 
   if (location.hash==='#setup') go('learn'); else go('home'); render();
   // nav
@@ -2139,11 +2181,13 @@ document.addEventListener('DOMContentLoaded', init);
 
 /* ---------- Step by step kit, one section at a time ---------- */
 const WIZ = { steps: [], i: 0, on: false };
-const WIZ_LABEL = { photo: 'Profile photo', banner: 'Banner', headline: 'Headline', about: 'About', joined: 'Say you have joined' };
+const WIZ_LABEL = { details: 'Your details', photo: 'Profile photo', banner: 'Banner', headline: 'Headline', about: 'About', joined: 'Say you have joined' };
 
 function wizEls(){
   const byDone = k => { const b = document.querySelector('[data-done="' + k + '"]'); return b ? (b.closest('.gen-card') || b.closest('.kcard')) : null; };
+  const details = document.querySelector('.startpill') ? document.querySelector('.startpill').closest('.card') : null;
   return [
+    { key: 'details', el: details },
     { key: 'photo', el: document.querySelector('.kcard[data-id="avatar"]') },
     { key: 'banner', el: document.querySelector('.kcard[data-id="banner"]') },
     { key: 'headline', el: byDone('headline') },
@@ -2157,6 +2201,7 @@ function wizInit(){
   WIZ.steps.forEach((st, n) => {
     st.el.classList.add('wstep');
     st.el.dataset.step = String(n + 1);
+    if (st.key === 'details') return;
     if (!st.el.querySelector('.wnav')){
       const nav = document.createElement('div');
       nav.className = 'wnav';
@@ -2178,6 +2223,14 @@ function wizInit(){
   wizAskers();
 }
 
+function wizStart(){
+  if (!document.querySelector('.startpill')) return;
+  wizInit();
+  const d = doneState();
+  if (!PF.generated){ wizGo(0); return; }
+  const first = WIZ.steps.findIndex((x, k) => k > 0 && !d[x.key]);
+  wizGo(first < 0 ? 1 : first);
+}
 function wizGo(n){
   if (!WIZ.on || !WIZ.steps.length) return;
   WIZ.i = Math.max(0, Math.min(n, WIZ.steps.length - 1));
@@ -2190,9 +2243,18 @@ function wizGo(n){
     if (nx) nx.textContent = d[st.key] ? (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Next') : (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next');
   }
   if ($('#nextHint')) $('#nextHint').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length + ': ' + WIZ_LABEL[st.key];
+  if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length;
+  if ($('#wRailNow')) $('#wRailNow').textContent = WIZ_LABEL[st.key];
+  if ($('#wRailBar')) $('#wRailBar').style.width = Math.round(((WIZ.i + 1) / WIZ.steps.length) * 100) + '%';
+  const dots = $('#wRailDots');
+  if (dots){
+    if (dots.children.length !== WIZ.steps.length) dots.innerHTML = WIZ.steps.map(()=>'<span></span>').join('');
+    [...dots.children].forEach((x, k) => { x.className = k === WIZ.i ? 'on' : (k < WIZ.i ? 'past' : ''); });
+  }
+  if ($('#doneText')) $('#doneText').textContent = st.key === 'details' ? 'Step 1 of ' + WIZ.steps.length : (DONE_KEYS.filter(k => d[k]).length) + ' of ' + DONE_KEYS.length + ' done';
   $$('.howto div').forEach((chip, k) => {
-    chip.classList.toggle('wcur', k === WIZ.i);
-    chip.classList.toggle('wdoneStep', !!d[(WIZ.steps[k] || {}).key]);
+    chip.classList.toggle('wcur', k + 1 === WIZ.i);
+    chip.classList.toggle('wdoneStep', !!d[(WIZ.steps[k + 1] || {}).key]);
   });
   try { st.el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
 }

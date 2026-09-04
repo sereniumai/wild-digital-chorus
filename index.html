@@ -977,6 +977,45 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
   .side{-webkit-mask-image:none;mask-image:none}
 }
 
+
+/* ---- balance and spacing, second look ---- */
+
+/* a button with a sentence beside it: the sentence must form its own column,
+   never reflow around the button and wrap underneath it */
+.actionrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.actionrow > .btn{flex:none}
+.actionrow > .hint{flex:1 1 300px;min-width:0;margin:0;line-height:1.5;max-width:52ch}
+@media (max-width:640px){.actionrow > .btn{width:100%;justify-content:center}
+  .actionrow > .hint{flex:1 1 100%}}
+
+/* the copy button was sitting 4px under the last option */
+#headlines{display:flex;flex-direction:column;gap:8px}
+#headlines > button{padding:12px 14px;line-height:1.5}
+.hlcopy{margin-top:16px;padding-top:16px;border-top:1px solid var(--line-2)}
+
+/* the "then on LinkedIn" line was flush against the edges of the card */
+.where,.kcard .where{margin:0 20px 18px;padding:12px 14px;background:var(--panel-2);
+  border:1px solid var(--line-2);border-radius:10px;font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.where b,.kcard .where b{color:var(--ink);font-weight:600}
+.kitwiz .wstep .where{margin-top:4px}
+
+/* the ask box needs room around it, not just above it */
+.asker{margin-top:20px;padding-top:18px;border-top:1px solid var(--line-2)}
+.asker label{margin-bottom:10px}
+.asker .arow{gap:12px;align-items:flex-start}
+.asker textarea{min-height:72px;padding:12px 14px;line-height:1.55}
+.asker .hint{margin-top:10px}
+.gen-body > div:last-child{margin-top:14px}
+
+/* when the photo cannot be pulled, say so where it matters */
+.photowarn{margin:0 20px 4px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);
+  background:var(--warn-soft);border-radius:10px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.photowarn b{color:var(--ink);font-size:13.5px}
+.photowarn span{font-size:12.5px;color:var(--ink-2);line-height:1.55}
+.photowarn details{font-size:11.5px;color:var(--ink-3)}
+.photowarn summary{cursor:pointer}
+.photowarn code{display:block;margin-top:6px;font-size:11px;word-break:break-word;color:var(--ink-3)}
+
 </style>
 </head>
 <body>
@@ -1034,7 +1073,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
             <div class="st" data-s="4"><span class="dot"></span>Extracting facts and proof points <span class="n" id="ln4"></span></div>
             <div class="st" data-s="5"><span class="dot"></span>Learning the voice <span class="n" id="ln5"></span></div>
           </div>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn brand lg" id="learnBtn"><svg><use href="#i-spark"/></svg>Learn the brand</button><span class="hint" id="learnHint">Takes about a minute. You review everything before it’s used.</span></div>
+          <div class="actionrow"><button class="btn brand lg" id="learnBtn"><svg><use href="#i-spark"/></svg>Learn the brand</button><span class="hint" id="learnHint">Takes about a minute. You review everything before it’s used.</span></div>
         </div></div>
       </div>
     </div>
@@ -1083,7 +1122,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
         <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Start my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
+        <div class="actionrow" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Start my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
       </div></div>
 
       <div class="kit">
@@ -1421,7 +1460,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-08-31-scan15');
+console.log('Chorus build 2026-09-04-photo3');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1950,12 +1989,12 @@ let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
   const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); }); h.appendChild(b); });
-  const wrap = document.createElement('div'); wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:4px'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
+  const wrap = document.createElement('div'); wrap.className='hlcopy'; wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
   const _sc = state.person.scan || {};
   if ($('#pfLoc')) $('#pfLoc').textContent = [(_sc.location || ''), state.brand.name].filter(Boolean).join(' \u00B7 ');
   $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
   const ready = !!(state.person.name.trim() && state.person.title.trim()); $('#genBtn').disabled = !ready;
-  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Ready. Click Generate and Chorus writes your headline, About and first post.' : 'Add your name and job title first, then click Generate.';
+  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Ready. This writes your headline, your About and your first post, in your voice.' : 'Add your name and job title first, then click Generate.';
   if (canvases.avatar) fit(canvases.avatar, $('#pf-avatar'), 88);
   if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); }
   renderDone();
@@ -2117,15 +2156,71 @@ async function liFetch(what, url){
 async function liPing(){
   try { const r = await fetch(PROXY + '?ping=1'); return r.ok; } catch (e){ return false; }
 }
+/* Pulling the photo has failed on at least one real machine while working everywhere we
+   can test, so it no longer depends on a single transport. We try each in turn and keep
+   the first that gives us pixels we can actually read back off a canvas. A blob URL is
+   same origin, so it is the most reliable route to an untainted image. */
+async function fetchAsImage(url){
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error('http ' + r.status);
+  const b = await r.blob();
+  if (!b || !b.size || !/^image\//i.test(b.type || 'image/')) throw new Error('not an image');
+  const obj = URL.createObjectURL(b);
+  try { return await loadImage(obj, false); }
+  finally { setTimeout(()=>URL.revokeObjectURL(obj), 30000); }
+}
 async function usePhotoUrl(u){
-  try {
-    state.person.photoZoom = 1.1; state.person.photoX = 0; state.person.photoY = 0; syncInputs(); state.photoCut = null;
-    state.photoImg = await loadImage(photoSrc(u), true);
-    render();
-    try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut = null; }
-    renderSwatches(); render(); syncPerson();
-    return true;
-  } catch(e){ state.photoFailed = true; return false; }
+  state.person.photoZoom = 1.1; state.person.photoX = 0; state.person.photoY = 0;
+  syncInputs(); state.photoCut = null; state.photoImg = null;
+  state.photoFailed = false; state.photoTrace = [];
+  const relay = photoSrc(u);
+  const routes = [
+    ['relay blob',  ()=>fetchAsImage(relay)],
+    ['relay image', ()=>loadImage(relay, true)],
+    ['direct blob', ()=>fetchAsImage(u)],
+    ['direct image',()=>loadImage(u, true)]
+  ];
+  for (const [name, go] of routes){
+    try {
+      const img = await go();
+      if (!img || !img.naturalWidth) throw new Error('empty');
+      state.photoImg = img;
+      state.photoTrace.push(name + ': ok ' + img.naturalWidth + 'x' + img.naturalHeight);
+      render();
+      try { state.photoCut = await cutOut(img); } catch(e){ state.photoCut = null; state.photoTrace.push('cutout failed: ' + (e && e.message)); }
+      renderSwatches(); render(); syncPerson(); photoNotice();
+      return true;
+    } catch(e){
+      state.photoTrace.push(name + ': ' + ((e && e.message) || 'failed'));
+    }
+  }
+  state.photoFailed = true;
+  console.warn('Chorus photo pull failed', state.photoTrace);
+  render(); photoNotice();
+  return false;
+}
+/* If every route failed the person needs to be told, on the step where it matters,
+   rather than being left looking at a silhouette wondering what went wrong. */
+function photoNotice(){
+  const stage = document.getElementById('photoStage'); if (!stage) return;
+  const card = stage.closest('.kcard'); if (!card) return;
+  let n = card.querySelector('.photowarn');
+  if (!state.photoFailed){ if (n) n.remove(); return; }
+  if (!n){
+    n = document.createElement('div'); n.className = 'photowarn';
+    const tools = card.querySelector('.photo-tools');
+    if (tools) tools.insertAdjacentElement('beforebegin', n); else stage.insertAdjacentElement('afterend', n);
+  }
+  n.innerHTML = '<b>We could not load your LinkedIn photo.</b>'
+    + '<span>Your browser or network blocked it. Use <b>Add photo</b> to pick the file yourself, '
+    + 'everything else from your profile came through fine.</span>'
+    + '<button class="btn sm" data-photoretry>Try again</button>'
+    + '<details><summary>What went wrong</summary><code>' + esc((state.photoTrace||[]).join(' | ')) + '</code></details>';
+  const rb = n.querySelector('[data-photoretry]');
+  if (rb) rb.addEventListener('click', ()=>{
+    const src = (state.person.scan && state.person.scan.photo) || '';
+    if (src){ rb.disabled = true; rb.textContent = 'Trying…'; usePhotoUrl(src); }
+  });
 }
 const smWait = ms => new Promise(r=>setTimeout(r, ms));
 function smProg(p){ const b=$('#smBar'); if(b) b.style.width=p+'%';  }

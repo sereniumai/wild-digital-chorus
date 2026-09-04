@@ -577,7 +577,7 @@ canvas,img{max-width:100%}
 .kitwiz .wstep.cur > .head .sub{font-size:13px}
 
 /* the step rail replaces the old progress strip */
-.wrail{position:sticky;top:8px;z-index:16;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+.wrail{position:sticky;top:60px;z-index:16;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   padding:13px 18px;margin:2px 0 16px;border:1px solid var(--line);border-radius:16px;
   backdrop-filter:blur(10px);background:color-mix(in srgb,var(--panel) 82%,transparent)}
 .wrail .lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
@@ -610,6 +610,15 @@ canvas,img{max-width:100%}
 .wdoneCard{text-align:center;padding:38px 24px}
 .wdoneCard .big{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
 .wdoneCard p{color:var(--ink-2);font-size:14px;max-width:420px;margin:0 auto 18px}
+
+.wgate{text-align:center;padding:30px 20px}
+.wgate .wg-t{font-size:16px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.wgate .wg-s{font-size:13px;color:var(--ink-2);max-width:400px;margin:0 auto 16px;line-height:1.55}
+.wgate .btn{min-width:190px;height:44px;font-size:14.5px;border-radius:12px;justify-content:center}
+
+.wnav .wtip{font-size:12px;font-weight:700;color:#16a34a}
+.wnav .btn.brand{min-width:150px}
+.where{padding:0 20px 16px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
 </style>
 </head>
 <body>
@@ -699,7 +708,7 @@ canvas,img{max-width:100%}
     <!-- ---------- MY LINKEDIN ---------- -->
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
-      <p class="lede">Six quick steps. Chorus reads your real LinkedIn, then writes each piece in your voice, on the Unifyr brand.</p>
+      <p class="lede">Paste your LinkedIn link, then five quick steps. Chorus writes each piece in your voice, on the Unifyr brand.</p>
       <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
       <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
@@ -716,7 +725,7 @@ canvas,img{max-width:100%}
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
         <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Generate my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Start my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
       </div></div>
 
       <div class="kit">
@@ -735,13 +744,13 @@ canvas,img{max-width:100%}
 
       <div class="two">
         <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="card gen-card"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
+          <div class="card gen-card" data-sec="headline"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
 
           <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="about"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
 
           <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><span class="pill good hidden" id="joinedScore">Human</span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn quiet sm" data-regen="joined"><svg><use href="#i-spark"/></svg>Write it again</button></div></div></div></div>
         </div>
-        <div class="card" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
+        <div class="card" style="position:sticky;top:118px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
             <div class="cover"><canvas id="pf-banner"></canvas><div class="av"><canvas id="pf-avatar"></canvas></div></div>
             <div class="pbody"><b id="pfName">Your name</b><div class="hl" id="pfHeadline"></div><small id="pfLoc"></small><div class="pbtns"><i class="f">Open to</i><i>Add section</i><i>More</i></div><h4>About</h4><p id="pfAbout"></p></div>
@@ -754,9 +763,9 @@ canvas,img{max-width:100%}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="copyStage" contenteditable="true" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:640px;background:#fff;color:#000;opacity:0;pointer-events:none"></div>
 
-<div class="scanmodal" id="scanModal" role="dialog" aria-label="Reading your LinkedIn">
+<div class="scanmodal" id="scanModal" role="dialog" aria-modal="true" aria-label="Reading your LinkedIn">
   <div class="smpanel">
-    <div class="smtop"><b id="smTitle">Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span></div>
+    <div class="smtop"><b id="smTitle">Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span><button class="btn sm quiet" id="smCancel" aria-label="Close" style="margin-left:8px">Close</button></div>
     <div class="sprog"><i id="smBar"></i></div>
     <div class="smbody" id="smBody"></div>
     <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, take me to my kit</button><button class="btn" id="smClose2">Close</button></div>
@@ -1572,7 +1581,7 @@ At Unifyr I help technology vendors, from their first partner program to global 
 Before Unifyr I spent six years selling into channel teams, which mostly taught me that partners do what's easy, not what's mandated.
 
 If you run a partner program and want to talk about what's working (or not), my inbox is open, what's the one thing you'd fix first?`;
-let PF = { headline: 0, generated: false };
+let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
   const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); }); h.appendChild(b); });
@@ -1827,7 +1836,7 @@ async function scanLinkedIn(){
     sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
     sum.push('<div class="i">\u2713 Nothing stored anywhere except this browser</div></div>');
     smData(sum.join(''), '');
-    $('#smUse').textContent = 'Generate my LinkedIn kit'; W._afterScan = true;
+    $('#smUse').textContent = 'Start my LinkedIn kit'; W._afterScan = true;
     $('#smUse').classList.remove('hidden');
     $('#smFoot').classList.remove('hidden');
   } catch(e){
@@ -1846,45 +1855,25 @@ async function generateKit(){
   smOk(_k1, scan ? ((scan.posts||[]).length ? '<b>' + scan.posts.length + ' real posts</b> and your profile loaded' : '<b>Your real profile loaded</b>, no recent posts') : '<b>Your details loaded</b>'); smProg(14);
   const _k2 = smStep('\uD83C\uDFA7', 'Learning your voice'); await smWait(900);
   smOk(_k2, hasSamples ? '<b>Voice learned</b> from how you actually write' : '<b>Starting you in a clear, plain voice</b>'); smProg(28);
-  const _k3 = smStep('\u270D\uFE0F', 'Writing three headline options');
-  HEADLINES = headlinesFor(p); $('#joinedText').value = joinedFor(p); $('#aboutText').value = aboutFor(p);
-  if (AI_ON){
-    try {
-      const Q = String.fromCharCode(34,34,34);
-      const sys = 'You write LinkedIn profiles. Use ONLY these facts about the company.\n'
-        + 'COMPANY: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products
-        + '\nFACTS: ' + BRAIN.facts.map(f=>f[0]).join('; ')
-        + '\nNEVER USE: ' + BRAIN.vocabAvoid.join(', ') + '\nRULES: ' + BRAIN.rules
-        + '\n\nTHE PERSON: ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.' + (p.scan ? ('\nTheir LinkedIn headline today: ' + (p.scan.headline||'') + (p.scan.about ? '\nTheir current About: ' + p.scan.about.slice(0,900) : '') + ((p.scan.posts||[]).length ? '\nTheir last post was ' + (p.scan.posts[0].ago||p.scan.posts[0].date||'a while ago') + '.' : '\nThey have not posted in a long time, keep everything simple and unforced.')) : '')
-        + (p.samples ? '\nTHIS IS HOW THEY WRITE, copy the rhythm, openers and sign offs:\n' + Q + String(p.samples).slice(0,2500) + Q : '')
-        + '\nWrite in first person, as them, not as the company. Never use an em dash. No hashtags. No generic closing question.'
-        + '\n\nReturn ONLY JSON: {"headlines":[three options, each under 200 characters, each containing the job title and the company name],"about":"2 to 4 short paragraphs, under 1800 characters","joined":"a LinkedIn post announcing they have joined, 900 to 1400 characters, short paragraphs"}';
-      const out = jsonFrom(await askAI(sys, 'Write the profile for ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'));
-      if (Array.isArray(out.headlines) && out.headlines.length) HEADLINES = out.headlines.slice(0,3);
-      smOk(_k3, '<b>Headlines written</b>, three to choose from'); smData('<div class="smquote">' + esc(HEADLINES[0]) + '</div>'); smProg(52);
-      const _k4 = smStep('\uD83D\uDCC4', 'Writing your About section'); await smWait(800);
-      if (out.about) $('#aboutText').value = out.about;
-      smOk(_k4, '<b>About written</b>, ' + String($('#aboutText').value).split(/\s+/).length + ' words in your voice'); smProg(70);
-      const _k5 = smStep('\uD83D\uDE80', 'Writing your first post, Say you\u2019ve joined'); await smWait(800);
-      if (out.joined) $('#joinedText').value = out.joined;
-      smOk(_k5, '<b>First post written</b>, facts locked to the Brand Brain'); smProg(84);
-    } catch(e){ smOk(_k3, '<b>Written from templates</b>, the AI did not answer'); smProg(84); }
-  }
+  const _k3 = smStep('\uD83D\uDDBC\uFE0F', 'Preparing your profile photo and banner'); await smWait(900);
+  smOk(_k3, '<b>Photo and banner ready</b>'); smProg(70);
+  const _k4 = smStep('\u2705', 'Getting your steps ready'); await smWait(700);
+  smOk(_k4, '<b>Ready</b>, you will write each piece one at a time'); smProg(100);
+  await smWait(450); smCloseModal();
+  HEADLINES = []; PF.made = {};
   PF.headline = 0; PF.generated = true;
   try { wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex((x, k) => k > 0 && !_d[x.key]); wizGo(_f < 0 ? 1 : _f); } catch(e){}
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden')); $('#joinedScore').classList.remove('hidden');
   $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
-  const _k6 = smStep('\uD83D\uDDBC\uFE0F', 'Preparing your profile photo and banner'); await smWait(800);
-  smOk(_k6, '<b>Photo and banner ready</b> in the kit below'); smProg(100); await smWait(500); smCloseModal();
   await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
-  renderProfile(); toast('Your LinkedIn kit is ready. Work down the steps.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
+  renderProfile(); toast('Your kit is ready. Step 1 of 5: your profile photo.'); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
 /* ---------- done tracking (the company can see who has finished) ---------- */
 const DONE_KEYS = ['photo','banner','headline','about','joined'];
 function doneState(){ try { return JSON.parse(localStorage.getItem('chorus.done')||'{}'); } catch(e){ return {}; } }
-function setDone(k, v){ const d = doneState(); d[k] = v; localStorage.setItem('chorus.done', JSON.stringify(d)); renderDone(); if (v && typeof wizAdvance === 'function') wizAdvance(k); }
+function setDone(k, v){ const d = doneState(); d[k] = v; localStorage.setItem('chorus.done', JSON.stringify(d)); renderDone(); if (v && typeof wizNudge === 'function') wizNudge(k); }
 const DONE_LABEL = {photo:'Profile photo', banner:'Banner', headline:'Headline', about:'About', joined:'Say you’ve joined'};
 function renderDone(){ const d = doneState(); const n = DONE_KEYS.filter(k=>d[k]).length; if ($('#doneText')) $('#doneText').textContent = `${n} of ${DONE_KEYS.length} done`;
   const nx = DONE_KEYS.find(k=>!d[k]); const _wizOn = (typeof WIZ !== 'undefined' && WIZ.on); if ($('#nextHint') && !_wizOn) $('#nextHint').textContent = !PF.generated ? 'Add your details, then Generate' : nx ? 'Next: ' + DONE_LABEL[nx] : 'All done. Nice one.'; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; toast('All done. Unifyr can see you are set up.'); } }
@@ -2135,6 +2124,7 @@ async function init(){
   if (location.hash==='#setup') go('learn'); else go('home'); render();
   // nav
   if ($('#noLiCb')) $('#noLiCb').addEventListener('change', ()=>{ try { s1Sync(); } catch(e){} });
+  if ($('#liInput')) $('#liInput').addEventListener('input', ()=>{ try { s1Sync(); } catch(e){} });
   $$('#nav a').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.page); }));
   $$('[data-go]').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.go); }));
   $('#learnBtn').addEventListener('click', runLearn);
@@ -2184,8 +2174,22 @@ async function init(){
     finally { btn.disabled=false; } });
   $('#clearKey').addEventListener('click', ()=>{ localStorage.removeItem('chorus.key'); $('#apiKey').value=''; syncAiStatus(); $('#aiHint').textContent='Disconnected. Back to template writing.'; });
   $('#scanBtn').addEventListener('click', scanLinkedIn);
-  $('#smUse').addEventListener('click', ()=>{ smCloseModal(); if (W._afterLearn){ W._afterLearn = false; renderBrain(); go('brain'); toast('The Brand Brain is updated. Every post is written from it now.'); return; } if (W._afterScan){ W._afterScan = false; const g = $('#genBtn'); if (g){ g.scrollIntoView({behavior:'smooth', block:'center'}); g.click(); } } });
+  $('#smUse').addEventListener('click', ()=>{
+    if (W._afterLearn){ W._afterLearn = false; smCloseModal(); renderBrain(); go('brain'); toast('The Brand Brain is updated. Every post is written from it now.'); return; }
+    if (W._afterScan){
+      W._afterScan = false;
+      const p = state.person;
+      if (!p.name || !p.title){ smData('<div class="smbrief">Add your name and job title on the step behind, then press Start my LinkedIn kit.</div>'); smCloseModal(); return; }
+      generateKit();
+      return;
+    }
+    smCloseModal();
+  });
   $('#smClose2').addEventListener('click', smCloseModal);
+  if ($('#smCancel')) $('#smCancel').addEventListener('click', smCloseModal);
+  const _mod = $('#scanModal');
+  if (_mod) _mod.addEventListener('click', e => { if (e.target === _mod) smCloseModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && _mod && _mod.classList.contains('on')) smCloseModal(); });
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });
@@ -2215,19 +2219,23 @@ function wizInit(){
   WIZ.steps.forEach((st, n) => {
     st.el.classList.add('wstep');
     st.el.dataset.step = String(n + 1);
-    if (st.key === 'details') return;
     if (!st.el.querySelector('.wnav')){
       const nav = document.createElement('div');
       nav.className = 'wnav';
-      nav.innerHTML = '<span class="wcount">Step ' + (n + 1) + ' of ' + WIZ.steps.length + '</span>'
+      const last = n === WIZ.steps.length - 1;
+      nav.innerHTML = '<span class="wcount">' + (n === 0 ? 'Setting up' : 'Step ' + n + ' of ' + (WIZ.steps.length - 1)) + '</span>'
         + '<span class="sp"></span>'
+        + (n > 0 ? '<button class="btn sm quiet" data-wiz="skip">Skip for now</button>' : '')
         + (n > 0 ? '<button class="btn sm quiet" data-wiz="back">Back</button>' : '')
-        + '<button class="btn brand" data-wiz="next">' + (n === WIZ.steps.length - 1 ? 'Finish' : 'Done, next') + '</button>';
+        + '<button class="btn" data-wiz="next">' + (n === 0 ? 'Continue' : last ? 'Finish' : 'Done, next') + '</button>';
       st.el.appendChild(nav);
       nav.addEventListener('click', e => {
         const b = e.target.closest('[data-wiz]'); if (!b) return;
-        if (b.dataset.wiz === 'back') wizGo(WIZ.i - 1);
-        else { setDone(st.key, true); }
+        if (b.dataset.wiz === 'back') return wizGo(WIZ.i - 1);
+        if (b.dataset.wiz === 'skip') return wizGo(WIZ.i + 1);
+        if (st.key === 'details') return wizGo(1);
+        setDone(st.key, true);
+        if (WIZ.i < WIZ.steps.length - 1) wizGo(WIZ.i + 1); else wizFinish();
       });
     }
   });
@@ -2255,9 +2263,12 @@ function wizGo(n){
   const nav = st.el.querySelector('.wnav');
   if (nav){
     const nx = nav.querySelector('[data-wiz="next"]');
-    if (nx) nx.textContent = d[st.key] ? (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Next') : (WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next');
+    if (nx){
+      if (st.key === 'details'){ nx.textContent = 'Continue'; nx.style.display = PF.generated ? '' : 'none'; }
+      else { nx.style.display = ''; nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : (d[st.key] ? 'Next' : 'Done, next'); }
+    }
   }
-  if ($('#nextHint')) $('#nextHint').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length + ': ' + WIZ_LABEL[st.key];
+  if ($('#nextHint')) $('#nextHint').textContent = WIZ_LABEL[st.key];
   const hideEmpty = sel => {
     const c = document.querySelector(sel); if (!c) return;
     c.style.display = '';
@@ -2268,7 +2279,7 @@ function wizGo(n){
   if (prev) prev.style.display = (WIZ.i === 0 || !PF.generated) ? 'none' : '';
   const twoCol = document.querySelector('.page[data-page="profile"] .two');
   if (twoCol) twoCol.style.gridTemplateColumns = (prev && !prev.classList.contains('hidden')) ? '' : 'minmax(0,1fr)';
-  if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Step ' + (WIZ.i + 1) + ' of ' + WIZ.steps.length;
+  if ($('#wRailLbl')) $('#wRailLbl').textContent = WIZ.i === 0 ? 'Setting up' : ('Step ' + WIZ.i + ' of ' + (WIZ.steps.length - 1));
   if ($('#wRailNow')) $('#wRailNow').textContent = WIZ_LABEL[st.key];
   if ($('#wRailBar')) $('#wRailBar').style.width = Math.round(((WIZ.i + 1) / WIZ.steps.length) * 100) + '%';
   const dots = $('#wRailDots');
@@ -2277,21 +2288,29 @@ function wizGo(n){
     [...dots.children].forEach((x, k) => { x.className = k === WIZ.i ? 'on' : (k < WIZ.i ? 'past' : ''); });
   }
   if ($('#doneText')) $('#doneText').textContent = st.key === 'details' ? 'Step 1 of ' + WIZ.steps.length : (DONE_KEYS.filter(k => d[k]).length) + ' of ' + DONE_KEYS.length + ' done';
-  $$('.howto div').forEach((chip, k) => {
-    chip.classList.toggle('wcur', k + 1 === WIZ.i);
-    chip.classList.toggle('wdoneStep', !!d[(WIZ.steps[k + 1] || {}).key]);
-  });
+
   const seen = k => { const at = WIZ.steps.findIndex(x => x.key === k); return at >= 0 && WIZ.i >= at; };
   const veil = (el, ok) => { if (el) el.classList.toggle('veiled', !ok); };
   veil(document.querySelector('.li-mock .cover'), seen('banner') || seen('photo'));
   veil(document.querySelector('.li-mock .hl'), seen('headline'));
   veil(document.querySelector('.li-mock #pfAbout'), seen('about'));
   veil(document.querySelector('.li-mock h4'), seen('about'));
+  try { applyGates(); headlineWhere(); } catch(e){}
   hideEmpty('.page[data-page="profile"] .kit');
   hideEmpty('.page[data-page="profile"] .two');
   try { st.el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
 }
 
+function wizNudge(key){
+  if (!WIZ.on) return;
+  const st = WIZ.steps[WIZ.i]; if (!st || st.key !== key) return;
+  const nav = st.el.querySelector('.wnav'); if (!nav) return;
+  const nx = nav.querySelector('[data-wiz="next"]');
+  if (nx){ nx.className = 'btn brand'; nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next'; }
+  let tip = nav.querySelector('.wtip');
+  if (!tip){ tip = document.createElement('span'); tip.className = 'wtip'; nav.insertBefore(tip, nav.querySelector('.sp')); }
+  tip.textContent = 'Saved. Paste it into LinkedIn, then carry on.';
+}
 function wizAdvance(key){
   if (!WIZ.on) return;
   const at = WIZ.steps.findIndex(s => s.key === key);
@@ -2395,6 +2414,12 @@ function s1Sync(){
     f.style.display = ready ? '' : 'none';
   });
   const row = $('#genRow'); if (row) row.style.display = ready ? '' : 'none';
+  grid.style.gridTemplateColumns = ready ? '' : 'minmax(0,1fr)';
+  const noLiOn = !!($('#noLiCb') && $('#noLiCb').checked);
+  const liField = $('#liInput') ? $('#liInput').closest('.field') : null;
+  if (liField) liField.style.display = noLiOn ? 'none' : '';
+  const sbtn = $('#scanBtn');
+  if (sbtn) sbtn.disabled = noLiOn || !/linkedin\.com\/in\//i.test(($('#liInput') || {}).value || '');
   const sb = $('#scanBtn');
   if (sb){
     const scanned = !!state.person.scan;
@@ -2405,6 +2430,102 @@ function s1Sync(){
   if (sub) sub.textContent = ready
     ? 'Check these look right, then generate. Only you can see this.'
     : 'Paste your profile link. Chorus reads it and fills the rest in for you.';
+}
+
+/* ---------- each written section is made when you get to it ---------- */
+const SECTION = {
+  headline: { label: 'headline', title: 'Write my headline', blurb: 'Chorus writes three options from your real profile, in your voice. Pick the one you like.' },
+  about: { label: 'About', title: 'Write my About', blurb: 'Two or three short paragraphs in your voice, with the Unifyr facts checked.' },
+  joined: { label: 'first post', title: 'Write my first post', blurb: 'A post announcing you have joined, in your voice, ready to paste into LinkedIn.' }
+};
+
+function sectionCard(key){
+  const b = document.querySelector('[data-done="' + key + '"]');
+  return b ? b.closest('.gen-card') : null;
+}
+
+function applyGates(){
+  for (const key of Object.keys(SECTION)){
+    const card = sectionCard(key); if (!card) continue;
+    const body = card.querySelector('.body'); if (!body) continue;
+    const made = !!(PF.made && PF.made[key]);
+    let gate = card.querySelector('.wgate');
+    if (!gate){
+      gate = document.createElement('div');
+      gate.className = 'wgate';
+      gate.innerHTML = '<div class="wg-t">' + SECTION[key].title + '</div>'
+        + '<div class="wg-s">' + SECTION[key].blurb + '</div>'
+        + '<button class="btn brand" data-make="' + key + '"><svg><use href="#i-spark"/></svg>' + SECTION[key].title + '</button>';
+      body.insertBefore(gate, body.firstChild);
+      gate.addEventListener('click', e => { if (e.target.closest('[data-make]')) generateOne(key); });
+    }
+    gate.style.display = made ? 'none' : '';
+    [...body.children].forEach(ch => { if (ch !== gate) ch.style.display = made ? '' : 'none'; });
+    const nav = card.querySelector('.wnav');
+    if (nav) nav.style.display = made ? '' : 'none';
+  }
+}
+
+async function generateOne(key){
+  const p = state.person;
+  if (!p.name || !p.title) return toast('Add your name and job title first', true);
+  PF.busy = true;
+  smBegin('Writing your ' + SECTION[key].label); $('#smUse').classList.add('hidden');
+  const a = smStep('📖', 'Reading what the scan found'); await smWait(750);
+  smOk(a, (p.scan && (p.scan.posts || []).length) ? '<b>' + p.scan.posts.length + ' of your real posts</b> loaded' : '<b>Your profile</b> loaded'); smProg(30);
+  const bstep = smStep('✍️', 'Writing it in your voice'); smProg(55);
+  try {
+    const Q = String.fromCharCode(34, 34, 34);
+    const shape = key === 'headline'
+      ? '{"headlines":[three options, each under 200 characters, each containing the job title and the company name]}'
+      : key === 'about'
+        ? '{"text":"2 to 4 short paragraphs, under 1800 characters"}'
+        : '{"text":"a LinkedIn post announcing they have joined, 900 to 1400 characters, short paragraphs"}';
+    const sys = 'You write one piece of a person\'s LinkedIn profile. Use ONLY these company facts.\n'
+      + 'COMPANY: ' + BRAIN.summary + '\nPRODUCTS: ' + BRAIN.products
+      + '\nFACTS: ' + BRAIN.facts.map(f => f[0]).join('; ')
+      + '\nNEVER USE: ' + BRAIN.vocabAvoid.join(', ') + '\nRULES: ' + BRAIN.rules
+      + '\n\nTHE PERSON: ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'
+      + (p.scan && p.scan.headline ? '\nTheir LinkedIn headline today: ' + p.scan.headline : '')
+      + (p.scan && p.scan.about ? '\nTheir current About: ' + String(p.scan.about).slice(0, 900) : '')
+      + (p.samples ? '\nTHIS IS HOW THEY WRITE, copy the rhythm, openers and sign offs:\n' + Q + String(p.samples).slice(0, 2000) + Q : '')
+      + '\nWrite in first person, as them, not as the company. Never use an em dash. No hashtags. No generic closing question.'
+      + '\n\nReturn ONLY JSON: ' + shape;
+    const out = jsonFrom(await askAI(sys, 'Write the ' + SECTION[key].label + ' for ' + p.name + ', ' + p.title + ' at ' + state.brand.name + '.'));
+    if (key === 'headline'){
+      if (Array.isArray(out.headlines) && out.headlines.length){ HEADLINES = out.headlines.slice(0, 3); PF.headline = 0; }
+      else HEADLINES = headlinesFor(p);
+      smData('<div class="smquote">' + esc(HEADLINES[0]) + '</div>');
+    } else {
+      const el = $('#' + (key === 'about' ? 'aboutText' : 'joinedText'));
+      const fallback = key === 'about' ? aboutFor(p) : joinedFor(p);
+      if (el) el.value = out.text ? String(out.text) : fallback;
+      smData('<div class="smquote">' + esc(String((out.text || fallback)).slice(0, 150)) + '…</div>');
+    }
+    smOk(bstep, '<b>Written</b> in your voice'); smProg(80);
+    const c = smStep('🔍', 'Checking it reads human and the facts are right'); await smWait(700);
+    smOk(c, '<b>Checked</b>, no AI tells, facts from the Brand Brain'); smProg(100);
+  } catch(e){
+    if (key === 'headline') HEADLINES = headlinesFor(p);
+    else { const el = $('#' + (key === 'about' ? 'aboutText' : 'joinedText')); if (el) el.value = key === 'about' ? aboutFor(p) : joinedFor(p); }
+    smOk(bstep, '<b>Written from templates</b>, the AI did not answer'); smProg(100);
+  }
+  PF.made = PF.made || {}; PF.made[key] = true;
+  PF.busy = false;
+  await smWait(500); smCloseModal();
+  applyGates(); renderProfile();
+  const el2 = sectionCard(key); if (el2){ try { el2.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){} }
+}
+
+/* the headline step gets the same "where does this go" as the others */
+function headlineWhere(){
+  const card = document.querySelector('[data-sec="headline"]');
+  if (!card || card.querySelector('.where')) return;
+  const w = document.createElement('div');
+  w.className = 'where';
+  w.innerHTML = 'Then on LinkedIn: your profile, <b>Edit intro</b>, paste into <b>Headline</b>, Save.';
+  const nav = card.querySelector('.wnav');
+  if (nav) card.insertBefore(w, nav); else card.appendChild(w);
 }
 </script>
 </body>

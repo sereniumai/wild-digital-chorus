@@ -1460,7 +1460,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-04-photo3');
+console.log('Chorus build 2026-09-04-photo5');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -2169,10 +2169,52 @@ async function fetchAsImage(url){
   try { return await loadImage(obj, false); }
   finally { setTimeout(()=>URL.revokeObjectURL(obj), 30000); }
 }
+
+/* The scan result was saved but the photo never was, so a reload kept the name, title
+   and location and quietly dropped the face. The cut out is now stored alongside the
+   rest, keyed by the photo it came from, and restored before the wizard starts. If the
+   stored copy is missing or stale, the photo is pulled again from the saved URL. */
+function photoKeyOf(){ return (state.person.scan && state.person.scan.photo) || (state.person.photoLocal ? 'local' : ''); }
+function persistPhoto(){
+  try {
+    const src = state.photoCut || state.photoImg; if (!src) return;
+    const c = document.createElement('canvas');
+    const w = src.width || src.naturalWidth, h = src.height || src.naturalHeight;
+    if (!w || !h) return;
+    const cap = 800, k = Math.min(1, cap / Math.max(w, h));
+    c.width = Math.round(w * k); c.height = Math.round(h * k);
+    c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+    let data = c.toDataURL('image/webp', 0.86);
+    if (!/^data:image\/webp/.test(data)) data = c.toDataURL('image/png');
+    localStorage.setItem('chorus.photo', JSON.stringify({ key: photoKeyOf(), cut: !!state.photoCut, data }));
+  } catch(e){ /* quota or a tainted canvas: the URL re pull still covers a reload */ }
+}
+async function restorePhoto(){
+  if (state.photoImg || state.photoCut) return true;
+  let stored = null;
+  try { stored = JSON.parse(localStorage.getItem('chorus.photo') || 'null'); } catch(e){}
+  const key = photoKeyOf();
+  if (stored && stored.data && (!key || stored.key === key)){
+    try {
+      const img = await loadImage(stored.data, false);
+      const c = document.createElement('canvas'); c.width = img.naturalWidth; c.height = img.naturalHeight;
+      c.getContext('2d').drawImage(img, 0, 0);
+      state.photoImg = img;
+      if (stored.cut) state.photoCut = c;
+      state.photoFailed = false; state.photoMissing = false;
+      renderSwatches(); render(); syncPerson(); photoNotice();
+      return true;
+    } catch(e){ try { localStorage.removeItem('chorus.photo'); } catch(_){} }
+  }
+  const url = state.person.scan && state.person.scan.photo;
+  if (url) return usePhotoUrl(url);
+  return false;
+}
+
 async function usePhotoUrl(u){
   state.person.photoZoom = 1.1; state.person.photoX = 0; state.person.photoY = 0;
   syncInputs(); state.photoCut = null; state.photoImg = null;
-  state.photoFailed = false; state.photoTrace = [];
+  state.photoFailed = false; state.photoMissing = false; state.photoTrace = [];
   const relay = photoSrc(u);
   const routes = [
     ['relay blob',  ()=>fetchAsImage(relay)],
@@ -2180,15 +2222,16 @@ async function usePhotoUrl(u){
     ['direct blob', ()=>fetchAsImage(u)],
     ['direct image',()=>loadImage(u, true)]
   ];
+  const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timed out after ' + ms + 'ms')), ms))]);
   for (const [name, go] of routes){
     try {
-      const img = await go();
+      const img = await withTimeout(go(), 7000);
       if (!img || !img.naturalWidth) throw new Error('empty');
       state.photoImg = img;
       state.photoTrace.push(name + ': ok ' + img.naturalWidth + 'x' + img.naturalHeight);
       render();
       try { state.photoCut = await cutOut(img); } catch(e){ state.photoCut = null; state.photoTrace.push('cutout failed: ' + (e && e.message)); }
-      renderSwatches(); render(); syncPerson(); photoNotice();
+      renderSwatches(); render(); syncPerson(); photoNotice(); persistPhoto();
       return true;
     } catch(e){
       state.photoTrace.push(name + ': ' + ((e && e.message) || 'failed'));
@@ -2205,17 +2248,22 @@ function photoNotice(){
   const stage = document.getElementById('photoStage'); if (!stage) return;
   const card = stage.closest('.kcard'); if (!card) return;
   let n = card.querySelector('.photowarn');
-  if (!state.photoFailed){ if (n) n.remove(); return; }
+  if (!state.photoFailed && !state.photoMissing){ if (n) n.remove(); return; }
   if (!n){
     n = document.createElement('div'); n.className = 'photowarn';
     const tools = card.querySelector('.photo-tools');
     if (tools) tools.insertAdjacentElement('beforebegin', n); else stage.insertAdjacentElement('afterend', n);
   }
-  n.innerHTML = '<b>We could not load your LinkedIn photo.</b>'
-    + '<span>Your browser or network blocked it. Use <b>Add photo</b> to pick the file yourself, '
-    + 'everything else from your profile came through fine.</span>'
-    + '<button class="btn sm" data-photoretry>Try again</button>'
-    + '<details><summary>What went wrong</summary><code>' + esc((state.photoTrace||[]).join(' | ')) + '</code></details>';
+  if (state.photoMissing && !state.photoFailed){
+    n.innerHTML = '<b>Your profile has no photo we can read.</b>'
+      + '<span>Use <b>Add photo</b> to pick one from your computer. We cut the background out and put it on your colour, the same as if it had come from LinkedIn.</span>';
+  } else {
+    n.innerHTML = '<b>We could not load your LinkedIn photo.</b>'
+      + '<span>Your browser or network blocked it. Use <b>Add photo</b> to pick the file yourself, '
+      + 'everything else from your profile came through fine.</span>'
+      + '<button class="btn sm" data-photoretry>Try again</button>'
+      + '<details><summary>What went wrong</summary><code>' + esc((state.photoTrace||[]).join(' | ')) + '</code></details>';
+  }
   const rb = n.querySelector('[data-photoretry]');
   if (rb) rb.addEventListener('click', ()=>{
     const src = (state.person.scan && state.person.scan.photo) || '';
@@ -2235,6 +2283,11 @@ async function scanLinkedIn(){
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
   smBegin('Reading your LinkedIn');
+  /* clear whatever the last scan left, so a failed read cannot show someone else's details */
+  state.person.scan = null; state.person.photoLocal = false;
+  state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; state.photoTrace = [];
+  try { localStorage.removeItem('chorus.photo'); } catch(e){}
+  try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
     if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden'); return; }
@@ -2255,6 +2308,12 @@ async function scanLinkedIn(){
         smProg(48);
       });
       await smWait(600);
+    } else {
+      state.photoMissing = true;
+      const s3 = smStep('\uD83D\uDCF7', 'Looking for your profile photo'); await smWait(500);
+      smOk(s3, '<b>No photo on your profile</b> that we can read. You can add one yourself on the photo step');
+      smProg(48);
+      try { photoNotice(); } catch(e){}
     }
     if (prof.about){
       const s4 = smStep('\uD83D\uDCC4', 'Reading your About section'); await smWait(900);
@@ -2296,7 +2355,8 @@ async function scanLinkedIn(){
     try { s1Sync(); } catch(e){}
     smProg(100);
     const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
-    if (prof.photo) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any Unifyr colour behind it</div>');
+    if (prof.photo && state.photoImg) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any Unifyr colour behind it</div>');
+    else sum.push('<div class="i">\u2022 No photo came through, add one on the photo step</div>');
     sum.push('<div class="i">\u2713 Name and job title filled in</div>');
     sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
     sum.push('<div class="i">\u2713 Nothing stored anywhere except this browser</div></div>');
@@ -2306,6 +2366,7 @@ async function scanLinkedIn(){
     $('#smFoot').classList.remove('hidden');
   } catch(e){
     smData('<div class="smbrief">Could not read that profile. ' + esc(e.message||'') + '</div>');
+    if ($('#genHint')) $('#genHint').textContent = 'The scan did not work, so this will be written from your name and job title only. You can add your photo on the photo step.';
     $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
   } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
 }
@@ -2557,7 +2618,7 @@ async function downloadCanvas(id, btn){
   const dl = await getDownloads(); if (dl){ try { await dl.save({filename:name, data:blob}); flash(btn,'Saved'); mark(); } catch(e){ if (e && e.code==='declined') return; toast('Saving isn’t available here', true); } return; }
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); flash(btn,'Downloaded'); mark();
 }
-function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } renderSwatches(); render(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
+function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } state.person.photoLocal = true; state.photoFailed = false; state.photoMissing = false; try { photoNotice(); } catch(e){} renderSwatches(); render(); persistPhoto(); savePerson(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
 
 function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, hosted for this demo'; s.className = 'pill good'; } if ($('#modePill')) $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; if ($('#modePill')) $('#modePill').title = on ? 'Using the key saved in this browser' : 'Hosted by Wild Digital for this demo'; if ($('#modePill')) $('#modePill').className = 'pill good'; }
 /* ---------- portal theme from the brand (colours, logo) + light/dark ---------- */
@@ -2591,6 +2652,7 @@ async function init(){
   renderHome(); renderBrain(); renderExamples(); bindForms();
   try { s1Sync(); } catch(e){}
   try { wizStart(); } catch(e){} renderAvatarBox(); syncPerson(); renderSwatches();
+  try { restorePhoto(); } catch(e){}
 
   if (location.hash==='#setup') go('learn'); else go('home'); render();
   // nav

@@ -1052,6 +1052,23 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 
 .brandpick{width:auto;min-width:160px;height:40px;padding:0 12px;border-radius:10px;margin-right:8px}
 
+
+/* ============ audit batch two ============ */
+/* focus: one ring for everything, at a specificity the button layers cannot beat */
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.btn:focus-visible,.btn:not(.brand):not(.primary):not(.quiet):focus-visible,.btn.brand:focus-visible,
+.wnav [data-wiz="next"]:focus-visible,.wnav [data-wiz="next"].is-ready:focus-visible{outline:none;box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--focus)}
+.chip:focus-visible,.quick a:focus-visible,.tbtn:focus-visible{outline:none}
+.asker textarea::placeholder{color:var(--ink-4)}
+.asker textarea:hover{border-color:var(--line-3)}
+/* the third nav item was clipped at the right edge of a 390px screen */
+@media (max-width:420px){
+  .side{padding:8px 10px!important;gap:6px}
+  .side nav{flex:1 1 auto!important;justify-content:space-between}
+  .side nav a{flex:1 1 0;min-width:0;justify-content:center;padding:8px 4px;gap:4px;font-size:12px}
+  .side nav a svg{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -1080,11 +1097,11 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
   <aside class="side">
     <div class="ws" style="background:transparent;box-shadow:none;padding:6px 6px 2px"><img id="wsLogo" alt="" style="max-height:30px;max-width:140px;background:#fff;padding:5px 9px;border-radius:8px"></div>
         <nav id="nav">
-      <a data-page="home" aria-current="page"><svg><use href="#i-home"/></svg>Home</a>
+      <a href="#home" data-page="home" aria-current="page"><svg><use href="#i-home"/></svg>Home</a>
       <div class="sec">Me</div>
-      <a data-page="profile"><svg><use href="#i-spark"/></svg>My LinkedIn</a>
+      <a href="#profile" data-page="profile"><svg><use href="#i-spark"/></svg>My LinkedIn</a>
       <div class="sec">Settings</div>
-      <a data-page="brain"><svg><use href="#i-brain"/></svg>Brand Brain</a>
+      <a href="#brain" data-page="brain"><svg><use href="#i-brain"/></svg>Brand Brain</a>
     </nav>
     <div class="foot"><span class="avatar" id="sideAvatar"></span><div><b id="sideName">Your name</b><span id="sideRole">Add your details</span></div></div>
   </aside>
@@ -1118,7 +1135,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <div class="page" data-page="home">
       <div class="hello"><div><h2 id="helloH">Good morning.</h2><p>Set up your LinkedIn from your real profile. It takes a minute or two.</p></div></div>
       <div class="quick">
-        <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
+        <a href="#profile" data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
       <div class="card quietcard"><div class="head"><h2 data-brand="knows">What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
         <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
@@ -1496,7 +1513,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-theme1');
+console.log('Chorus build 2026-09-05-audit2');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -2024,7 +2041,7 @@ If you run a partner program and want to talk about what's working (or not), my 
 let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
-  const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); }); h.appendChild(b); });
+  const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); saveWriting(); }); h.appendChild(b); });
   const ed = document.createElement('div'); ed.className='hledit';
   ed.innerHTML = '<label for="hlText">Edit it if you like</label>'
     + '<textarea id="hlText" maxlength="220" rows="2" spellcheck="true"></textarea>'
@@ -2034,7 +2051,7 @@ function renderProfile(){
   const syncCount = () => { if (cnt) cnt.textContent = (ta.value.length) + ' / 220'; };
   ta.value = HEADLINES[PF.headline] || ''; syncCount();
   ta.addEventListener('input', () => {
-    HEADLINES[PF.headline] = ta.value;
+    HEADLINES[PF.headline] = ta.value; saveWriting();
     const opt = h.querySelectorAll(':scope > button')[PF.headline]; if (opt) opt.textContent = ta.value;
     const pf = $('#pfHeadline'); if (pf) pf.textContent = ta.value;
     syncCount();
@@ -2340,6 +2357,7 @@ async function scanLinkedIn(){
   state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; state.photoTrace = [];
   PF.generated = false;
   try { localStorage.removeItem('chorus.photo'); localStorage.removeItem('chorus.kit'); } catch(e){}
+  clearWriting();
   savePerson();
   const _vs = $('#voiceStatus'); if (_vs) _vs.textContent = '';
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
@@ -2792,11 +2810,11 @@ async function init(){
   // nav
   if ($('#noLiCb')) $('#noLiCb').addEventListener('change', ()=>{ try { s1Sync(); } catch(e){} });
   if ($('#liInput')) $('#liInput').addEventListener('input', ()=>{ try { s1Sync(); } catch(e){} });
-  $$('#nav a').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.page); }));
-  $$('[data-go]').forEach(a=>a.addEventListener('click', ()=>{ if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.go); }));
+  $$('#nav a').forEach(a=>a.addEventListener('click', e=>{ e.preventDefault(); if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.page); }));
+  $$('[data-go]').forEach(a=>a.addEventListener('click', e=>{ if (a.tagName==='A') e.preventDefault(); if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.go); }));
   $('#learnBtn').addEventListener('click', runLearn);
   $('#relearn').addEventListener('click', ()=>{ $('#learnProgress').classList.add('hidden'); $$('#learnProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; }); $('#learnBtn').disabled=false; go('learn'); });
-  $('#saveBrain').addEventListener('click', e=>{ flash(btn,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); });
+  $('#saveBrain').addEventListener('click', e=>{ try { $$('[data-brain]').forEach(t => { const k = t.dataset.brain; if (k in BRAIN && typeof BRAIN[k] === 'string') BRAIN[k] = t.value; }); localStorage.setItem('chorus.brain2', JSON.stringify(BRAIN)); } catch(err){} flash(e.currentTarget,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); });
   // write
   if ($('#writeBtn')) $('#writeBtn').addEventListener('click', ()=>write());
   if ($('#newPost')) $('#newPost').addEventListener('click', ()=>{ startNewPost(); });
@@ -2834,7 +2852,7 @@ async function init(){
   $$('[data-regen]').forEach(b=>b.addEventListener('click', ()=>regen(b.dataset.regen)));
   $('#btn-avatar').addEventListener('click', e=>downloadCanvas('avatar', e.currentTarget));
   $('#copyJoined').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#joinedText').value)) ? (flash(btn,'Copied'), setDone('joined', true)) : toast('Copy failed', true); });
-  $('#joinedText').addEventListener('input', ()=>{ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); });
+  $('#joinedText').addEventListener('input', ()=>{ saveWriting(); $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); });
   // AI connection (Settings)
   if ($('#modePill')) $('#modePill').addEventListener('click', ()=>{ go('brain'); setTimeout(()=>{ const el = $('#apiKey'); el.focus(); el.scrollIntoView({behavior:'smooth', block:'center'}); }, 250); });
   $('#apiKey').value = localStorage.getItem('chorus.key')||''; syncAiStatus();
@@ -2862,7 +2880,7 @@ async function init(){
   if (_mod) _mod.addEventListener('click', e => { if (e.target === _mod) smCloseModal(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && _mod && _mod.classList.contains('on')) smCloseModal(); });
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
-  $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; });
+  $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; saveWriting(); });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });
 }
 document.addEventListener('DOMContentLoaded', init);
@@ -2941,6 +2959,30 @@ function wizStage(){
 
 /* After a reload the kit must open where the person left it. The generated flag lived only in
    memory, so every refresh landed on the details step with no way forward but a relabelled button. */
+
+/* Everything the wizard writes is kept, so a refresh never throws the work away. */
+function saveWriting(){
+  try {
+    localStorage.setItem('chorus.writing', JSON.stringify({
+      headlines: HEADLINES, headline: PF.headline || 0, made: PF.made || {},
+      about: ($('#aboutText') || {}).value || '', joined: ($('#joinedText') || {}).value || '',
+      fin: FIN_PASTED
+    }));
+  } catch(e){}
+}
+function restoreWriting(){
+  let w = null; try { w = JSON.parse(localStorage.getItem('chorus.writing') || 'null'); } catch(e){}
+  if (!w) return false;
+  if (Array.isArray(w.headlines) && w.headlines.length) HEADLINES = w.headlines;
+  if (typeof w.headline === 'number') PF.headline = w.headline;
+  PF.made = Object.assign({}, w.made || {});
+  const a = $('#aboutText'); if (a && w.about) { a.value = w.about; const pa = $('#pfAbout'); if (pa) pa.textContent = w.about; }
+  const j = $('#joinedText'); if (j && w.joined) j.value = w.joined;
+  if (w.fin) Object.keys(FIN_PASTED).forEach(k => { FIN_PASTED[k] = !!w.fin[k]; });
+  return true;
+}
+function clearWriting(){ try { localStorage.removeItem('chorus.writing'); } catch(e){} HEADLINES = []; PF.made = {}; Object.keys(FIN_PASTED).forEach(k => { FIN_PASTED[k] = false; }); }
+
 function kitResume(){
   let started = false; try { started = localStorage.getItem('chorus.kit') === '1'; } catch(e){}
   if (!started || PF.generated) return false;
@@ -2954,6 +2996,7 @@ function kitResume(){
     const vs = $('#voiceStatus'); if (vs) vs.textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Written in a clear, plain voice you can shape.';
     const gb = $('#genBtn'); if (gb){ gb.disabled = false; gb.innerHTML = '<svg><use href="#i-spark"/></svg>Continue my setup'; }
     const gh = $('#genHint'); if (gh) gh.textContent = 'Your written pieces are kept. Change your name or title here, then continue.';
+    restoreWriting();
     renderProfile();
   } catch(e){}
   return true;
@@ -3108,7 +3151,7 @@ function wizFinish(){
     card.addEventListener('click', e => {
       const t = e.target.closest('[data-tick]'); if (!t) return;
       FIN_PASTED[t.dataset.tick] = !FIN_PASTED[t.dataset.tick];
-      finSync();
+      finSync(); saveWriting();
     });
 
   }
@@ -3195,7 +3238,7 @@ async function rewriteSection(key, btn){
     const current = key === 'headline' ? (HEADLINES[PF.headline] || '') : ($('#' + (key === 'about' ? 'aboutText' : 'joinedText')).value || '');
     const out = jsonFrom(await askAI(sys, 'Here is the current version:\n\n' + current + '\n\nRewrite it, keeping the voice, and work in this instruction from them:\n' + extra));
     if (key === 'headline'){
-      if (Array.isArray(out.headlines) && out.headlines.length){ HEADLINES = out.headlines.slice(0, 3); PF.headline = 0; renderProfile(); }
+      if (Array.isArray(out.headlines) && out.headlines.length){ HEADLINES = out.headlines.slice(0, 3); PF.headline = 0; renderProfile(); saveWriting(); }
     } else {
       const el = $('#' + (key === 'about' ? 'aboutText' : 'joinedText'));
       if (out.text && el){ el.value = String(out.text); el.dispatchEvent(new Event('input', { bubbles: true })); }
@@ -3236,7 +3279,7 @@ function s1Sync(){
     done.id = 's1scanned';
     done.className = 's1done';
     grid.parentElement.insertBefore(done, grid.nextSibling);
-    done.addEventListener('click', e => { if (e.target.closest('[data-rescan]')){ state.person.scan = null; state.person.brief = ''; state.person.samples = ''; state.person.photoLocal = false; state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; PF.generated = false; try { localStorage.removeItem('chorus.photo'); localStorage.removeItem('chorus.kit'); } catch(_){} savePerson(); try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(_){} s1Sync(); const i = $('#liInput'); if (i) i.focus(); } });
+    done.addEventListener('click', e => { if (e.target.closest('[data-rescan]')){ state.person.scan = null; state.person.brief = ''; state.person.samples = ''; state.person.photoLocal = false; state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; PF.generated = false; try { localStorage.removeItem('chorus.photo'); localStorage.removeItem('chorus.kit'); } catch(_){} clearWriting(); savePerson(); try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(_){} s1Sync(); const i = $('#liInput'); if (i) i.focus(); } });
   }
   done.style.display = scanned ? '' : 'none';
   if (scanned){
@@ -3342,7 +3385,7 @@ async function generateOne(key){
     else { const el = $('#' + (key === 'about' ? 'aboutText' : 'joinedText')); if (el) el.value = key === 'about' ? aboutFor(p) : joinedFor(p); }
     smOk(bstep, '<b>Written from templates</b>, the AI did not answer'); smProg(100);
   }
-  PF.made = PF.made || {}; PF.made[key] = true;
+  PF.made = PF.made || {}; PF.made[key] = true; saveWriting();
   PF.busy = false;
   await smWait(500); smCloseModal();
   applyGates(); renderProfile();

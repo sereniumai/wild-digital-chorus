@@ -226,9 +226,9 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- brain ---------- */
-.brain{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.brain{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
 @media (max-width:900px){.brain{grid-template-columns:1fr}}
-.brain .card .body textarea{min-height:110px;font-size:13.5px}
+.brain .card .body textarea{min-height:110px;font-size:13.5px;resize:none}
 .traits{display:flex;flex-direction:column;gap:10px}
 .trait{padding:12px 14px;background:var(--panel-2);border-radius:10px}
 .trait b{display:block;font-size:13.5px}
@@ -634,7 +634,7 @@ canvas,img{max-width:100%}
   /* three real steps: canvas, sidebar, card. The old values sat 0.4% apart. */
   --ground:#0A0D13; --panel:#161B24; --panel-2:#1C222D;
   --line:#2A313E; --line-2:#1E2530; --line-3:#3B4453;
-  --ink:#F2F4F7; --ink-2:#C3C9D4; --ink-3:#8D95A3; --ink-4:#7A8290;
+  --ink:#F2F4F7; --ink-2:#C3C9D4; --ink-3:#8D95A3; --ink-4:#7C8593;
   --good:#2FA96C; --good-soft:#0E2A1D;
   --warn:#D69A2E; --warn-soft:#2C2314;
   --bad:#D65A4E;  --bad-soft:#2E1917;
@@ -1198,6 +1198,59 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 :root[data-theme="dark"] .finrow.done .tick{border-color:var(--good)}
 :root[data-theme="dark"] .finrow .tick:hover{border-color:var(--good)}
 
+
+/* ============ plan batch 5: brand brain ============ */
+@supports (field-sizing:content){.brain .card .body textarea{field-sizing:content;overflow:hidden}}
+.adv > summary{list-style:none;cursor:pointer}
+.adv > summary::-webkit-details-marker{display:none}
+.adv > summary h2::before{content:'';display:inline-block;width:7px;height:7px;margin-right:10px;border-right:2px solid var(--ink-3);border-bottom:2px solid var(--ink-3);transform:rotate(-45deg);transition:transform var(--d-2) var(--ease-out)}
+.adv[open] > summary h2::before{transform:rotate(45deg)}
+.adv:not([open]) > summary{border-bottom:0}
+.card>.body>.hint{font-size:12.5px;color:var(--ink-3);line-height:1.5;margin-top:-4px}
+.card>.body>.hint:empty{display:none}
+.brain > .card{display:flex;flex-direction:column}
+.brain > .card > .body{flex:1}
+.facts div .x,.vocab span .x{display:inline-grid;place-items:center;width:18px;height:18px;border:0;border-radius:50%;background:transparent;color:var(--ink-4);font-size:14px;line-height:1;cursor:pointer;padding:0;flex:none}
+.facts div .x:hover,.vocab span .x:hover{background:var(--bad-soft);color:var(--bad)}
+.vocab span{display:inline-flex;align-items:center;gap:4px;padding-right:6px}
+.savebar{position:sticky;bottom:16px;z-index:20;display:flex;align-items:center;gap:14px;justify-content:space-between;padding:12px 16px;border-radius:12px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--e-3);font-size:13.5px;font-weight:600;color:var(--ink-2);margin-top:4px}
+@media (max-width:640px){.savebar{bottom:8px;padding:10px 12px}.savebar .btn{flex:none}}
+@media (max-width:560px){
+  .team-table{min-width:0}
+  .team-table th:nth-child(2),.team-table td:nth-child(2){display:none}
+  .team-table th,.team-table td{padding:10px 8px}
+  .team-table .genbar{width:64px!important}
+  .team-table .who b{white-space:nowrap}
+}
+
+
+/* ============ plan batch 6: states, accessibility, contrast ============ */
+#aboutText,#joinedText{field-sizing:content;max-height:none}
+.swatches button{box-shadow:0 0 0 1px #7A8290}
+:root[data-theme="dark"] .swatches button{box-shadow:0 0 0 1px #8A93A2}
+.swatches button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--ink)}
+.swatches button:focus-visible{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--focus)}
+.facts div small,.srcs .t{color:var(--ink-3)}
+:root{--good-text:#0B7343}
+:root[data-theme="dark"]{--good-text:#4FBF8A}
+.pill.good{color:var(--good-text)}
+.wnav .wtip,.wdone{color:var(--good-text)}
+.btn[disabled],.btn[aria-disabled="true"]{color:var(--ink-3)!important}
+.field input[type=text],.field input[type=url],.field input[type=email],.field input[type=tel],.field input[type=password],.field select,.field textarea,.input,.hledit textarea,.asker textarea{border-color:#868D9A}
+.field input:hover,.field textarea:hover,.field select:hover,.hledit textarea:hover,.asker textarea:hover{border-color:#626A78}
+.field input:focus,.field textarea:focus,.field select:focus,.hledit textarea:focus,.asker textarea:focus{border-color:var(--brand)}
+.field input:disabled,.field textarea:disabled{border-color:var(--line-3)}
+:root[data-theme="dark"] .field input[type=text],:root[data-theme="dark"] .field input[type=url],:root[data-theme="dark"] .field input[type=email],:root[data-theme="dark"] .field input[type=tel],:root[data-theme="dark"] .field input[type=password],:root[data-theme="dark"] .field select,:root[data-theme="dark"] .field textarea,:root[data-theme="dark"] .input,:root[data-theme="dark"] .hledit textarea,:root[data-theme="dark"] .asker textarea{border-color:#5F6878}
+:root[data-theme="dark"] .field input:hover,:root[data-theme="dark"] .field textarea:hover,:root[data-theme="dark"] .field select:hover,:root[data-theme="dark"] .hledit textarea:hover,:root[data-theme="dark"] .asker textarea:hover{border-color:#7A8290}
+:root[data-theme="dark"] .field input:focus,:root[data-theme="dark"] .field textarea:focus,:root[data-theme="dark"] .field select:focus,:root[data-theme="dark"] .hledit textarea:focus,:root[data-theme="dark"] .asker textarea:focus{border-color:var(--brand)}
+:root[data-theme="dark"] .field input:disabled,:root[data-theme="dark"] .field textarea:disabled{border-color:var(--line-3)}
+@media (hover:none){
+  .btn.quiet:hover:not(:active){background:transparent;color:var(--ink-2)}
+  .btn:not(.brand):not(.primary):not(.quiet):hover:not(:active){background:var(--panel);border-color:var(--line)}
+  .kitwiz .wnav .btn[data-wiz="next"]:hover:not(:active){background:var(--ink);border-color:var(--ink)}
+  :root[data-theme="dark"] .kitwiz .wnav .btn[data-wiz="next"]:hover:not(:active){background:#F2F4F7;border-color:#F2F4F7}
+}
+
 </style>
 </head>
 <body>
@@ -1245,8 +1298,8 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
         <p class="lede" style="margin-top:6px">Give Chorus the website and LinkedIn page. It reads everything public, pages, blog, press, posts, and builds the Brand Brain: what’s true about the company and how it sounds.</p>
         <div class="card" style="margin-top:18px"><div class="body">
           <div class="grid2">
-            <div class="field"><label>Website</label><input type="url" id="learnSite" value="https://www.unifyr.com"></div>
-            <div class="field"><label>LinkedIn company page</label><input type="url" id="learnLi" value="https://www.linkedin.com/company/unifyr/"></div>
+            <div class="field"><label for="learnSite">Website</label><input type="url" id="learnSite" value="https://www.unifyr.com"></div>
+            <div class="field"><label for="learnLi">LinkedIn company page</label><input type="url" id="learnLi" value="https://www.linkedin.com/company/unifyr/"></div>
           </div>
           <div class="progress-list hidden" id="learnProgress">
             <div class="st" data-s="1"><span class="dot"></span>Reading unifyr.com <span class="n" id="ln1"></span></div>
@@ -1274,14 +1327,15 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 
     <!-- ---------- BRAIN ---------- -->
     <div class="page hidden" data-page="brain">
-      <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Settings: Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus learned about <span data-brand="name">Unifyr</span> from 84 public pages and posts. Every post is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
-      <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">Writing is on and included. Optional: use your own AI account instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
-        <div class="grid2"><div class="field"><label>Your own AI key (optional)</label><input type="password" id="apiKey" placeholder="Paste key" autocomplete="off"><div class="hint">Stored only in this browser. Works with an Anthropic key.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
-        <div class="hint" id="aiHint"></div>
-      </div></div>
-      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and everyone can choose it.</span><span class="spacer"></span><label class="btn sm brand"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" class="vh"></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
-      <div class="card"><div class="head"><h2>Who’s set up</h2><span class="sub">Five steps each. You see how far people are, never what they wrote.</span></div><div class="team-wrap"><table class="team-table"><thead><tr><th>Person</th><th>Team</th><th>Progress</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></div>
+      <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus knows about <span data-brand="name">Unifyr</span>, from its public pages and posts. Every piece is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
       <div class="brain" id="brainGrid"></div>
+      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and everyone can choose it.</span><span class="spacer"></span><label class="btn sm"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" class="vh"></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
+      <div class="card"><div class="head"><h2>Who’s set up</h2><span class="sub">Five steps each. You see how far people are, never what they wrote.</span></div><div class="team-wrap"><table class="team-table"><thead><tr><th>Person</th><th>Team</th><th>Progress</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></div>
+      <details class="card adv"><summary class="head"><h2>Your own AI account</h2><span class="sub">Writing is on and included. Optional: use your own key instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></summary><div class="body">
+        <div class="grid2"><div class="field"><label for="apiKey">Your own AI key (optional)</label><input type="password" id="apiKey" placeholder="Paste key" autocomplete="off"><div class="hint">Stored only in this browser. Works with an Anthropic key.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
+        <div class="hint" id="aiHint"></div>
+      </div></details>
+      <div class="savebar hidden" id="brainSaveBar"><span>You have unsaved changes</span><button class="btn brand" id="saveBrain2">Save changes</button></div>
     </div>
 
     <!-- ---------- MY LINKEDIN ---------- -->
@@ -1293,9 +1347,9 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><h2>Your LinkedIn</h2><span class="sub" id="s1sub">Paste your profile link. Chorus reads it and fills the rest in for you.</span></div><div class="body">
         <div class="grid3" id="s1grid">
-          <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
-          <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
-          <div class="field"><label>LinkedIn profile</label><div class="inputrow"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><div class="hint" id="liHelp">Not sure where to find it? <a href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open your LinkedIn profile</a> and copy the address from the top of the browser. It looks like linkedin.com/in/your-name.</div><label class="chip lite" style="align-self:flex-start;margin-top:8px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0"><span id="noLiTxt">I don’t have one yet</span></label></div>
+          <div class="field"><label for="personName">Name</label><input type="text" id="personName" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
+          <div class="field"><label for="personTitle">Job title</label><input type="text" id="personTitle" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
+          <div class="field"><label for="liInput">LinkedIn profile</label><div class="inputrow"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><div class="hint" id="liHelp">Not sure where to find it? <a href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open your LinkedIn profile</a> and copy the address from the top of the browser. It looks like linkedin.com/in/your-name.</div><label class="chip lite" style="align-self:flex-start;margin-top:8px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0"><span id="noLiTxt">I don’t have one yet</span></label></div>
         </div>
                 <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="scanPct"></span></div><div class="sprog"><i id="scanProg"></i></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
@@ -1325,9 +1379,9 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
         <div style="display:flex;flex-direction:column;gap:16px">
           <div class="card gen-card" data-sec="headline"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="examples hidden" id="headlines"></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" aria-label="Your About text" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the <span data-brand="name">Unifyr</span> facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the <span data-brand="name">Unifyr</span> facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" aria-label="Your first post" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
         </div>
         <div class="card wizpreview" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
@@ -1643,7 +1697,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-plan4');
+console.log('Chorus build 2026-09-05-plan6');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1676,7 +1730,7 @@ const BRAIN = {
     ["Calm on news", "Funding and awards are reported in one clean paragraph, then back to the customer.", "The investment will accelerate our AI-driven partner experience platform."],
   ],
   vocabUse: ["partner experience", "ecosystem", "partner program", "deal registration", "co-marketing", "agentic", "Unifyr IQ", "partners", "channel leaders"],
-  vocabAvoid: ["revolutionary", "game-changing", "synergy", "leverage (as a verb)", "best-in-class", "Zift (use 'formerly Zift Solutions' once, then Unifyr)"],
+  vocabAvoid: ["revolutionary", "game-changing", "synergy", "leverage (as a verb)", "best-in-class", "Zift"],
   imageStyle: "Dark, cinematic photos: real people at events, city skylines at night, teams at work. Deep navy shadows, magenta and violet light. Layout on top: bold white headline with one word in the magenta-to-indigo gradient, a short subline, white Unifyr logo bottom-left. Never AI-looking shapes as the main subject; never text baked into the photo.",
   rules: "Always 'Unifyr', never 'Unifyr Solutions'. First mention of the rebrand: 'Unifyr (formerly Zift Solutions)'. Product names are capitalised: Unifyr Engage, Unifyr Enterprise, Unifyr IQ, Agent Connect. Don't quote pricing. Customer names only where a published story exists. Investcorp is 'led the round', not 'acquired'.",
   sources: [
@@ -1795,6 +1849,7 @@ function go(page){
   $('#pageTitle').textContent = PAGES[page][0]; $('#pageCrumb').textContent = PAGES[page][1];
   if (page==='profile') render(); if (page==='write') renderOuts();
   if (page==='home'){ try { renderHome(); } catch(e){} }
+  if (page==='brain') requestAnimationFrame(brainFit);
   if (page==='profile' && !state.person.scan){ setTimeout(()=>{ const i = $('#liInput'); if (i && !i.disabled && !i.value && i.offsetParent && matchMedia('(min-width:861px)').matches){ try { i.focus({preventScroll:true}); } catch(_){ i.focus(); } } }, 320); }
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -1870,16 +1925,24 @@ async function runLearn(){
     smShowFoot(); $('#smUse').classList.add('hidden');
   } finally { btn.disabled = false; }
 }
+function markBrainDirty(){ const sb = $('#brainSaveBar'); if (sb) sb.classList.remove('hidden'); }
+function brainFit(){ if (window.CSS && CSS.supports && CSS.supports('field-sizing','content')) return; $$('#brainGrid textarea').forEach(t=>{ if (!t.offsetParent) return; t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; t.style.overflow='hidden'; }); }
 function renderBrain(){
-  const g = $('#brainGrid'); g.innerHTML = '';
+  const g = $('#brainGrid'); if (!g) return; g.innerHTML = '';
   const card = (title, sub, inner) => { const c = document.createElement('div'); c.className='card'; c.innerHTML = `<div class="head"><h2>${title}</h2><span class="sub">${sub||''}</span></div><div class="body">${inner}</div>`; g.appendChild(c); return c; };
-  card('What ' + esc(state.brand.name) + ' is', 'Summary', `<div class="field"><textarea data-brain="summary">${esc(BRAIN.summary)}</textarea></div><div class="field"><label>Products</label><textarea data-brain="products">${esc(BRAIN.products)}</textarea></div><div class="field"><label>Who it’s for</label><textarea data-brain="audience">${esc(BRAIN.audience)}</textarea></div>`);
-  card('How ' + esc(state.brand.name) + ' sounds', '6 traits, with the sentences that taught them', `<div class="traits">${BRAIN.traits.map(t=>`<div class="trait"><b>${esc(t[0])}</b><p>${esc(t[1])}</p><q>${esc(t[2])}</q></div>`).join('')}</div>`);
-  card('Facts & proof points', 'Used so nothing is made up', `<div class="facts">${BRAIN.facts.map(f=>`<div><i>✓</i><span>${esc(f[0])}</span><small>${esc(f[1])}</small></div>`).join('')}</div>`);
-  card('Words', 'Say / don’t say', `<div class="field"><label>Use</label><div class="vocab">${BRAIN.vocabUse.map(w=>`<span>${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Avoid</label><div class="vocab">${BRAIN.vocabAvoid.map(w=>`<span class="no">${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Rules</label><textarea data-brain="rules">${esc(BRAIN.rules)}</textarea></div>`);
-  card('Image style', 'Every generated image follows this', `<div class="field"><textarea data-brain="imageStyle">${esc(BRAIN.imageStyle)}</textarea></div><div class="imgrow"><div class="imgcard"><canvas id="style-1"></canvas></div><div class="imgcard"><canvas id="style-2"></canvas></div></div>`);
-  card('Sources', BRAIN.sourcesSub || '84 read · re-learned today', `<div class="srcs">${BRAIN.sources.map(s=>`<a href="${esc(s[2])}" target="_blank" rel="noopener"><span class="t">${esc(s[0])}</span>${esc(s[1])}</a>`).join('')}</div>`);
-  $$('[data-brain]').forEach(el=>el.addEventListener('input', ()=>{ BRAIN[el.dataset.brain] = el.value; }));
+  card('What ' + esc(state.brand.name) + ' is', 'Summary', `<div class="field"><textarea data-brain="summary">${esc(BRAIN.summary)}</textarea></div><div class="field"><label>Products</label><textarea data-brain="products">${esc(BRAIN.products)}</textarea></div><div class="field"><label>Who it\u2019s for</label><textarea data-brain="audience">${esc(BRAIN.audience)}</textarea></div>`);
+  card('How ' + esc(state.brand.name) + ' sounds', `${(BRAIN.traits||[]).length} traits, with the sentences that taught them`, `<div class="traits">${BRAIN.traits.map(t=>`<div class="trait"><b>${esc(t[0])}</b><p>${esc(t[1])}</p><q>${esc(t[2])}</q></div>`).join('')}</div>`);
+  card('Facts & proof points', 'Used so nothing is made up. Remove anything wrong, add anything missing', `<div class="facts" data-list="facts">${BRAIN.facts.map((f,i)=>`<div><i>\u2713</i><span>${esc(f[0])}</span><small>${esc(f[1])}</small><button class="x" type="button" data-rm="${i}" aria-label="Remove this fact" title="Remove">&times;</button></div>`).join('')}</div><div class="field"><input type="text" data-add="facts" placeholder="Add a fact or number, then press Enter"></div>`);
+  card('Words', 'Say and do not say. Press the x on a word to remove it', `<div class="field"><label>Use</label><div class="vocab" data-list="vocabUse">${BRAIN.vocabUse.map((w,i)=>`<span>${esc(w)}<button class="x" type="button" data-rm="${i}" aria-label="Remove ${esc(w)}">&times;</button></span>`).join('')}</div><input type="text" data-add="vocabUse" placeholder="Add a word to use, then press Enter"></div><div class="field"><label>Avoid</label><div class="vocab" data-list="vocabAvoid">${BRAIN.vocabAvoid.map((w,i)=>`<span class="no">${esc(w)}<button class="x" type="button" data-rm="${i}" aria-label="Remove ${esc(w)}">&times;</button></span>`).join('')}</div><input type="text" data-add="vocabAvoid" placeholder="Add a word to avoid, then press Enter"></div><div class="field"><label>Rules</label><textarea data-brain="rules">${esc(BRAIN.rules)}</textarea></div>`);
+  card('Sources', BRAIN.sourcesSub || (BRAIN.sources.length + ' places read'), `<div class="srcs">${BRAIN.sources.map(s=>`<a href="${esc(s[2])}" target="_blank" rel="noopener"><span class="t">${esc(s[0])}</span>${esc(s[1])}</a>`).join('')}</div>`);
+  $$('[data-brain]').forEach(el=>el.addEventListener('input', ()=>{ BRAIN[el.dataset.brain] = el.value; markBrainDirty(); }));
+  $$('#brainGrid textarea').forEach(t=>t.addEventListener('input', ()=>{ if (t.style.overflow === 'hidden'){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; } }));
+  if (!g._bound){ g._bound = true;
+    const rerender = (focusKey) => { renderBrain(); markBrainDirty(); if (focusKey){ const i = document.querySelector('[data-add="' + focusKey + '"]'); if (i) i.focus(); } };
+    g.addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; const list = b.closest('[data-list]'); if (!list) return; const key = list.dataset.list; if (!Array.isArray(BRAIN[key])) return; BRAIN[key].splice(+b.dataset.rm, 1); rerender(); });
+    g.addEventListener('keydown', e => { const i = e.target.closest('[data-add]'); if (!i || e.key !== 'Enter') return; e.preventDefault(); const v = i.value.trim(); if (!v) return; const key = i.dataset.add; if (!Array.isArray(BRAIN[key])) return; BRAIN[key].push(key === 'facts' ? [v, 'added by you'] : v); rerender(key); });
+  }
+  brainFit();
 }
 
 /* ---------- "sounds human" check, the tells LinkedIn's slop filter and readers catch ---------- */
@@ -2671,7 +2734,7 @@ async function generateKit(quick){
   await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Continue my setup'; $('#genHint').textContent = 'Your written pieces are kept. Change your name or title here, then continue.';
   renderProfile(); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
-function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
+function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } autoGrow('#aboutText'); autoGrow('#joinedText'); renderProfile(); toast('Written again from your details'); }
 /* ---------- done tracking (the company can see who has finished) ---------- */
 const DONE_KEYS = ['photo','banner','headline','about','joined'];
 function doneState(){ try { return JSON.parse(localStorage.getItem('chorus.done')||'{}'); } catch(e){ return {}; } }
@@ -2681,7 +2744,8 @@ function renderDone(){ const d = doneState(); const n = DONE_KEYS.filter(k=>d[k]
   const nx = DONE_KEYS.find(k=>!d[k]); const _wizOn = (typeof WIZ !== 'undefined' && WIZ.on); if ($('#nextHint') && !_wizOn) $('#nextHint').textContent = !PF.generated ? 'Add your details first' : nx ? 'Next: ' + DONE_LABEL[nx] : 'All done. Nice one.'; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; } }
 /* ---------- who's set up (Settings) ---------- */
 const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["Luis Ferreira","Head of Partnerships","Partnerships",5],["Priya Natarajan","Product Manager","Product",3],["Sam Whitfield","Customer Success Manager","Customer Success",1],["Ana Lindqvist","Account Executive","Sales",0]];
-function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Not set up yet', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
+function personTeam(){ const t = (state.person.title||'').toLowerCase(); if (!t) return ''; const map = [['market','Marketing'],['partner','Partnerships'],['channel','Partnerships'],['alliance','Partnerships'],['customer success','Customer Success'],['support','Customer Success'],['sales','Sales'],['account','Sales'],['business development','Sales'],['product','Product'],['engineer','Engineering'],['develop','Engineering'],['design','Design'],['finance','Finance'],['people','People'],['talent','People'],['founder','Leadership'],['chief','Leadership'],['ceo','Leadership'],['cto','Leadership'],['cmo','Leadership'],['vp ','Leadership'],['head of','Leadership']]; for (const [k,v] of map) if (t.includes(k)) return v; return ''; }
+function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Not set up yet', (personTeam() || 'Not set'), mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
 
 function startNewPost(){
   W.outputs = null; W.imgKey = null; W.aiImage = null; W.aiErr = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
@@ -3035,7 +3099,9 @@ async function init(){
   $$('[data-go]').forEach(a=>a.addEventListener('click', e=>{ if (a.tagName==='A') e.preventDefault(); if (a.dataset.voice) setVoice(a.dataset.voice); go(a.dataset.go); }));
   $('#learnBtn').addEventListener('click', runLearn);
   $('#relearn').addEventListener('click', ()=>{ $('#learnProgress').classList.add('hidden'); $$('#learnProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; }); $('#learnBtn').disabled=false; go('learn'); });
-  $('#saveBrain').addEventListener('click', e=>{ try { $$('[data-brain]').forEach(t => { const k = t.dataset.brain; if (k in BRAIN && typeof BRAIN[k] === 'string') BRAIN[k] = t.value; }); localStorage.setItem('chorus.brain2', JSON.stringify(BRAIN)); } catch(err){} flash(e.currentTarget,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); });
+  const saveBrainNow = e=>{ try { $$('[data-brain]').forEach(t => { const k = t.dataset.brain; if (k in BRAIN && typeof BRAIN[k] === 'string') BRAIN[k] = t.value; }); localStorage.setItem('chorus.brain2', JSON.stringify(BRAIN)); localStorage.setItem('chorus.brainAt', String(Date.now())); } catch(err){} flash(e.currentTarget,'Saved'); toast('Brand Brain saved, used from the next piece of writing'); const sb = $('#brainSaveBar'); if (sb) sb.classList.add('hidden'); try { renderHome(); } catch(err){} };
+  $('#saveBrain').addEventListener('click', saveBrainNow);
+  if ($('#saveBrain2')) $('#saveBrain2').addEventListener('click', saveBrainNow);
   // write
   if ($('#writeBtn')) $('#writeBtn').addEventListener('click', ()=>write());
   if ($('#newPost')) $('#newPost').addEventListener('click', ()=>{ startNewPost(); });
@@ -3073,7 +3139,7 @@ async function init(){
   $$('[data-regen]').forEach(b=>b.addEventListener('click', ()=>regen(b.dataset.regen)));
   $('#btn-avatar').addEventListener('click', e=>downloadCanvas('avatar', e.currentTarget));
   $('#copyJoined').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#joinedText').value)) ? (flash(btn,'Copied'), setDone('joined', true)) : toast('Copy failed', true); });
-  $('#joinedText').addEventListener('input', ()=>{ saveWriting(); $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); });
+  $('#joinedText').addEventListener('input', ()=>{ saveWriting(); autoGrow('#joinedText'); $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); });
   // AI connection (Settings)
   $('#apiKey').value = localStorage.getItem('chorus.key')||''; syncAiStatus();
   $('#testKey').addEventListener('click', async e=>{ const btn=e.currentTarget; const k = $('#apiKey').value.trim(); if (!k) return toast('Paste your API key first', true); btn.disabled=true; $('#aiHint').textContent='Testing the key…';
@@ -3119,7 +3185,7 @@ async function init(){
   });
   if ($('#liInput')) $('#liInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing && $('#scanBtn') && !$('#scanBtn').disabled){ e.preventDefault(); scanLinkedIn(); } });
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
-  $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; saveWriting(); });
+  $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; saveWriting(); autoGrow('#aboutText'); });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });
 }
 document.addEventListener('DOMContentLoaded', init);
@@ -3256,6 +3322,7 @@ function wizGo(n){
   if (!WIZ.on || !WIZ.steps.length) return;
   WIZ.i = Math.max(0, Math.min(n, WIZ.steps.length - 1));
   WIZ.steps.forEach((st, k) => st.el.classList.toggle('cur', k === WIZ.i));
+  autoGrow('#aboutText'); autoGrow('#joinedText');
   const _dc = document.getElementById('wDoneCard'); if (_dc) _dc.style.display = 'none';
   const st = WIZ.steps[WIZ.i];
   const d = doneState();
@@ -3457,8 +3524,8 @@ function wizAskers(){
     const body = card.querySelector('.body') || card;
     const box = document.createElement('div');
     box.className = 'asker';
-    box.innerHTML = '<label>' + label + '</label>'
-      + '<div class="arow"><textarea data-ask="' + key + '" placeholder="' + ph + '"></textarea>'
+    box.innerHTML = '<label for="ask-' + key + '">' + label + '</label>'
+      + '<div class="arow"><textarea id="ask-' + key + '" data-ask="' + key + '" placeholder="' + ph + '"></textarea>'
       + '<button class="btn" data-rewrite="' + key + '"><svg><use href="#i-spark"/></svg>Write it again</button></div>'
       + '';
     body.appendChild(box);
@@ -3570,6 +3637,12 @@ function sectionCard(key){
   return b ? b.closest('.gen-card') : null;
 }
 
+function autoGrow(sel){
+  const ta = document.querySelector(sel); if (!ta) return;
+  if (window.CSS && CSS.supports && CSS.supports('field-sizing','content')) return;
+  if (!ta.offsetParent) return;
+  ta.style.height = 'auto'; ta.style.height = (ta.scrollHeight + 2) + 'px';
+}
 function applyGates(){
   for (const key of Object.keys(SECTION)){
     const card = sectionCard(key); if (!card) continue;
@@ -3646,7 +3719,7 @@ async function generateOne(key){
   PF.busy = false;
   await smWait(500); smCloseModal();
   if (PF.fellBack){ PF.fellBack = false; toast('The AI did not answer, so this is a starting template. Edit it or press Write it again.', true); }
-  applyGates(); renderProfile();
+  applyGates(); renderProfile(); autoGrow('#aboutText'); autoGrow('#joinedText');
   try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e){}
 }
 
@@ -3667,6 +3740,7 @@ function headlineWhere(){
 
 /* ---------- finish celebration ---------- */
 function confetti(ms){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const c = document.createElement('canvas');
   c.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:400';
   document.body.appendChild(c);

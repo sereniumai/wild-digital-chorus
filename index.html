@@ -89,8 +89,8 @@ code{font-family:var(--mono);font-size:12px}
 .avatar canvas{width:100%;height:100%;display:block}
 .avatar.lg{width:56px;height:56px;font-size:18px}
 
-/* ---------- Unifyr design system (from unifyr.com CSS): fonts, colours, buttons ---------- */
-:root{--u-violet:#CB148B;--u-indigo:#06426A;--u-cyan:#2BB5CF;--u-black:#0B121D;--u-dark:#333;--u-light:#EEE7F7;--u-lightest:#FAFAFF;--u-grad:linear-gradient(94deg,#CB148B,#06426A);--u-text-grad:linear-gradient(135deg,#D70E86 0%,#194CC9 140%);--u-light-grad:linear-gradient(155deg,#D70E8612 10%,#24388B17 90%)}
+/* ---------- client design system layer: every value here is derived from the preset at runtime ---------- */
+:root{--u-violet:var(--brand);--u-indigo:var(--brand-2);--u-cyan:var(--brand-2);--u-black:var(--ink);--u-dark:var(--ink);--u-light:color-mix(in srgb,var(--brand) 8%,var(--panel));--u-lightest:var(--ground);--u-grad:linear-gradient(94deg,var(--brand),var(--brand-2));--u-text-grad:linear-gradient(135deg,var(--brand),var(--brand-2));--u-light-grad:linear-gradient(155deg,color-mix(in srgb,var(--brand) 7%,transparent),color-mix(in srgb,var(--brand-2) 9%,transparent))}
 h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.01em}
 .page h2.title,.hello h2,.learn h2.title{font-family:var(--title);font-weight:700;letter-spacing:0}
 .page h2.title em,.hello h2 em{font-style:normal;background:none;-webkit-text-fill-color:currentColor;color:inherit}
@@ -152,13 +152,13 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .imgpanel .gen .hint{font-size:12px;color:var(--ink-3)}
 .imgrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:start}
 .imgcard{background:var(--panel-2);border:1px solid var(--line-2);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
-.imgcard canvas{width:100%;height:auto;display:block;background:#0B121D}
+.imgcard canvas{width:100%;height:auto;display:block;background:var(--ink)}
 .imgcard .r{display:flex;align-items:center;gap:8px;padding:8px 10px}
 .imgcard .r b{font-size:12.5px;display:block}
 .imgcard .r span{font-size:11px;color:var(--ink-3);display:block}
 .imgcard .r .btn{margin-left:auto}
 .genbar{height:6px;border-radius:3px;background:var(--line-2);overflow:hidden}
-.genbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#D40E83,#822287,#43318B);transition:width .4s}
+.genbar i{display:block;height:100%;width:0;background:var(--brand-grad);transition:width .4s}
 /* ---------- login ---------- */
 
 
@@ -452,13 +452,13 @@ canvas,img{max-width:100%}
 
 
 .scanbox{position:relative;border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:14px 0;background:var(--card, var(--panel));box-shadow:0 8px 30px rgba(17,8,32,.08);overflow:hidden}
-.scanbox::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,#CB148B,#6B6BF0,#CB148B);background-size:200% 100%;animation:scsheen 2.4s linear infinite}
+.scanbox::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,var(--brand),var(--brand-2),var(--brand));background-size:200% 100%;animation:scsheen 2.4s linear infinite}
 @keyframes scsheen{to{background-position:200% 0}}
 .scanbox .spct{font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--ink-3);font-weight:700}
 .sprog{height:4px;border-radius:99px;background:var(--line);overflow:hidden;margin:2px 0 12px}
-.sprog i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#CB148B,#A04FD8,#6B6BF0);transition:width .7s cubic-bezier(.3,.8,.3,1)}
+.sprog i{display:block;height:100%;width:0;border-radius:99px;background:var(--brand-grad);transition:width .7s cubic-bezier(.3,.8,.3,1)}
 .scard{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0 6px;background:var(--panel, rgba(255,255,255,.04));animation:slin .45s ease both}
-.scard img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px #CB148B33}
+.scard img{width:48px;height:48px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 20%,transparent)}
 .scard b{display:block;font-size:13.5px;line-height:1.3}
 .scard span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:1px}
 .scanbox .shead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -470,9 +470,9 @@ canvas,img{max-width:100%}
 .sline.warn{color:#b45309}
 .sline a{color:inherit;text-decoration:underline}
 .sline.dim{color:var(--ink-3);font-size:12px;margin-top:6px}
-.sline.quote{border-left:3px solid #CB148B;padding-left:10px;margin:4px 0;font-style:italic}
+.sline.quote{border-left:3px solid var(--brand);padding-left:10px;margin:4px 0;font-style:italic}
 .sline.brief{background:var(--bg, transparent);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
-.sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
+.sline .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;margin-right:8px;vertical-align:-1px;animation:scsp .8s linear infinite}
 @keyframes scsp{to{transform:rotate(360deg)}}
 .avimg{width:100%;height:100%;object-fit:cover;border-radius:50%}
 
@@ -480,21 +480,21 @@ canvas,img{max-width:100%}
 .scanmodal.on{display:grid}
 .smpanel{position:relative;width:min(640px,calc(100vw - 32px));max-height:min(84vh,760px);display:flex;flex-direction:column;background:var(--card,var(--panel,#fff));border:1px solid var(--line);border-radius:20px;padding:20px 22px;box-shadow:0 30px 90px rgba(10,7,18,.45);overflow:hidden;animation:smin .4s cubic-bezier(.3,.9,.3,1)}
 @keyframes smin{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
-.smpanel::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,#CB148B,#6B6BF0,#CB148B);background-size:200% 100%;animation:scsheen 2.4s linear infinite}
+.smpanel::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--brand),var(--brand-2),var(--brand));background-size:200% 100%;animation:scsheen 2.4s linear infinite}
 .smtop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .smtop b{font-size:15px}
-.smbody{overflow-y:auto;padding:4px 2px 8px;flex:1;min-height:220px}
+.smbody{overflow-y:auto;padding:4px 2px 20px;flex:1;min-height:220px}
 .smstep{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13.5px;color:var(--ink-2);animation:slin .35s ease both}
-.smstep .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#CB148B22,#6B6BF022);font-size:13px;flex:none}
+.smstep .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 13%,transparent),color-mix(in srgb,var(--brand-2) 13%,transparent));font-size:13px;flex:none}
 .smstep.ok{color:var(--ink)}
-.smstep.ok .ic{background:linear-gradient(135deg,#CB148B,#6B6BF0);color:#fff}
-.smstep .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:#CB148B;border-radius:50%;animation:scsp .8s linear infinite;margin-left:auto}
+.smstep.ok .ic{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff}
+.smstep .spin{display:inline-block;width:12px;height:12px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:scsp .8s linear infinite;margin-left:auto}
 .smdata{margin:2px 0 10px 36px;animation:slin .45s ease both}
 .smid{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--panel,rgba(255,255,255,.03))}
-.smid img{width:54px;height:54px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px #CB148B44;flex:none}
+.smid img{width:54px;height:54px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px color-mix(in srgb,var(--brand) 27%,transparent);flex:none}
 .smid b{display:block;font-size:14px;line-height:1.3}
 .smid span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:2px}
-.smquote{border-left:3px solid #CB148B;padding:2px 0 2px 12px;font-size:12.5px;color:var(--ink-2);font-style:italic;line-height:1.55}
+.smquote{border-left:3px solid var(--brand);padding:2px 0 2px 12px;font-size:12.5px;color:var(--ink-2);font-style:italic;line-height:1.55}
 .smchip{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:12px;font-weight:600;color:var(--ink)}
 .smpost{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12px;color:var(--ink-2);margin-bottom:6px;animation:slin .4s ease both}
 .smpost .meta{font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
@@ -502,7 +502,7 @@ canvas,img{max-width:100%}
 .smsum{margin:4px 0 0 36px;border-top:1px solid var(--line);padding-top:10px}
 .smsum .t{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
 .smsum div.i{font-size:13px;padding:3px 0;color:var(--ink)}
-.smfoot{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.smfoot{display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-2);flex-wrap:wrap}
 
 .kitwiz .wstep:not(.cur){display:none!important}
 .wnav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--line)}
@@ -544,10 +544,10 @@ canvas,img{max-width:100%}
 .wrail .lbl{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
 .wrail .now{font-size:15px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
 .wrail .track{flex:1;min-width:150px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
-.wrail .track i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#CB148B,#A04FD8,#6B6BF0);transition:width .55s cubic-bezier(.3,.9,.3,1)}
+.wrail .track i{display:block;height:100%;width:0;border-radius:99px;background:var(--brand-grad);transition:width .55s cubic-bezier(.3,.9,.3,1)}
 .wrail .dots{display:flex;gap:7px}
 .wrail .dots span{width:9px;height:9px;border-radius:50%;background:var(--line-2);transition:all .3s}
-.wrail .dots span.on{background:linear-gradient(135deg,#CB148B,#6B6BF0);transform:scale(1.25)}
+.wrail .dots span.on{background:linear-gradient(135deg,var(--brand),var(--brand-2));transform:scale(1.25)}
 .wrail .dots span.past{background:#16a34a}
 
 /* footer actions read like a form you move through */
@@ -615,8 +615,8 @@ canvas,img{max-width:100%}
   --good:#0E8A4F; --good-soft:#E4F4EB;
   --warn:#B87908; --warn-soft:#FDF3E0;
   --bad:#C2453A;  --bad-soft:#FBE8E6;
-  --brand:#CB148B; --brand-text:#B00F78; --brand-hover:#B21279; --brand-active:#98105F;
-  --brand-soft:rgba(203,20,139,.10); --brand-soft-2:rgba(203,20,139,.18);
+  --brand:#CB148B; --brand-2:#06426A; --brand-text:#B00F78; --brand-hover:#B21279; --brand-active:#98105F;
+  --brand-soft:rgba(203,20,139,.10); --brand-soft-2:var(--brand-soft);
   --brand-ring:rgba(203,20,139,.28);
   --focus:#CB148B;
   --surface-hover:#EDEFF4; --surface-active:#E4E7EE;
@@ -639,7 +639,7 @@ canvas,img{max-width:100%}
   --good:#2FA96C; --good-soft:#0E2A1D;
   --warn:#D69A2E; --warn-soft:#2C2314;
   --bad:#D65A4E;  --bad-soft:#2E1917;
-  --brand:#CB148B; --brand-text:#F06FBE; --brand-hover:#DA2C9B; --brand-active:#B01276;
+  --brand:#CB148B; --brand-2:#0A5E96; --brand-text:#F06FBE; --brand-hover:#DA2C9B; --brand-active:#B01276;
   --brand-soft:rgba(203,20,139,.16); --brand-soft-2:rgba(203,20,139,.26);
   --brand-ring:rgba(240,111,190,.32);
   --focus:#F06FBE;
@@ -962,8 +962,8 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 :root[data-theme="dark"] #wizSide .card > .body{background:var(--panel-2);padding:14px}
 
 /* in dark mode the selected nav item was identical to hover, and the brand vanished */
-:root[data-theme="dark"] .side nav a[aria-current="page"]{background:rgba(203,20,139,.18);
-  color:#F7A8D8;box-shadow:inset 2px 0 0 #CB148B}
+:root[data-theme="dark"] .side nav a[aria-current="page"]{background:var(--brand-soft);
+  color:var(--brand-text);box-shadow:inset 2px 0 0 var(--brand)}
 :root[data-theme="dark"] .side nav a:hover:not([aria-current="page"]){background:#1A2130}
 .side nav a:active{background:var(--side-2)}
 .side nav a:focus-visible{box-shadow:0 0 0 2px var(--side),0 0 0 4px var(--focus)}
@@ -1025,6 +1025,33 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 .hlmeta{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--ink-3)}
 .hlmeta #hlCount{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink-2)}
 
+
+/* ============ audit batch one ============ */
+/* the three gate screens: the single action is centred in the stage instead of stranded at the top */
+.wgate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px 44px}
+.wgate .wg-t{font-size:18px}
+.wgate .wg-s{margin-bottom:18px}
+@media (max-width:1100px){.kitwiz .wstep:not([data-step="1"]){min-height:420px}}
+/* after Copy the saved tip takes the spacer's job so the button row never wraps */
+.wnav .wtip{flex:1 1 0;min-width:0;font-size:12px;font-weight:700;line-height:1.35;color:var(--good)}
+@media (min-width:561px){.wnav .wtip + .sp{display:none}}
+/* the finish rows: one filled action per row was six magenta buttons on one card */
+.finrow .btn.brand{background:var(--panel);background-image:none;color:var(--ink);border:1px solid var(--line);box-shadow:var(--e-1)}
+.finrow .btn.brand:hover{background:var(--surface-hover);border-color:var(--line-3)}
+.finrow .btn:not(.brand){color:var(--ink-2)}
+.finrow.nudge .tick{border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-ring)}
+/* team avatars drew grey initials on magenta */
+.team-table .who > .avatar{color:var(--brand-on);font-size:12px;font-weight:700;letter-spacing:.02em}
+/* the ask box was the only unstyled field in the product */
+.asker textarea{background:var(--panel-2);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 14px;line-height:1.55;
+  transition:border-color var(--d-2) var(--ease-out),box-shadow var(--d-2) var(--ease-out),background-color var(--d-2) var(--ease-out)}
+.asker textarea:focus{background:var(--panel);border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-ring);outline:none}
+/* on phones the sticky rail was covering each step heading */
+@media (max-width:560px){html{scroll-padding-top:104px}.kitwiz .wrail{padding-block:11px}}
+
+
+.brandpick{width:auto;min-width:160px;height:40px;padding:0 12px;border-radius:10px;margin-right:8px}
+
 </style>
 </head>
 <body>
@@ -1068,7 +1095,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <!-- ---------- LEARN (first run) ---------- -->
     <div class="page hidden" data-page="learn">
       <div class="learn">
-        <h2 class="title">Let’s learn how <em>Unifyr</em> talks.</h2>
+        <h2 class="title">Let’s learn how <em data-brand="name">Unifyr</em> talks.</h2>
         <p class="lede" style="margin-top:6px">Give Chorus the website and LinkedIn page. It reads everything public, pages, blog, press, posts, and builds the Brand Brain: what’s true about the company and how it sounds.</p>
         <div class="card" style="margin-top:18px"><div class="body">
           <div class="grid2">
@@ -1093,28 +1120,28 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
       <div class="quick">
         <a data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
-      <div class="card quietcard"><div class="head"><h2>What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
-        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways Unifyr sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
+      <div class="card quietcard"><div class="head"><h2 data-brand="knows">What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
+        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
         <button class="btn sm quiet" data-go="brain" style="align-self:flex-start">See what it knows</button>
       </div></div>
     </div>
 
     <!-- ---------- BRAIN ---------- -->
     <div class="page hidden" data-page="brain">
-      <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Settings: Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus learned about Unifyr from 84 public pages and posts. Every post is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
+      <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Settings: Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus learned about <span data-brand="name">Unifyr</span> from 84 public pages and posts. Every post is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
       <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">AI writing is already on for this demo. Add your own key to run it on your account instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
         <div class="grid2"><div class="field"><label>Anthropic API key</label><input type="password" id="apiKey" placeholder="sk-ant-…" autocomplete="off"><div class="hint">Stored only in this browser. Get one at console.anthropic.com.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
         <div class="hint" id="aiHint"></div>
       </div></div>
-      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and it appears in every person's kit.</span><span class="spacer"></span><label class="btn sm brand"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" hidden></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
-      <div class="card"><div class="head"><h2>Who’s set up</h2><span class="sub">Each person’s LinkedIn kit, five steps. You only see progress, never their details.</span></div><div class="team-wrap"><table class="team-table"><thead><tr><th>Person</th><th>Team</th><th>Progress</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></div>
+      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and everyone can choose it.</span><span class="spacer"></span><label class="btn sm brand"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" hidden></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
+      <div class="card"><div class="head"><h2>Who’s set up</h2><span class="sub">Each person’s LinkedIn, five steps. You only see progress, never their details.</span></div><div class="team-wrap"><table class="team-table"><thead><tr><th>Person</th><th>Team</th><th>Progress</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></div>
       <div class="brain" id="brainGrid"></div>
     </div>
 
     <!-- ---------- MY LINKEDIN ---------- -->
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
-      <p class="lede">Paste your LinkedIn link, then five quick steps. Chorus writes each piece in your voice, on the Unifyr brand.</p>
+      <p class="lede">Paste your LinkedIn link, then five quick steps. Chorus writes each piece in your voice, on the <span data-brand="name">Unifyr</span> brand.</p>
       <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
       <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
@@ -1131,7 +1158,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
         <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
-        <div class="actionrow" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Start my LinkedIn kit</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
+        <div class="actionrow" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Set up my LinkedIn</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
       </div></div>
 
       <div class="kit">
@@ -1154,7 +1181,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 
           <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the Unifyr facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the <span data-brand="name">Unifyr</span> facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
         </div>
         <div class="card wizpreview" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
@@ -1174,7 +1201,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <div class="smtop"><b id="smTitle">Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span><button class="btn sm quiet" id="smCancel" aria-label="Close" style="margin-left:8px">Close</button></div>
     <div class="sprog"><i id="smBar"></i></div>
     <div class="smbody" id="smBody"></div>
-    <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, take me to my kit</button></div>
+    <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, let’s go</button></div>
   </div>
 </div>
 
@@ -1469,7 +1496,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-04-photo7');
+console.log('Chorus build 2026-09-05-theme1');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1631,8 +1658,8 @@ async function runLearn(){
   smBegin('Learning the brand'); $('#smUse').classList.add('hidden');
   try {
     const s1 = smStep('\u26A1','Connecting'); await smWait(700);
-    if (!(await liPing())){ smOk(s1,'This device cannot reach the Chorus server right now. Open the app at wild-digital-chorus.vercel.app and it will work there.'); $('#smFoot').classList.remove('hidden'); return; }
-    smOk(s1,'<b>Connected</b> securely'); smProg(6);
+    if (!(await liPing())){ smOk(s1,'This device cannot reach the Chorus server right now. Open the app at wild-digital-chorus.vercel.app and it will work there.'); smShowFoot(); return; }
+    smOk(s1,'<b>Connected</b>'); smProg(6);
     const host = site.replace(/^https?:\/\//,'').replace(/\/.*$/,'');
     const s2 = smStep('\uD83C\uDF10','Opening <b>'+esc(host)+'</b> and mapping the site');
     const r = await fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ learn: { url: site, name: state.brand.name } }) });
@@ -1688,17 +1715,17 @@ async function runLearn(){
       + '<div class="i">\u2713 Every post and image is now written from this</div></div>');
     smProg(100);
     $('#smUse').textContent = 'Open the Brand Brain'; W._afterLearn = true;
-    $('#smUse').classList.remove('hidden'); $('#smFoot').classList.remove('hidden');
+    $('#smUse').classList.remove('hidden'); smShowFoot();
   } catch(e){
     smData('<div class="smbrief">Could not learn that site. ' + esc(e.message || String(e)) + '</div>');
-    $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
+    smShowFoot(); $('#smUse').classList.add('hidden');
   } finally { btn.disabled = false; }
 }
 function renderBrain(){
   const g = $('#brainGrid'); g.innerHTML = '';
   const card = (title, sub, inner) => { const c = document.createElement('div'); c.className='card'; c.innerHTML = `<div class="head"><h2>${title}</h2><span class="sub">${sub||''}</span></div><div class="body">${inner}</div>`; g.appendChild(c); return c; };
-  card('What Unifyr is', 'Summary', `<div class="field"><textarea data-brain="summary">${esc(BRAIN.summary)}</textarea></div><div class="field"><label>Products</label><textarea data-brain="products">${esc(BRAIN.products)}</textarea></div><div class="field"><label>Who it’s for</label><textarea data-brain="audience">${esc(BRAIN.audience)}</textarea></div>`);
-  card('How Unifyr sounds', '6 traits, with the sentences that taught them', `<div class="traits">${BRAIN.traits.map(t=>`<div class="trait"><b>${esc(t[0])}</b><p>${esc(t[1])}</p><q>${esc(t[2])}</q></div>`).join('')}</div>`);
+  card('What ' + esc(state.brand.name) + ' is', 'Summary', `<div class="field"><textarea data-brain="summary">${esc(BRAIN.summary)}</textarea></div><div class="field"><label>Products</label><textarea data-brain="products">${esc(BRAIN.products)}</textarea></div><div class="field"><label>Who it’s for</label><textarea data-brain="audience">${esc(BRAIN.audience)}</textarea></div>`);
+  card('How ' + esc(state.brand.name) + ' sounds', '6 traits, with the sentences that taught them', `<div class="traits">${BRAIN.traits.map(t=>`<div class="trait"><b>${esc(t[0])}</b><p>${esc(t[1])}</p><q>${esc(t[2])}</q></div>`).join('')}</div>`);
   card('Facts & proof points', 'Used so nothing is made up', `<div class="facts">${BRAIN.facts.map(f=>`<div><i>✓</i><span>${esc(f[0])}</span><small>${esc(f[1])}</small></div>`).join('')}</div>`);
   card('Words', 'Say / don’t say', `<div class="field"><label>Use</label><div class="vocab">${BRAIN.vocabUse.map(w=>`<span>${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Avoid</label><div class="vocab">${BRAIN.vocabAvoid.map(w=>`<span class="no">${esc(w)}</span>`).join('')}</div></div><div class="field"><label>Rules</label><textarea data-brain="rules">${esc(BRAIN.rules)}</textarea></div>`);
   card('Image style', 'Every generated image follows this', `<div class="field"><textarea data-brain="imageStyle">${esc(BRAIN.imageStyle)}</textarea></div><div class="imgrow"><div class="imgcard"><canvas id="style-1"></canvas></div><div class="imgcard"><canvas id="style-2"></canvas></div></div>`);
@@ -1743,7 +1770,7 @@ function setVoice(v){
   W.voice = v; const _af = $('#angleField'); if (!_af) return; _af.classList.toggle('hidden', v!=='me');
   const av = $('#voiceWhoAv'); if (av){ av.innerHTML=''; if (v==='me'){ if (state.photoCut && canvases.avatar){ const c=document.createElement('canvas'); c.width=64; c.height=64; c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); av.appendChild(c); } else { const f=faceEl(64); if (f) av.appendChild(f); else { const c=document.createElement('canvas'); c.width=64; c.height=64; drawPhoto(c.getContext('2d'),32,32,32,0,null); av.appendChild(c); } } } else { const l=state.brand.logoData||normUrl(state.brand.logo); av.innerHTML = l ? `<span style="background:#fff;width:100%;height:100%;display:grid;place-items:center"><img src="${esc(l)}" style="width:22px" alt=""></span>` : 'U'; } }
   if ($('#voiceWhoName')) $('#voiceWhoName').textContent = v==='me' ? (state.person.name||'You') : state.brand.name;
-  if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the Unifyr voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>posts</em>' : esc(state.brand.name) + ' <em>posts</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
+  if ($('#voiceHint')) $('#voiceHint').textContent = v==='me' ? 'In your own voice, on your profile. Learned from your LinkedIn.' : 'In the ' + state.brand.name + ' voice, on the company page.'; $('#writeTitle').innerHTML = v==='me' ? 'My <em>posts</em>' : esc(state.brand.name) + ' <em>posts</em>'; $$('#nav a[data-page="write"]').forEach(a=>{ if (state.ui.page==='write'){ if (a.dataset.voice===v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); } }); if (state.ui.page==='write') $('#pageCrumb').textContent = v==='me' ? 'Me' : 'Company (marketing)'; }
 function matchExample(ask){
   const a = ask.toLowerCase();
   if (/agent|mcp/.test(a)) return EXAMPLES[0]; if (/investcorp|\$20|funding|round|invest/.test(a)) return EXAMPLES[1]; if (/app\.unifyr|domain|address|moved/.test(a)) return EXAMPLES[2];
@@ -1914,7 +1941,7 @@ async function liveWriteOld(ask){
 /* ---------- banners: two built in, marketing can add more ---------- */
 function loadBanners(){ try { state.brand.banners = JSON.parse(localStorage.getItem('chorus.banners')||'[]'); } catch(e){ state.brand.banners = []; } }
 function saveBanners(){ try { localStorage.setItem('chorus.banners', JSON.stringify(state.brand.banners||[])); } catch(e){ toast('That image is too big to save here', true); } }
-function bannerList(){ return [{id:'1', label:'Build better partnerships', sub:'Unifyr’s LinkedIn banner'}, {id:'2', label:'Partner growth without limits', sub:'Alternative'}].concat((state.brand.banners||[]).map((b,i)=>({id:'u'+i, label:b.name||('Banner '+(i+3)), sub:'Added by marketing', src:b.src}))); }
+function bannerList(){ return [{id:'1', label:'Build better partnerships', sub: state.brand.name + '’s LinkedIn banner'}, {id:'2', label:'Partner growth without limits', sub:'Alternative'}].concat((state.brand.banners||[]).map((b,i)=>({id:'u'+i, label:b.name||('Banner '+(i+3)), sub:'Added by marketing', src:b.src}))); }
 async function bannerCanvas(b){
   const key = 'bnr_'+b.id; if (canvases[key] && !b.src) return canvases[key];
   if (!b.src) return canvases['banner'+b.id];
@@ -2048,7 +2075,7 @@ function suggestPoster(){
 function imagePanel(){
   suggestPoster();
   const el = document.createElement('div'); el.className='imgpanel';
-  el.innerHTML = `<div class="oh"><span class="ch" style="background:#0B121D;color:#fff;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:800">img</span><b>Image</b><span class="pill brand">Unifyr layout</span><span class="spacer"></span><span class="pill${IMG.base?' good':''}" id="imgState">${IMG.base?'Ready. Download the size you need':'Not made yet'}</span></div>
+  el.innerHTML = `<div class="oh"><span class="ch" style="background:var(--ink);color:#fff;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:800">img</span><b>Image</b><span class="pill brand">Unifyr layout</span><span class="spacer"></span><span class="pill${IMG.base?' good':''}" id="imgState">${IMG.base?'Ready. Download the size you need':'Not made yet'}</span></div>
     <div class="body">
       <div class="poster-fields">
         <div class="field" style="grid-column:1/-1"><label>What should the picture show?</label><textarea id="pDesc" style="min-height:84px">${esc(IMG.desc)}</textarea><div class="hint">Chorus has written this from your news. Change it if you want a different picture, then make it again.</div></div>
@@ -2301,7 +2328,8 @@ function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.c
 function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function smOpenModal(){ const m=$('#scanModal'); m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); }
 function smCloseModal(){ $('#scanModal').classList.remove('on'); }
-function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, take me to my kit'; u.classList.remove('hidden'); } W._afterScan = false; smOpenModal(); }
+function smShowFoot(){ $('#smFoot').classList.remove('hidden'); requestAnimationFrame(()=>{ const b=$('#smBody'); if (b) b.scrollTop = b.scrollHeight; }); }
+function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; smOpenModal(); }
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
@@ -2317,8 +2345,8 @@ async function scanLinkedIn(){
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
-    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden'); return; }
-    smOk(s1, '<b>Connected</b> securely'); smProg(12);
+    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); smShowFoot(); $('#smUse').classList.add('hidden'); return; }
+    smOk(s1, '<b>Connected</b>'); smProg(12);
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
     smOk(s2, '<b>Profile found</b>'); smProg(30);
@@ -2330,7 +2358,7 @@ async function scanLinkedIn(){
     if (prof.photo){
       const s3 = smStep('\uD83D\uDCF7', 'Pulling in your profile photo and cutting out the background');
       photoJob = usePhotoUrl(prof.photo).then(ok=>{
-        if (ok) smOk(s3, '<b>Photo added</b> to your kit, cut out and ready for a Unifyr colour');
+        if (ok) smOk(s3, '<b>Photo added</b>, cut out and ready for a ' + esc(state.brand.name) + ' colour');
         else smOk(s3, '<b>Could not load your photo.</b> Add it yourself on the photo step, everything else is ready');
         smProg(48);
       });
@@ -2383,20 +2411,20 @@ async function scanLinkedIn(){
     try { s1Sync(); } catch(e){}
     smProg(100);
     const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
-    if (prof.photo && state.photoImg) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any Unifyr colour behind it</div>');
+    if (prof.photo && state.photoImg) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any ' + esc(state.brand.name) + ' colour behind it</div>');
     else sum.push('<div class="i">\u2022 No photo came through, add one on the photo step</div>');
     sum.push('<div class="i">\u2713 Name and job title filled in</div>');
     sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
-    sum.push('<div class="i">\u2713 Nothing stored anywhere except this browser</div></div>');
+    sum.push('<div class="i">\u2713 Saved only in this browser. Nothing is posted or changed on LinkedIn for you</div></div>');
     smData(sum.join(''), '');
-    $('#smUse').textContent = 'Start my LinkedIn kit'; W._afterScan = true;
+    $('#smUse').textContent = 'Set up my LinkedIn'; W._afterScan = true;
     $('#smUse').classList.remove('hidden');
-    $('#smFoot').classList.remove('hidden');
+    smShowFoot();
   } catch(e){
     savePerson();
     smData('<div class="smbrief">Could not read that profile. ' + esc(e.message||'') + '</div>');
     if ($('#genHint')) $('#genHint').textContent = 'The scan did not work, so this will be written from your name and job title only. You can add your photo on the photo step.';
-    $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
+    smShowFoot(); $('#smUse').classList.add('hidden');
   } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
 }
 async function generateKit(){
@@ -2405,7 +2433,7 @@ async function generateKit(){
   const prog = $('#genProgress'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
   const scan = p.scan; const hasSamples = !!(p.samples && String(p.samples).trim().length > 40) || !!(scan && scan.posts && scan.posts.length);
-  smBegin('Building your LinkedIn kit'); $('#smUse').classList.add('hidden');
+  smBegin('Getting your five steps ready'); $('#smUse').classList.add('hidden');
   const _k1 = smStep('\uD83D\uDCD6', 'Reading what the scan found'); await smWait(900);
   smOk(_k1, scan ? ((scan.posts||[]).length ? '<b>' + scan.posts.length + ' real posts</b> and your profile loaded' : '<b>Your real profile loaded</b>, no recent posts') : '<b>Your details loaded</b>'); smProg(14);
   const _k2 = smStep('\uD83C\uDFA7', 'Learning your voice'); await smWait(900);
@@ -2415,13 +2443,13 @@ async function generateKit(){
   const _k4 = smStep('\u2705', 'Getting your steps ready'); await smWait(700);
   smOk(_k4, '<b>Ready</b>, you will write each piece one at a time'); smProg(100);
   await smWait(450); smCloseModal();
-  HEADLINES = []; PF.made = {};
+  if (!PF.generated){ HEADLINES = []; PF.made = {}; }
   PF.headline = 0; PF.generated = true; try { localStorage.setItem('chorus.kit', '1'); } catch(e){}
   try { wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex((x, k) => k > 0 && !_d[x.key]); wizGo(_f < 0 ? 1 : _f); } catch(e){}
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden'));
   $('#voiceBox').classList.remove('hidden'); $('#voiceStatus').textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Scan your LinkedIn above and generate again, and this will sound like you rather than a clear, plain voice.';
-  await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; $('#genHint').textContent = 'Changed your title or photo? Click again and everything below updates.';
+  await new Promise(r=>setTimeout(r, 100)); prog.classList.add('hidden'); btn.disabled = false; btn.innerHTML = '<svg><use href="#i-spark"/></svg>Continue my setup'; $('#genHint').textContent = 'Your written pieces are kept. Change your name or title here, then continue.';
   renderProfile(); $('#headlines').closest('.card').scrollIntoView({behavior:'smooth', block:'start'});
 }
 function regen(which){ const p = state.person; if (which==='joined'){ $('#joinedText').value = joinedFor(p); } if (which==='about'){ $('#aboutText').value = aboutFor(p); } renderProfile(); toast('Written again from your details'); }
@@ -2487,7 +2515,8 @@ async function cutOut(img){
   trimmed.getContext('2d').drawImage(soft, x0, y0, tw, th, 0, 0, tw, th);
   return trimmed;
 }
-function swatchColors(){ return ['#0B121D', '#CB148B', '#822287', '#43318B', '#5D5DC5', '#FFFFFF']; }
+function swatchColors(){ const c = state.brand.colors || {}; const p = c.primary || '#CB148B', q = c.secondary || darken(p, .35), k = c.ink || '#0B121D';
+  return [k, p, mix(p, q, .5), q, lighten(q, .3), '#FFFFFF']; }
 function renderSwatches(){ const box = $('#swatches'); box.innerHTML=''; swatchColors().forEach((col,i)=>{ const b=document.createElement('button'); b.style.background=col; b.title=col; b.setAttribute('aria-pressed', (state.person.bg||0)===i); b.addEventListener('click', ()=>{ state.person.bg=i; renderSwatches(); render(); }); box.appendChild(b); }); }
 R.avatar = (ctx, w, h) => {
   const c = state.brand.colors, col = swatchColors()[state.person.bg||0]; const cx=w/2, cy=h/2, r=w*0.46; const p = state.person;
@@ -2515,7 +2544,7 @@ R.avatar = (ctx, w, h) => {
 };
 /* Unifyr's LinkedIn design: navy field, two sweeps of concentric neon arcs (magenta → violet) */
 function arcs(ctx, w, h){
-  ctx.fillStyle = '#0B121D'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = (state.brand.colors && state.brand.colors.ink) || '#0B121D'; ctx.fillRect(0,0,w,h);
   const draw = (cx, cy, r0, step, n, a0, a1, from, to) => {
     for (let i=0;i<n;i++){ const t = i/(n-1); const g = ctx.createLinearGradient(0,0,w,0); g.addColorStop(0, from); g.addColorStop(1, to);
       ctx.strokeStyle = g; ctx.lineWidth = Math.max(2, h*0.012); ctx.globalAlpha = 0.55 + 0.45*(1-t); ctx.shadowColor = from; ctx.shadowBlur = h*0.02;
@@ -2523,7 +2552,7 @@ function arcs(ctx, w, h){
     ctx.globalAlpha = 1; ctx.shadowBlur = 0;
   };
   // left sweep: centre well below the canvas, arcs rise across the left half
-  draw(w*0.30, h*2.35, h*1.55, h*0.11, 7, Math.PI*1.02, Math.PI*1.98, '#CB148B', '#7B2FA8');
+  draw(w*0.30, h*2.35, h*1.55, h*0.11, 7, Math.PI*1.02, Math.PI*1.98, state.brand.colors.primary, mix(state.brand.colors.primary, state.brand.colors.secondary || darken(state.brand.colors.primary, .35), .5));
   // right sweep: centre above, arcs fall across the right half
   draw(w*0.78, -h*1.35, h*1.55, h*0.11, 7, Math.PI*0.05, Math.PI*0.95, '#5D5DC5', '#43318B');
 }
@@ -2542,7 +2571,7 @@ I'll be working with channel and partner leaders across the US. If that's you, I
 What's the one thing you'd fix about partner programs if you could?`;
 /* Company banner 1, recreation of Unifyr's current LinkedIn banner */
 R.banner1 = (ctx, w, h) => {
-  ctx.fillStyle = '#0B121D'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = (state.brand.colors && state.brand.colors.ink) || '#0B121D'; ctx.fillRect(0,0,w,h);
   // soft violet glows
   const glow = (x,y,r,col)=>{ const g = ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,col); g.addColorStop(1,'rgba(11,18,29,0)'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h); };
   glow(w*0.06, h*0.85, h*1.3, 'rgba(67,49,139,.35)'); glow(w*0.93, h*0.75, h*1.2, 'rgba(67,49,139,.35)');
@@ -2558,7 +2587,7 @@ R.banner1 = (ctx, w, h) => {
   ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.font = font('500', Math.round(h*0.07)); ctx.fillText('Grow your partner program with the platform built for', x0, y0 + h*0.17); ctx.fillText('channel ecosystems of every size.', x0, y0 + h*0.26);
 };
 R.banner2 = (ctx, w, h) => {
-  ctx.fillStyle = '#0B121D'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = (state.brand.colors && state.brand.colors.ink) || '#0B121D'; ctx.fillRect(0,0,w,h);
   const ring = (cx, cy, r0, gap, n, a0, a1, c1, c2, lw) => {
     for (let i=0;i<n;i++){ const t = n>1 ? i/(n-1) : 0; ctx.strokeStyle = mix(c1, c2, t); ctx.lineWidth = lw; ctx.globalAlpha = 0.95 - t*0.25;
       ctx.beginPath(); ctx.arc(cx, cy, r0 + i*gap, a0, a1); ctx.stroke(); }
@@ -2607,7 +2636,7 @@ R.background = (ctx, w, h) => {
   const nm = p.name || 'Your name', tt = [p.title, state.brand.name].filter(Boolean).join(' · ');
   ctx.textAlign='left'; ctx.textBaseline='alphabetic'; ctx.fillStyle='#FFFFFF'; ctx.font = font('800', 40); ctx.fillText(nm, 96, h-118);
   ctx.globalAlpha=.75; ctx.font = font('500', 26); ctx.fillText(tt, 96, h-80); ctx.globalAlpha=1;
-  ctx.fillStyle = '#CB148B'; ctx.fillRect(96, h-166, 8, 60);
+  ctx.fillStyle = state.brand.colors.primary; ctx.fillRect(96, h-166, 8, 60);
 };
 
 /* ---------- kit ---------- */
@@ -2637,11 +2666,12 @@ function pctAll(v){ return String(v).split('').map(function(c){ var n=c.charCode
    people with no photo. */
 function photoSrc(u){ if(!u) return ''; if(/^(data|blob):/i.test(u)) return u; return API_BASE + '/api/write?img=' + pctAll(u); }
 function facePhoto(){
-  if (!state.photoCut && !state.photoImg && hasStoredPhoto()) return '';   /* the stored cut out is about to paint, do not fetch */
+  if (state.photoCut || state.photoImg) return '';   /* the face is in memory, paint from it */
+  if (hasStoredPhoto()) return '';   /* the stored cut out is about to paint, do not fetch */
   return (state.person.scan && state.person.scan.photo) || '';
 }
 function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.crossOrigin='anonymous'; i.src=photoSrc(f); i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
-function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
+function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; const srcA = (state.photoCut && canvases.avatar) ? canvases.avatar : (state.photoCut || state.photoImg); if (srcA){ const g=c.getContext('2d'); if (!canvases.avatar){ g.fillStyle = (typeof swatchColors==='function' ? swatchColors()[state.person.bg||0] : '#0B121D') || '#0B121D'; g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.fill(); g.save(); g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.clip(); } g.drawImage(srcA,0,0,64,64); if (!canvases.avatar) g.restore(); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }
 async function downloadCanvas(id, btn){
@@ -2654,13 +2684,82 @@ function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('
 
 function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, hosted for this demo'; s.className = 'pill good'; } if ($('#modePill')) $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; if ($('#modePill')) $('#modePill').title = on ? 'Using the key saved in this browser' : 'Hosted by Wild Digital for this demo'; if ($('#modePill')) $('#modePill').className = 'pill good'; }
 /* ---------- portal theme from the brand (colours, logo) + light/dark ---------- */
+/* Brand theming. Everything colour related derives from state.brand.colors at runtime, so
+   switching the client preset re-themes the whole app. Only brand derived tokens are
+   injected here: the surface ladder (canvas, sidebar, card) belongs to the stylesheet and
+   must not be overridden per client. */
+function contrastRatio(a, b){ const la = lum(a), lb = lum(b); const [hi, lo] = la > lb ? [la, lb] : [lb, la]; return (hi + .05) / (lo + .05); }
+function darken(h, t){ return mix(h, '#000000', t); }
+function lighten(h, t){ return mix(h, '#FFFFFF', t); }
+function rgbaOf(h, a){ const [r,g,b] = hexRgb(h); return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')'; }
+function readableOn(h, bg, minRatio, towards){
+  let c = h, guard = 0;
+  while (contrastRatio(c, bg) < minRatio && guard++ < 24) c = mix(c, towards, .08);
+  return c;
+}
+function brandTokens(){
+  const c = state.brand.colors || {};
+  const p = c.primary || '#CB148B';
+  const q = c.secondary || darken(p, .35);
+  const k = c.ink || '#0B121D';
+  const light = {
+    '--brand': p, '--brand-2': q, '--brand-on': onColor(p),
+    '--brand-text': readableOn(p, '#FFFFFF', 4.5, '#000000'),
+    '--brand-hover': darken(p, .08), '--brand-active': darken(p, .20),
+    '--brand-soft': rgbaOf(p, .10), '--brand-soft-2': rgbaOf(p, .18), '--brand-ring': rgbaOf(p, .28),
+    '--focus': p, '--brand-grad': p,
+    '--u-violet': p, '--u-indigo': q, '--u-cyan': q, '--u-black': k, '--u-dark': k,
+    '--u-light': mix(p, '#FFFFFF', .92), '--u-lightest': mix(p, '#FFFFFF', .97),
+    '--u-grad': 'linear-gradient(94deg,' + p + ',' + q + ')',
+    '--u-text-grad': 'linear-gradient(135deg,' + p + ',' + q + ')',
+    '--u-light-grad': 'linear-gradient(155deg,' + rgbaOf(p, .07) + ',' + rgbaOf(q, .09) + ')',
+    '--side-2': mix(p, '#FFFFFF', .95), '--side-line': mix(p, '#FFFFFF', .90),
+    '--brass': p, '--brass-2': darken(p, .2), '--brass-soft': rgbaOf(p, .12), '--brass-ink': onColor(p)
+  };
+  const pt = readableOn(lighten(p, .35), '#161B24', 4.5, '#FFFFFF');
+  const dark = {
+    '--brand': p, '--brand-2': lighten(q, .2), '--brand-on': onColor(p),
+    '--brand-text': pt, '--brand-hover': lighten(p, .08), '--brand-active': darken(p, .08),
+    '--brand-soft': rgbaOf(p, .16), '--brand-soft-2': rgbaOf(p, .26), '--brand-ring': rgbaOf(pt, .32),
+    '--focus': pt, '--brand-grad': lighten(p, .10),
+    '--u-violet': pt, '--u-indigo': lighten(q, .2), '--u-cyan': lighten(q, .2),
+    '--u-grad': 'linear-gradient(94deg,' + p + ',' + lighten(q, .2) + ')',
+    '--u-text-grad': 'linear-gradient(135deg,' + pt + ',' + lighten(q, .2) + ')',
+    '--u-light-grad': 'linear-gradient(155deg,' + rgbaOf(p, .12) + ',' + rgbaOf(q, .10) + ')',
+    '--brass': p, '--brass-2': lighten(p, .2), '--brass-soft': rgbaOf(p, .22), '--brass-ink': onColor(p)
+  };
+  const css = o => Object.keys(o).map(k => k + ':' + o[k]).join(';');
+  return ':root{' + css(light) + '}\n:root[data-theme="dark"]{' + css(dark) + '}';
+}
+function fillBrandCopy(){ $$('[data-brand="knows"]').forEach(e => { e.textContent = 'What Chorus knows about ' + state.brand.name; }); $$('.wg-s').forEach(e => { if (/\{brand\}/.test(e.textContent)) e.textContent = e.textContent.replace(/\{brand\}/g, state.brand.name); }); $$('[data-brand="name"]').forEach(e => { e.textContent = state.brand.name; }); const li = $('#learnLi'); if (li && state.brand.social && state.brand.social.linkedin) li.value = state.brand.social.linkedin; }
+
+/* Switch the client. One call re-themes tokens, logo, banners, swatches and copy. */
+async function selectBrand(id){
+  const preset = PRESETS.find(p => p.id === id); if (!preset) return false;
+  state.brand = deepMerge(DEFAULT_BRAND, preset); state.brand.teams = deepClone(preset.teams); state.teamId = 'sales';
+  try { localStorage.setItem('chorus.brand', preset.id); } catch(e){}
+  state._whiteLogo = null; for (const k in canvases) delete canvases[k];
+  applyTheme();
+  try { await loadLogo(); } catch(e){}
+  try { setTheme(document.documentElement.dataset.theme || 'light', true); } catch(e){}
+  try { renderBanners(); } catch(e){}
+  try { renderSwatches(); render(); renderProfile(); syncPerson(); } catch(e){}
+  try { renderHome(); } catch(e){}
+  toast('Now on the ' + preset.name + ' brand');
+  return true;
+}
+function renderBrandPicker(){
+  const host = document.querySelector('.page[data-page="brain"] > div'); if (!host || $('#brandPick')) return;
+  const sel = document.createElement('select'); sel.id = 'brandPick'; sel.className = 'input brandpick'; sel.setAttribute('aria-label', 'Client brand');
+  sel.innerHTML = PRESETS.map(p => '<option value="' + esc(p.id) + '"' + (p.id === state.brand.id ? ' selected' : '') + '>' + esc(p.name) + '</option>').join('');
+  sel.addEventListener('change', () => selectBrand(sel.value));
+  const spacer = host.querySelector('.spacer'); if (spacer) spacer.insertAdjacentElement('afterend', sel); else host.appendChild(sel);
+}
+
 function applyTheme(){
-  const c = state.brand.colors; const ink = '#0B121D';
-  const [r,g,b] = hexRgb(c.primary);
+  fillBrandCopy();
   let st = $('#brandTheme'); if (!st){ st = document.createElement('style'); st.id='brandTheme'; document.head.appendChild(st); }
-  st.textContent = `:root{--brand:${c.primary};--brand-on:${onColor(c.primary)};--brand-soft:rgba(${r},${g},${b},.12);--brass:${c.primary};--brass-2:${mix(c.primary,'#000000',.2)};--brass-soft:rgba(${r},${g},${b},.12);--brass-ink:${onColor(c.primary)};--focus:${c.primary}}
-:root[data-theme="dark"]{--ground:${ink};--panel:#18151F;--panel-2:#1F1B29;--line:#2C2838;--line-2:#25212F;--ink:#EEF0F3;--ink-2:#C5CAD3;--ink-3:#8B929E;--ink-4:#5F6673;--side:#0B121D;--side-2:#18151F;--side-ink:#C9CFD8;--side-ink-2:#8B929E;--side-line:#1F2430;--good:#4FBF8A;--good-soft:#123324;--warn:#E3A63A;--warn-soft:#2E2414;--bad:#E86A5E;--bad-soft:#331A18;--brass-soft:rgba(${r},${g},${b},.22);--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6)}
-:root[data-theme="light"]{--ground:#FAFAFF;--panel:#FFFFFF;--panel-2:#F6F3FA;--line:#E4DDEE;--line-2:#EEE7F7;--ink:#0B121D;--ink-2:#333333;--ink-3:#6B6F7A;--ink-4:#9AA1AC}`;
+  st.textContent = brandTokens();
   const t = localStorage.getItem('chorus.theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); setTheme(t, true);
 }
 function setTheme(t, silent){ document.documentElement.dataset.theme = t; localStorage.setItem('chorus.theme', t); try { const wl = t==='dark' ? whiteLogo() : null; $('#wsLogo').src = wl ? wl.toDataURL('image/png') : (state.brand.logoData||normUrl(state.brand.logo)); } catch(e){} const u = $('#themeIco use'); if (u) u.setAttribute('href', t==='dark' ? '#i-sun' : '#i-moon'); if (!silent) toast(t==='dark' ? 'Dark mode' : 'Light mode'); }
@@ -2672,13 +2771,16 @@ function bindForms(){ $$('[data-bind]').forEach(el=>el.addEventListener('input',
 function syncInputs(){ $$('[data-bind]').forEach(el=>{ const v=get(el.dataset.bind); el.value = v==null?'':v; }); }
 async function init(){
   // workspace: Unifyr preset; person: Jordan
-  state.brand = deepMerge(DEFAULT_BRAND, PRESETS[0]); state.brand.teams = deepClone(PRESETS[0].teams); state.teamId = 'sales';
+  const _want = (()=>{ try { const u = new URLSearchParams(location.search).get('brand'); if (u) return u; } catch(e){} try { return localStorage.getItem('chorus.brand') || ''; } catch(e){ return ''; } })();
+  const _preset = PRESETS.find(p => p.id === _want) || PRESETS[0];
+  try { localStorage.setItem('chorus.brand', _preset.id); } catch(e){}
+  state.brand = deepMerge(DEFAULT_BRAND, _preset); state.brand.teams = deepClone(_preset.teams); state.teamId = 'sales';
   // no fake details: the person fills these in and Chorus remembers them
   loadPerson(); loadBanners(); state.ui.banner = state.ui.banner || '1';
   state.ui.page='home';
   await loadLogo(); syncInputs();
   const ls = state.brand.logoData||normUrl(state.brand.logo); $('#wsLogo').src = ls;
-  applyTheme();
+  applyTheme(); try { renderBrandPicker(); } catch(e){}
   const [r,g,bl] = hexRgb(state.brand.colors.primary); document.documentElement.style.setProperty('--brand-soft', `rgba(${r},${g},${bl},.12)`);
   try { const b2 = localStorage.getItem('chorus.brain2'); if (b2) Object.assign(BRAIN, JSON.parse(b2)); } catch(e){}
   renderHome(); renderBrain(); renderExamples(); bindForms();
@@ -2749,7 +2851,7 @@ async function init(){
     if (W._afterScan){
       W._afterScan = false;
       const p = state.person;
-      if (!p.name || !p.title){ smData('<div class="smbrief">Add your name and job title on the step behind, then press Start my LinkedIn kit.</div>'); smCloseModal(); return; }
+      if (!p.name || !p.title){ smData('<div class="smbrief">Add your name and job title on the step behind, then press Set up my LinkedIn.</div>'); smCloseModal(); return; }
       generateKit();
       return;
     }
@@ -2802,7 +2904,7 @@ function wizInit(){
       nav.addEventListener('click', e => {
         const b = e.target.closest('[data-wiz]'); if (!b) return;
         if (b.dataset.wiz === 'back') return wizGo(WIZ.i - 1);
-        if (b.dataset.wiz === 'skip') return wizGo(WIZ.i + 1);
+        if (b.dataset.wiz === 'skip') return (WIZ.i < WIZ.steps.length - 1) ? wizGo(WIZ.i + 1) : wizFinish();
         if (st.key === 'details') return wizGo(1);
         setDone(st.key, true);
         if (WIZ.i < WIZ.steps.length - 1) wizGo(WIZ.i + 1); else wizFinish();
@@ -2850,8 +2952,8 @@ function kitResume(){
     $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden'));
     const vb = $('#voiceBox'); if (vb) vb.classList.remove('hidden');
     const vs = $('#voiceStatus'); if (vs) vs.textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Written in a clear, plain voice you can shape.';
-    const gb = $('#genBtn'); if (gb){ gb.disabled = false; gb.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; }
-    const gh = $('#genHint'); if (gh) gh.textContent = 'Changed your title or photo? Click again and everything below updates.';
+    const gb = $('#genBtn'); if (gb){ gb.disabled = false; gb.innerHTML = '<svg><use href="#i-spark"/></svg>Continue my setup'; }
+    const gh = $('#genHint'); if (gh) gh.textContent = 'Your written pieces are kept. Change your name or title here, then continue.';
     renderProfile();
   } catch(e){}
   return true;
@@ -2953,7 +3055,7 @@ function finSync(){
     const t = row.querySelector('[data-tick]'); if (t) t.setAttribute('aria-pressed', FIN_PASTED[k] ? 'true' : 'false');
   });
   const c = document.getElementById('finCount');
-  if (c) c.textContent = n === keys.length ? 'All five are on your profile.' : n + ' of ' + keys.length + ' pasted into LinkedIn';
+  if (c) c.textContent = n === keys.length ? 'All five are on your profile.' : n + ' of ' + keys.length + ' on LinkedIn';
   card.style.setProperty('--fin', Math.round(n / keys.length * 100) + '%');
   const big = card.querySelector('.big');
   const sub = card.querySelector('p');
@@ -2964,8 +3066,8 @@ function finSync(){
     card.classList.add('allpasted');
     if (!finSync._fired){ finSync._fired = true; try { confetti(2600); } catch(e){} }
   } else {
-    if (big) big.textContent = first + ', your five pieces are ready.';
-    if (sub) sub.textContent = 'Nothing has changed on LinkedIn yet. Copy each one across and tick it off, it takes about two minutes.';
+    if (big){ const made = card.querySelectorAll('.finrow .btn.brand').length; big.textContent = first + (made === keys.length ? ', your five pieces are ready.' : ', ' + made + ' of your five pieces are ready.'); }
+    if (sub) sub.textContent = 'Nothing has changed on LinkedIn yet. Add each one to your profile, then tick it off here.';
     card.classList.remove('allpasted');
   }
 }
@@ -2986,18 +3088,20 @@ function wizFinish(){
       const a = e.target.closest('[data-fin]');
       if (!a) return;
       const what = a.dataset.fin;
+      if (what.startsWith('go-')){ wizGo(WIZ.steps.findIndex(s => s.key === what.slice(3))); return; }
+      const nudge = () => { const row = a.closest('.finrow'); if (!row) return; row.classList.add('nudge'); setTimeout(() => row.classList.remove('nudge'), 2400); };
       if (what === 'back'){ card.style.display = 'none'; wizGo(1); return; }
       if (what === 'again'){ card.style.display = 'none'; wizGo(0); return; }
       const src = { photo: '#btn-avatar', about: '#copyAbout', joined: '#copyJoined' }[what];
-      if (src){ const real = document.querySelector(src); if (real){ real.click(); flash(a, what === 'photo' ? 'Saved' : 'Copied'); } return; }
+      if (src){ const real = document.querySelector(src); if (real){ real.click(); flash(a, what === 'photo' ? 'Saved' : 'Copied'); nudge(); } return; }
       if (what === 'headline'){
         const t = HEADLINES[PF.headline] || '';
-        copyText(t).then(ok => ok ? flash(a, 'Copied') : toast('Copy failed', true));
+        copyText(t).then(ok => ok ? (flash(a, 'Copied'), nudge()) : toast('Copy failed', true));
         return;
       }
       if (what === 'banner'){
         const dl = document.querySelector('#bannerList .btn.brand');
-        if (dl){ dl.click(); flash(a, 'Saved'); }
+        if (dl){ dl.click(); flash(a, 'Saved'); nudge(); }
         return;
       }
     });
@@ -3006,12 +3110,7 @@ function wizFinish(){
       FIN_PASTED[t.dataset.tick] = !FIN_PASTED[t.dataset.tick];
       finSync();
     });
-    card.addEventListener('click', e => {
-      const a = e.target.closest('[data-fin]'); if (!a) return;
-      const k = a.dataset.fin;
-      if (k === 'back' || k === 'again') return;
-      FIN_PASTED[k] = true; setTimeout(finSync, 60);
-    });
+
   }
 
   const p = state.person;
@@ -3020,11 +3119,11 @@ function wizFinish(){
   const about = ($('#aboutText') || {}).value || '';
   const joined = ($('#joinedText') || {}).value || '';
   const rows = [
-    ['photo', 'Profile photo', state.photoCut ? 'Cut out, on your brand colour, 800 by 800' : 'Ready to download', 'Download'],
-    ['banner', 'Banner', 'The ' + esc(state.brand.name) + ' cover image', 'Download'],
-    ['headline', 'Headline', headline ? esc(headline.slice(0, 78)) + (headline.length > 78 ? '…' : '') : 'Not written yet', 'Copy'],
-    ['about', 'About', about ? words(about) + ' words in your voice' : 'Not written yet', 'Copy'],
-    ['joined', 'Say you’ve joined', joined ? words(joined) + ' words, ready to post' : 'Not written yet', 'Copy']
+    ['photo', 'Profile photo', state.photoCut ? 'Cut out, on your brand colour, 800 by 800' : 'Ready to download', 'Download', true],
+    ['banner', 'Banner', 'The ' + esc(state.brand.name) + ' cover image', 'Download', true],
+    ['headline', 'Headline', headline ? esc(headline.slice(0, 78)) + (headline.length > 78 ? '…' : '') : 'Not written yet', headline ? 'Copy' : 'Write it', !!headline],
+    ['about', 'About', about ? words(about) + ' words in your voice' : 'Not written yet', about ? 'Copy' : 'Write it', !!about],
+    ['joined', 'Say you’ve joined', joined ? words(joined) + ' words, ready to post' : 'Not written yet', joined ? 'Copy' : 'Write it', !!joined]
   ];
 
   card.innerHTML = '<div class="fintick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
@@ -3033,10 +3132,10 @@ function wizFinish(){
     + '<div class="fincount" id="finCount"></div>'
     + '<div class="finlist">' + rows.map((r, i) =>
         '<div class="finrow" data-row="' + r[0] + '">'
-        + '<button class="tick" data-tick="' + r[0] + '" aria-pressed="false" aria-label="Mark ' + r[1] + ' as pasted into LinkedIn"><span class="n">' + (i+1) + '</span>'
+        + '<button class="tick" data-tick="' + r[0] + '" aria-pressed="false" aria-label="Mark ' + r[1] + ' as done on LinkedIn"><span class="n">' + (i+1) + '</span>'
         + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></button>'
         + '<div class="fintxt"><b>' + r[1] + '</b><span>' + r[2] + '</span></div>'
-        + '<button class="btn sm brand" data-fin="' + r[0] + '">' + r[3] + '</button></div>').join('')
+        + '<button class="btn sm' + (r[4] ? ' brand' : '') + '" data-fin="' + (r[4] ? r[0] : 'go-' + r[0]) + '">' + r[3] + '</button></div>').join('')
     + '</div>'
     + '<div class="finacts">'
     + '<a class="btn brand lg" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a>'
@@ -3045,11 +3144,11 @@ function wizFinish(){
   finSync();
 
   card.style.display = '';
-  if ($('#wRailNow')) $('#wRailNow').textContent = 'All done';
-  if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Finished';
+  if ($('#wRailNow')) $('#wRailNow').textContent = 'Put it on LinkedIn';
+  if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Last step';
   if ($('#wRailBar')) $('#wRailBar').style.width = '100%';
   const dots = $('#wRailDots'); if (dots) [...dots.children].forEach(x => { x.className = 'past'; });
-  try { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
+  try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
 }
 
 /* ---------- Tell Chorus what to include, then rewrite ---------- */
@@ -3163,7 +3262,7 @@ function s1Sync(){
 /* ---------- each written section is made when you get to it ---------- */
 const SECTION = {
   headline: { label: 'headline', title: 'Write my headline', blurb: 'Chorus writes three options from your real profile, in your voice. Pick the one you like.' },
-  about: { label: 'About', title: 'Write my About', blurb: 'Two or three short paragraphs in your voice, with the Unifyr facts checked.' },
+  about: { label: 'About', title: 'Write my About', blurb: 'Two or three short paragraphs in your voice, with the {brand} facts checked.' },
   joined: { label: 'first post', title: 'Write my first post', blurb: 'A post announcing you have joined, in your voice, ready to paste into LinkedIn.' }
 };
 
@@ -3182,7 +3281,7 @@ function applyGates(){
       gate = document.createElement('div');
       gate.className = 'wgate';
       gate.innerHTML = '<div class="wg-t">' + SECTION[key].title + '</div>'
-        + '<div class="wg-s">' + SECTION[key].blurb + '</div>'
+        + '<div class="wg-s">' + String(SECTION[key].blurb).replace(/\{brand\}/g, esc(state.brand.name)) + '</div>'
         + '<button class="btn brand" data-make="' + key + '"><svg><use href="#i-spark"/></svg>' + SECTION[key].title + '</button>';
       body.insertBefore(gate, body.firstChild);
       gate.addEventListener('click', e => { if (e.target.closest('[data-make]')) generateOne(key); });
@@ -3190,7 +3289,12 @@ function applyGates(){
     gate.style.display = made ? 'none' : '';
     [...body.children].forEach(ch => { if (ch !== gate) ch.style.display = made ? '' : 'none'; });
     const nav = card.querySelector('.wnav');
-    if (nav) nav.style.display = made ? '' : 'none';
+    if (nav){
+      nav.style.display = '';
+      const nx = nav.querySelector('[data-wiz="next"]');
+      if (nx) nx.style.display = made ? '' : 'none';
+      nav.classList.remove('empty');
+    }
   }
 }
 
@@ -3264,7 +3368,8 @@ function confetti(ms){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   c.width = innerWidth * dpr; c.height = innerHeight * dpr;
   const x = c.getContext('2d'); x.scale(dpr, dpr);
-  const cols = ['#CB148B', '#A04FD8', '#6B6BF0', '#E63FB4', '#16a34a', '#F5B301'];
+  const _c = state.brand.colors || {}; const _p = _c.primary || '#CB148B', _q = _c.secondary || darken(_p, .35);
+  const cols = [_p, mix(_p, _q, .5), _q, lighten(_p, .3), '#16a34a', '#F5B301'];
   const bits = [];
   for (let i = 0; i < 140; i++) bits.push({
     x: innerWidth * (0.15 + Math.random() * 0.7), y: -20 - Math.random() * innerHeight * 0.5,

@@ -1215,7 +1215,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
         <a href="#profile" data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
       <div class="card quietcard"><div class="head"><h2 data-brand="knows">What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
-        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b>Today</b><span>last checked</span></div></div>
+        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b id="brainWhen">Today</b><span>last checked</span></div></div>
         <button class="btn sm quiet" data-go="brain" style="align-self:flex-start">See what it knows</button>
       </div></div>
     </div>
@@ -1591,7 +1591,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-audit5');
+console.log('Chorus build 2026-09-05-audit6');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -2007,12 +2007,12 @@ const PROXY = API_BASE + '/api/write';
 async function askAI(system, message){
   const key = localStorage.getItem('chorus.key');
   if (key){
-    const r = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({ model:'claude-opus-5', max_tokens:3000, output_config:{effort:'medium'}, system, messages:[{role:'user', content: message}] }) });
+    const r = await withTimeout(fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({ model:'claude-opus-5', max_tokens:3000, output_config:{effort:'medium'}, system, messages:[{role:'user', content: message}] }) }), 45000, 'ai');
     if (!r.ok) throw new Error('API ' + r.status);
     const d = await r.json(); return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
   }
-  const r = await fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ system, message }) });
+  const r = await withTimeout(fetch(PROXY, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ system, message }) }), 45000, 'ai');
   const d = await r.json(); if (!r.ok || d.error) throw new Error(d.error || ('API ' + r.status));
   return d.text || '';
 }
@@ -2279,6 +2279,7 @@ function scanCard(prof){ const log = $('#scanLog'); const d = document.createEle
   d.innerHTML = (prof.photo ? '<img src="' + esc(photoSrc(prof.photo)) + '" crossorigin="anonymous" referrerpolicy="no-referrer" alt="">' : '') +
     '<div><b>' + esc(prof.name || 'You') + '</b><span>' + esc(prof.headline || '') + '</span><span>' + esc(prof.location || '') + (prof.followers ? ' · ' + prof.followers + ' followers' : '') + '</span></div>';
   log.appendChild(d); d.scrollIntoView({block:'nearest'}); }
+function withTimeout(p, ms, what){ return Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timed out')), ms))]); }
 async function liTransport(id, what, mode){
   if (mode === 2) return fetch(PROXY + '?id=' + encodeURIComponent(id) + '&what=' + encodeURIComponent(what));
   if (mode === 1) return fetch(PROXY, { method:'POST', body: JSON.stringify({ scan: { id, what } }) });
@@ -2289,7 +2290,7 @@ async function liFetch(what, url){
   const id = m ? decodeURIComponent(m[1]) : '';
   let r = null, lastNet = null;
   for (const mode of [0, 1, 2]){
-    try { r = await liTransport(id, what, mode); lastNet = null; break; }
+    try { r = await withTimeout(liTransport(id, what, mode), 20000, what); lastNet = null; break; }
     catch (e){ lastNet = e; await new Promise(x=>setTimeout(x, 400)); }
   }
   if (!r) throw lastNet || new Error('no connection');
@@ -2447,13 +2448,29 @@ function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.c
 function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 let _smFrom = null;
 function smOpenModal(){ const m=$('#scanModal'); const a = document.activeElement; if (!(a && m.contains(a))) _smFrom = a; m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); const p = m.querySelector('.smpanel'); if (p){ p.tabIndex = -1; try { p.focus({preventScroll:true}); } catch(e){} } }
-function smCloseModal(){ $('#scanModal').classList.remove('on'); const f = _smFrom; _smFrom = null; if (f && f.focus && f.offsetParent !== null && !f.disabled){ try { f.focus({preventScroll:true}); } catch(e){} } }
+function smCloseModal(){
+  if (W._scanning){
+    W._scanning = false;
+    const u = W._scanUndo || { name:'', title:'' };
+    state.person.name = u.name; state.person.title = u.title; state.person.scan = null;
+    state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false;
+    try { localStorage.removeItem('chorus.photo'); } catch(e){}
+    try { syncInputs(); s1Sync(); renderSwatches(); render(); syncPerson(); photoNotice(); savePerson(); } catch(e){}
+    toast('Scan stopped. Nothing was changed.');
+  }
+  if (typeof SCAN_RUN === 'number') SCAN_RUN++; const b = $('#scanBtn'); if (b && b.disabled){ b.disabled = false; b.innerHTML = '<svg><use href="#i-spark"/></svg>Scan my LinkedIn'; } $('#scanModal').classList.remove('on'); const f = _smFrom; _smFrom = null; if (f && f.focus && f.offsetParent !== null && !f.disabled){ try { f.focus({preventScroll:true}); } catch(e){} } }
 function smShowFoot(){ $('#smFoot').classList.remove('hidden'); requestAnimationFrame(()=>{ const b=$('#smBody'); if (b) b.scrollTop = b.scrollHeight; const u=$('#smUse'); if (u && !u.classList.contains('hidden')){ try { u.focus({preventScroll:true}); } catch(e){} } }); }
 function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; W._retryScan = false; smOpenModal(); }
+var SCAN_RUN = 0;
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
+  const _run = ++SCAN_RUN;
+  const alive = () => _run === SCAN_RUN;
+  /* cancelling half way through must not leave a stranger's details in the form */
+  W._scanning = true;
+  W._scanUndo = { name: state.person.name || '', title: state.person.title || '' };
   smBegin('Reading your LinkedIn');
   /* clear whatever the last scan left, so a failed read cannot show someone else's details */
   state.person.scan = null; state.person.photoLocal = false; state.person.brief = ''; state.person.samples = '';
@@ -2465,16 +2482,18 @@ async function scanLinkedIn(){
   const _vs = $('#voiceStatus'); if (_vs) _vs.textContent = '';
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
-    const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
+    const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700); if (!alive()) return;
     if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._retryScan = true; smShowFoot(); return; }
     smOk(s1, '<b>Connected</b>'); smProg(12);
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
+    if (!alive()) return;
     smOk(s2, '<b>Profile found</b>'); smProg(30);
     smData('<div class="smid">' + (prof.photo ? '<img src="'+esc(photoSrc(prof.photo))+'" crossorigin="anonymous" referrerpolicy="no-referrer" alt="">' : '') + '<div><b>'+esc(prof.name||'You')+'</b><span>'+esc(prof.headline||'')+'</span><span>'+esc(prof.location||'')+(prof.followers?' \u00B7 '+prof.followers+' followers':'')+(prof.connections?' \u00B7 '+prof.connections+' connections':'')+'</span></div></div>');
+    if (!alive()) return;
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
     if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || (prof.headline||'').split(/[|\u00B7]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
-    await smWait(900);
+    await smWait(900); if (!alive()) return;
     let photoJob = null;
     if (prof.photo){
       const s3 = smStep('\uD83D\uDCF7', 'Pulling in your profile photo and cutting out the background');
@@ -2483,22 +2502,22 @@ async function scanLinkedIn(){
         else smOk(s3, '<b>Could not load your photo.</b> Add it yourself on the photo step, everything else is ready');
         smProg(48);
       });
-      await smWait(600);
+      await smWait(600); if (!alive()) return;
     } else {
       state.photoMissing = true;
-      const s3 = smStep('\uD83D\uDCF7', 'Looking for your profile photo'); await smWait(500);
+      const s3 = smStep('\uD83D\uDCF7', 'Looking for your profile photo'); await smWait(500); if (!alive()) return;
       smOk(s3, '<b>No photo on your profile</b> that we can read. You can add one yourself on the photo step');
       smProg(48);
       try { photoNotice(); } catch(e){}
     }
     if (prof.about){
-      const s4 = smStep('\uD83D\uDCC4', 'Reading your About section'); await smWait(900);
+      const s4 = smStep('\uD83D\uDCC4', 'Reading your About section'); await smWait(900); if (!alive()) return;
       smOk(s4, '<b>About read</b>, ' + prof.about.split(/\s+/).length + ' words');
       smData('<div class="smquote">\u201C' + esc(prof.about.replace(/\s+/g,' ').slice(0, 180)) + '\u2026\u201D</div>');
-      smProg(58); await smWait(500);
+      smProg(58); await smWait(500); if (!alive()) return;
     }
     if (prof.title || prof.company){
-      const s5 = smStep('\uD83D\uDCBC', 'Noting your role'); await smWait(650);
+      const s5 = smStep('\uD83D\uDCBC', 'Noting your role'); await smWait(650); if (!alive()) return;
       smOk(s5, '<b>Role noted</b>');
       smData('<span class="smchip">' + esc(prof.title || '') + (prof.company ? ' \u00B7 ' + esc(prof.company) : '') + '</span>');
       smProg(66);
@@ -2520,10 +2539,11 @@ async function scanLinkedIn(){
       smOk(s6, '<b>' + own.length + ' posts pulled in</b>, the last one ' + esc((own[0].ago||own[0].date||'a while back').split(' \u2022 ')[0]));
       for (const p of own.slice(0,3)){
         smData('<div class="smpost"><div class="meta">' + esc((p.ago||p.date||'').split(' \u2022 ')[0]) + (p.likes ? ' \u00B7 ' + p.likes + ' reactions' : '') + '</div>' + esc(cutWords(p.text.replace(/\s+/g,' '), 110)) + '</div>');
-        await smWait(500);
+        await smWait(500); if (!alive()) return;
       }
     } else { smOk(s6, postsErr ? '<b>Could not read your posts</b> this time, starting you in a clear plain voice' : '<b>No recent posts found</b>, plenty of people post rarely'); }
     smProg(80);
+    if (!alive()) return;
     state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
     state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
     savePerson(); syncPerson();
@@ -2537,6 +2557,7 @@ async function scanLinkedIn(){
       smData('<div class="smbrief">' + esc(brief) + '</div>');
     } catch(e){ smOk(s7, '<b>Read everything</b>'); }
     if (photoJob) await photoJob;
+    if (!alive()) return;
     try { persistPhoto(); } catch(e){}
     try { s1Sync(); } catch(e){}
     smProg(100);
@@ -2561,7 +2582,7 @@ async function scanLinkedIn(){
     if ($('#genHint')) $('#genHint').textContent = 'The scan did not work, so this will be written from your name and job title only. You can add your photo on the photo step.';
     const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._afterScan = false; W._retryScan = true;
     smShowFoot();
-  } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
+  } finally { if (alive()) W._scanning = false; btn.disabled = false; btn.innerHTML = btnHtml; }
 }
 async function generateKit(){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
@@ -2608,7 +2629,14 @@ function startNewPost(){
 }
 
 /* ---------- home / team ---------- */
-function renderHome(){ if (!first()){ $('#helloH').textContent = greeting() + '.'; } else $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
+function brainWhen(){
+  let t = 0; try { t = Number(localStorage.getItem('chorus.brainAt') || 0); } catch(e){}
+  if (!t) return 'Set up';
+  const d = Math.floor((Date.now() - t) / 86400000);
+  return d <= 0 ? 'Today' : d === 1 ? 'Yesterday' : d < 7 ? d + ' days ago' : d < 30 ? Math.floor(d/7) + ' weeks ago' : Math.floor(d/30) + ' months ago';
+}
+function renderHome(){
+  const bw = $('#brainWhen'); if (bw) bw.textContent = brainWhen(); if (!first()){ $('#helloH').textContent = greeting() + '.'; } else $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
 function greeting(){ const h = new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
 function renderTeam_unused(){ $('#teamBody').innerHTML = TEAM.map(t=>`<tr><td><div class="who"><span class="avatar">${t[0].split(' ').map(s=>s[0]).join('')}</span><div><b>${esc(t[0])}</b><span>${esc(t[1])}</span></div></div></td><td>${esc(t[2])}</td><td>${t[3]?'<span class="pill good">Learned</span>':'<span class="pill warn">Not yet</span>'}</td><td>${t[4]?'<span class="pill good">Done</span>':'<span class="pill">, </span>'}</td><td style="color:var(--ink-3)">${esc(t[5])}</td><td style="text-align:right"><button class="btn sm quiet">Remind</button></td></tr>`).join(''); }
 
@@ -2987,7 +3015,14 @@ async function init(){
     if (W._afterScan){
       W._afterScan = false;
       const p = state.person;
-      if (!p.name || !p.title){ smData('<div class="smbrief">Add your name and job title on the step behind, then press Set up my LinkedIn.</div>'); smCloseModal(); return; }
+      if (!p.name || !p.title){
+        smCloseModal();
+        const which = !p.name ? 'name' : 'job title';
+        toast('Add your ' + which + ' first, then press Set up my LinkedIn', true);
+        const f = $('[data-bind="person.' + (!p.name ? 'name' : 'title') + '"]');
+        if (f){ try { f.focus(); f.scrollIntoView({ behavior:'smooth', block:'center' }); } catch(e){} }
+        return;
+      }
       generateKit();
       return;
     }
@@ -3238,12 +3273,14 @@ function finSync(){
     if (big) big.textContent = first + ', your LinkedIn is done.';
     if (sub) sub.textContent = 'That is all five live on your profile. Nice one.';
     card.classList.add('allpasted');
+    const fa = card.querySelector('.finacts'); if (fa && !fa.dataset.done){ fa.dataset.done = '1'; fa.innerHTML = '<a class="btn brand lg" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>See your profile</a><button class="btn" data-fin="back">Review the steps</button>'; }
     const ft = card.querySelector('.fintick'); if (ft) ft.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     if (!finSync._fired){ finSync._fired = true; try { confetti(2600); } catch(e){} }
   } else {
     if (big){ const made = card.querySelectorAll('.finrow .btn.brand').length; big.textContent = first + (made === keys.length ? ', your five pieces are ready.' : ', ' + made + ' of your five pieces are ready.'); }
     if (sub) sub.textContent = 'Nothing has changed on LinkedIn yet. Add each one to your profile, then tick it off here.';
     card.classList.remove('allpasted');
+    const fa = card.querySelector('.finacts'); if (fa && fa.dataset.done){ delete fa.dataset.done; fa.innerHTML = '<a class="btn brand lg" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn" data-fin="back">Review the steps</button>'; }
     const ft = card.querySelector('.fintick'); if (ft) ft.innerHTML = '<svg><use href="#i-copy"/></svg>';
   }
 }

@@ -587,7 +587,7 @@ canvas,img{max-width:100%}
 .s1done .sp{flex:1}
 #s1grid{gap:16px}
 
-.wdoneCard{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 7%,transparent),transparent)}
+.wdoneCard{background:linear-gradient(180deg,color-mix(in srgb,var(--brand) 7%,var(--panel)),var(--panel))}
 .wdoneCard .conf-emoji{font-size:44px;line-height:1;margin-bottom:10px;animation:pop .6s cubic-bezier(.2,1.5,.4,1) both}
 @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
 .wdoneCard .big{font-size:26px}
@@ -1069,6 +1069,20 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
   .side nav a svg{display:none}
 }
 
+
+/* ============ audit batch three ============ */
+.wstep .head h2:focus,#wDoneCard:focus,.smpanel:focus{outline:none}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn:has(> .vh){position:relative}
+.btn:has(> .vh:focus-visible){box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--focus)}
+/* scan modal: top anchored so appended rows grow downward instead of re-centring the dialog */
+.scanmodal.on{place-items:start center;padding-top:clamp(24px,7vh,72px);box-sizing:border-box}
+.smpanel{max-height:min(84vh,760px)}
+@media (max-width:640px){.scanmodal.on{padding-top:16px}.smpanel{max-height:calc(100vh - 32px)}}
+.smstep .ic{background:var(--brand-soft);color:var(--brand-text)}
+.smstep .ic svg{display:block}
+.smstep.ok .ic{background:var(--brand);color:#fff}
+
 </style>
 </head>
 <body>
@@ -1146,11 +1160,11 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <!-- ---------- BRAIN ---------- -->
     <div class="page hidden" data-page="brain">
       <div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 class="title">Settings: Brand <em>Brain</em></h2><p class="lede" style="margin-top:6px">What Chorus learned about <span data-brand="name">Unifyr</span> from 84 public pages and posts. Every post is written from this, so if something is wrong or missing, change it here and save.</p></div><span class="spacer"></span><button class="btn" id="relearn"><svg><use href="#i-spark"/></svg>Re-learn</button><button class="btn primary" id="saveBrain">Save changes</button></div>
-      <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">AI writing is already on for this demo. Add your own key to run it on your account instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
-        <div class="grid2"><div class="field"><label>Anthropic API key</label><input type="password" id="apiKey" placeholder="sk-ant-…" autocomplete="off"><div class="hint">Stored only in this browser. Get one at console.anthropic.com.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
+      <div class="card"><div class="head"><h2>Connect AI writing</h2><span class="sub">Writing is on and included. Optional: use your own AI account instead.</span><span class="spacer"></span><span class="pill" id="aiStatus">Not connected</span></div><div class="body">
+        <div class="grid2"><div class="field"><label>Your own AI key (optional)</label><input type="password" id="apiKey" placeholder="Paste key" autocomplete="off"><div class="hint">Stored only in this browser. Works with an Anthropic key.</div></div><div class="field"><label>&nbsp;</label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="testKey"><svg><use href="#i-spark"/></svg>Connect and test</button><button class="btn quiet" id="clearKey">Disconnect</button></div></div></div>
         <div class="hint" id="aiHint"></div>
       </div></div>
-      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and everyone can choose it.</span><span class="spacer"></span><label class="btn sm brand"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" hidden></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
+      <div class="card"><div class="head"><h2>LinkedIn banners</h2><span class="sub">Everyone picks from these. Upload your own and everyone can choose it.</span><span class="spacer"></span><label class="btn sm brand"><svg><use href="#i-img"/></svg>Upload a banner<input type="file" id="bannerUpload" accept="image/*" class="vh"></label></div><div class="body"><div id="bannerAdmin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px"></div><div class="hint">Best size 1584 × 396. Anything else is cropped to fit.</div></div></div>
       <div class="card"><div class="head"><h2>Who’s set up</h2><span class="sub">Each person’s LinkedIn, five steps. You only see progress, never their details.</span></div><div class="team-wrap"><table class="team-table"><thead><tr><th>Person</th><th>Team</th><th>Progress</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></div>
       <div class="brain" id="brainGrid"></div>
     </div>
@@ -1159,14 +1173,14 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <div class="page hidden" data-page="profile">
       <h2 class="title" id="kitTitle">My <em>LinkedIn</em></h2>
       <p class="lede">Paste your LinkedIn link, then five quick steps. Chorus writes each piece in your voice, on the <span data-brand="name">Unifyr</span> brand.</p>
-      <div class="wrail" id="wRail"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
+      <div class="wrail" id="wRail" aria-live="polite" aria-atomic="true"><span class="lbl" id="wRailLbl">Step</span><span class="now" id="wRailNow">Your details</span><div class="track"><i id="wRailBar"></i></div><div class="dots" id="wRailDots"></div></div>
       <div class="card progress-strip hidden"><b id="doneText">0 of 5 done</b><div class="genbar"><i id="doneBar"></i></div><span class="hint" id="nextHint">Start with your details</span></div>
       <div class="howto"><div><span class="stepn">1</span><b>Profile photo</b></div><div><span class="stepn">2</span><b>Banner</b></div><div><span class="stepn">3</span><b>Headline</b></div><div><span class="stepn">4</span><b>About</b></div><div><span class="stepn">5</span><b>Say you’ve joined</b></div></div>
       <div class="card"><div class="head"><h2>Your LinkedIn</h2><span class="sub" id="s1sub">Paste your profile link. Chorus reads it and fills the rest in for you.</span></div><div class="body">
         <div class="grid3" id="s1grid">
           <div class="field"><label>Name</label><input type="text" data-bind="person.name" placeholder="e.g. Jordan Ellis" autocomplete="name"></div>
           <div class="field"><label>Job title</label><input type="text" data-bind="person.title" placeholder="e.g. Senior Account Executive"></div>
-          <div class="field"><label>LinkedIn profile</label><div class="inputrow"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><div class="hint" id="liHelp">Not sure where to find it? <a href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open your LinkedIn profile</a> and copy the address from the top of the browser. It looks like linkedin.com/in/your-name.</div><label class="chip lite" style="align-self:flex-start;margin-top:8px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0">I don’t have one yet</label></div>
+          <div class="field"><label>LinkedIn profile</label><div class="inputrow"><input type="url" data-bind="person.linkedin" placeholder="linkedin.com/in/you" id="liInput" style="flex:1"><button class="btn brand" id="scanBtn" type="button" title="Chorus reads your public profile and posts, for real">Scan my LinkedIn</button></div><div class="hint" id="liHelp">Not sure where to find it? <a href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener">Open your LinkedIn profile</a> and copy the address from the top of the browser. It looks like linkedin.com/in/your-name.</div><label class="chip lite" style="align-self:flex-start;margin-top:8px" id="noLi"><input type="checkbox" id="noLiCb" style="margin:0 6px 0 0"><span id="noLiTxt">I don’t have one yet</span></label></div>
         </div>
                 <div class="scanbox hidden" id="scanBox"><div class="shead"><b>Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="scanPct"></span></div><div class="sprog"><i id="scanProg"></i></div><div id="scanLog"></div></div>
         <div class="progress-list hidden" id="genProgress">
@@ -1175,7 +1189,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
           <div class="st" data-s="3"><span class="dot"></span>Writing your headline, first post and About <span class="n" id="gn3"></span></div>
         </div>
         <div class="voicebox hidden" id="voiceBox"><span class="avatar" id="voiceAv"></span><div><b>Your voice</b><span id="voiceStatus"></span></div></div>
-        <div class="actionrow" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Set up my LinkedIn</button><span class="hint" id="genHint">Everything below is written from this. Change your title later and click again.</span></div>
+        <div class="actionrow" id="genRow"><button class="btn brand lg" id="genBtn"><svg><use href="#i-spark"/></svg>Set up my LinkedIn</button><span class="hint" id="genHint">Five short steps: photo, banner, headline, About and your first post. About five minutes.</span></div>
       </div></div>
 
       <div class="kit">
@@ -1184,7 +1198,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
           <div class="dragtip" id="dragTip">Drag to move, scroll to zoom</div>
         </div>
         <div class="photo-tools">
-          <div class="ptrow"><label class="btn sm"><svg><use href="#i-img"/></svg><span id="photoBtnLabel">Add photo</span><input type="file" id="photoFile" accept="image/*" hidden></label><button class="btn sm quiet hidden" id="photoReset">Reset position</button></div>
+          <div class="ptrow"><label class="btn sm"><svg><use href="#i-img"/></svg><span id="photoBtnLabel">Add photo</span><input type="file" id="photoFile" accept="image/*" class="vh"></label><button class="btn sm quiet hidden" id="photoReset">Reset position</button></div>
           <div class="ptrow zoomrow hidden" id="zoomRow"><button class="btn sm zbtn" data-zoom="-1">-</button><input type="range" id="zoomRange" min="1" max="2.5" step="0.01" data-bind="person.photoZoom"><button class="btn sm zbtn" data-zoom="1">+</button></div>
           <div class="ptrow"><span class="ptlabel">Background</span><div class="swatches" id="swatches"></div></div>
         </div>
@@ -1194,11 +1208,11 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 
       <div class="two">
         <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="card gen-card" data-sec="headline"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="examples hidden" id="headlines"></div></div></div>
+          <div class="card gen-card" data-sec="headline"><div class="head"><span class="stepn">3</span><h2>Headline</h2><span class="sub">The line under your name on LinkedIn. Pick one.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="headline">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="examples hidden" id="headlines"></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">4</span><h2>About</h2><span class="sub">In your voice, facts checked. Edit anything, then copy.</span><span class="spacer"></span><button class="btn sm done-btn" data-done="about">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="aboutText" style="min-height:240px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyAbout"><svg><use href="#i-copy"/></svg>Copy my About</button><a class="btn" href="https://www.linkedin.com/in/me/edit/forms/about/new/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
 
-          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the <span data-brand="name">Unifyr</span> facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Finish step 1 and click <b>Generate</b>.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
+          <div class="card gen-card"><div class="head"><span class="stepn">5</span><h2>Say you’ve joined</h2><span class="sub">Your first post, in your voice, with the <span data-brand="name">Unifyr</span> facts</span><span class="spacer"></span><button class="btn sm done-btn" data-done="joined">Mark done</button></div><div class="body"><div class="locked">Add your details first.</div><div class="gen-body hidden"><div class="field"><textarea id="joinedText" style="min-height:190px;font-size:14px;line-height:1.6"></textarea></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn brand" id="copyJoined"><svg><use href="#i-copy"/></svg>Copy this post</button><a class="btn" id="openJoined" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a></div></div></div></div>
         </div>
         <div class="card wizpreview" style="position:sticky;top:76px"><div class="head"><h2>How your profile will look</h2><span class="sub">Updates as you go</span></div><div class="body" style="padding:0">
           <div class="li-mock">
@@ -1213,11 +1227,11 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="copyStage" contenteditable="true" aria-hidden="true" style="position:fixed;left:-9999px;top:0;width:640px;background:#fff;color:#000;opacity:0;pointer-events:none"></div>
 
-<div class="scanmodal" id="scanModal" role="dialog" aria-modal="true" aria-label="Reading your LinkedIn">
+<div class="scanmodal" id="scanModal" role="dialog" aria-modal="true" aria-labelledby="smTitle">
   <div class="smpanel">
     <div class="smtop"><b id="smTitle">Reading your LinkedIn</b><span class="pill live">live</span><span class="spacer"></span><span class="spct" id="smPct">0%</span><button class="btn sm quiet" id="smCancel" aria-label="Close" style="margin-left:8px">Close</button></div>
     <div class="sprog"><i id="smBar"></i></div>
-    <div class="smbody" id="smBody"></div>
+    <div class="smbody" id="smBody" aria-live="polite"></div>
     <div class="smfoot hidden" id="smFoot"><button class="btn brand lg" id="smUse">Looks right, let’s go</button></div>
   </div>
 </div>
@@ -1513,7 +1527,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-audit2');
+console.log('Chorus build 2026-09-05-audit3');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -2041,7 +2055,7 @@ If you run a partner program and want to talk about what's working (or not), my 
 let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
-  const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); saveWriting(); }); h.appendChild(b); });
+  const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.type = 'button'; b.setAttribute('aria-pressed', i===PF.headline ? 'true' : 'false'); b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); saveWriting(); }); h.appendChild(b); });
   const ed = document.createElement('div'); ed.className='hledit';
   ed.innerHTML = '<label for="hlText">Edit it if you like</label>'
     + '<textarea id="hlText" maxlength="220" rows="2" spellcheck="true"></textarea>'
@@ -2061,7 +2075,7 @@ function renderProfile(){
   if ($('#pfLoc')) $('#pfLoc').textContent = [(_sc.location || ''), state.brand.name].filter(Boolean).join(' \u00B7 ');
   $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
   const ready = !!(state.person.name.trim() && state.person.title.trim()); $('#genBtn').disabled = !ready;
-  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Ready. This writes your headline, your About and your first post, in your voice.' : 'Add your name and job title first, then click Generate.';
+  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Five short steps: photo, banner, headline, About and your first post. About five minutes.' : 'Add your name and job title first, then click Generate.';
   if (canvases.avatar) fit(canvases.avatar, $('#pf-avatar'), 88);
   if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); }
   renderDone();
@@ -2340,13 +2354,31 @@ function photoNotice(){
 }
 const smWait = ms => new Promise(r=>setTimeout(r, ms));
 function smProg(p){ const b=$('#smBar'); if(b) b.style.width=p+'%';  }
-function smStep(icon, label){ const d=document.createElement('div'); d.className='smstep'; d.innerHTML='<span class="ic">'+icon+'</span><div class="lb">'+label+'</div><span class="spin"></span>'; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
+
+const SM_SVG_DEF='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>';
+const SM_SVG={
+'⚡':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>',
+'🔎':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+'🔍':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+'📷':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+'📄':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>',
+'💼':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/></svg>',
+'📝':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M12 4l4 4-9 9H3v-4z"/></svg>',
+'✍️':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M12 4l4 4-9 9H3v-4z"/></svg>',
+'🧠':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4a4 4 0 0 0-4 4v8a4 4 0 0 0 8 0V8a4 4 0 0 0-4-4zM8 10H5M8 14H5M16 10h3M16 14h3"/></svg>',
+'📖':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 6c-2-2-5-2-8-1v13c3-1 6-1 8 1 2-2 5-2 8-1V5c-3-1-6-1-8 1zM12 6v13"/></svg>',
+'🎧':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>',
+'🖼️':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.5"/></svg>',
+'✅':'<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>'
+};
+function smStep(icon, label){ const d=document.createElement('div'); d.className='smstep'; d.innerHTML='<span class="ic">'+(SM_SVG[icon]||SM_SVG_DEF)+'</span><div class="lb">'+label+'</div><span class="spin"></span>'; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.classList.add('ok'); if(label) d.querySelector('.lb').innerHTML=label; }
 function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
-function smOpenModal(){ const m=$('#scanModal'); m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); }
-function smCloseModal(){ $('#scanModal').classList.remove('on'); }
-function smShowFoot(){ $('#smFoot').classList.remove('hidden'); requestAnimationFrame(()=>{ const b=$('#smBody'); if (b) b.scrollTop = b.scrollHeight; }); }
-function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; smOpenModal(); }
+let _smFrom = null;
+function smOpenModal(){ const m=$('#scanModal'); const a = document.activeElement; if (!(a && m.contains(a))) _smFrom = a; m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); const p = m.querySelector('.smpanel'); if (p){ p.tabIndex = -1; try { p.focus({preventScroll:true}); } catch(e){} } }
+function smCloseModal(){ $('#scanModal').classList.remove('on'); const f = _smFrom; _smFrom = null; if (f && f.focus && f.offsetParent !== null && !f.disabled){ try { f.focus({preventScroll:true}); } catch(e){} } }
+function smShowFoot(){ $('#smFoot').classList.remove('hidden'); requestAnimationFrame(()=>{ const b=$('#smBody'); if (b) b.scrollTop = b.scrollHeight; const u=$('#smUse'); if (u && !u.classList.contains('hidden')){ try { u.focus({preventScroll:true}); } catch(e){} } }); }
+function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; W._retryScan = false; smOpenModal(); }
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
@@ -2363,7 +2395,7 @@ async function scanLinkedIn(){
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
-    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); smShowFoot(); $('#smUse').classList.add('hidden'); return; }
+    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._retryScan = true; smShowFoot(); return; }
     smOk(s1, '<b>Connected</b>'); smProg(12);
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
     const prof = await liFetch('profile', url);
@@ -2404,6 +2436,14 @@ async function scanLinkedIn(){
     let posts = [];
     try { posts = (await liFetch('posts', url)).posts || []; } catch(e){}
     const own = posts.filter(p=>p.text && p.text.length > 60);
+    const recent = (function(){
+      if (own.length < 3) return false;
+      const when = String(own[0].ago || own[0].date || '').split(' \u2022 ')[0];
+      if (/\b\d+\s*(y|yr|yrs|year|years)\b/i.test(when)) return false;
+      const t = Date.parse(when);
+      if (!isNaN(t) && Date.now() - t > 180*24*3600*1000) return false;
+      return true;
+    })();
     if (own.length){
       smOk(s6, '<b>' + own.length + ' posts pulled in</b>, the last one ' + esc((own[0].ago||own[0].date||'a while back').split(' \u2022 ')[0]));
       for (const p of own.slice(0,3)){
@@ -2418,7 +2458,7 @@ async function scanLinkedIn(){
     const s7 = smStep('\uD83E\uDDE0', 'Analysing how you write');
     try {
       const sys = 'You are told what was found on a person\u2019s real LinkedIn profile, read moments ago. Write a short voice brief for them, speaking to them as "you". 2 or 3 sentences. Honest and warm, never flattering. Mention when their last post was if known. If their posts are old or few, do not count them and do not say how long it has been. Just say you will keep this simple and start them in a clear plain voice they can shape. If they post often, name what they post about and one habit of their writing you can see. Never use an em dash. Plain text only.';
-      const msg = 'Name: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
+      const msg = 'Posting history: ' + (recent ? 'recent and enough to learn a voice from' : 'old or few, treat as not enough to learn a voice from') + '\nName: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
       state.person.brief = brief; savePerson();
       smOk(s7, '<b>Voice learned</b>');
@@ -2432,7 +2472,7 @@ async function scanLinkedIn(){
     if (prof.photo && state.photoImg) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any ' + esc(state.brand.name) + ' colour behind it</div>');
     else sum.push('<div class="i">\u2022 No photo came through, add one on the photo step</div>');
     sum.push('<div class="i">\u2713 Name and job title filled in</div>');
-    sum.push('<div class="i">\u2713 ' + (own.length ? 'Your voice learned from ' + own.length + ' real posts' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
+    sum.push('<div class="i">\u2713 ' + (recent ? 'Your voice learned from ' + own.length + ' real posts' : own.length ? 'Your ' + own.length + ' older posts read, starting you in a clear plain voice' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
     sum.push('<div class="i">\u2713 Saved only in this browser. Nothing is posted or changed on LinkedIn for you</div></div>');
     smData(sum.join(''), '');
     $('#smUse').textContent = 'Set up my LinkedIn'; W._afterScan = true;
@@ -2440,14 +2480,20 @@ async function scanLinkedIn(){
     smShowFoot();
   } catch(e){
     savePerson();
-    smData('<div class="smbrief">Could not read that profile. ' + esc(e.message||'') + '</div>');
+    const m = String((e && e.message) || '');
+    const why = (e && e.off) ? 'The scanner is switched off right now.'
+      : /failed to fetch|no connection|network|timed? ?out/i.test(m) ? 'Your network would not let us reach LinkedIn.'
+      : /private|not found|404/i.test(m) ? 'That profile looks private or the address is not quite right. Check it and try again.'
+      : 'LinkedIn did not answer this time. It happens, try once more.';
+    smData('<div class="smbrief"><b>Could not read that profile.</b> ' + why + ' Or close this and tick <b>I don\u2019t have one yet</b> to carry on without the scan.</div>');
     if ($('#genHint')) $('#genHint').textContent = 'The scan did not work, so this will be written from your name and job title only. You can add your photo on the photo step.';
-    smShowFoot(); $('#smUse').classList.add('hidden');
+    const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._afterScan = false; W._retryScan = true;
+    smShowFoot();
   } finally { btn.disabled = false; btn.innerHTML = btnHtml; }
 }
 async function generateKit(){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
-  const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Reading your LinkedIn and writing in your voice. About 10 seconds.';
+  const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Getting your steps ready. A few seconds.';
   const prog = $('#genProgress'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
   const scan = p.scan; const hasSamples = !!(p.samples && String(p.samples).trim().length > 40) || !!(scan && scan.posts && scan.posts.length);
@@ -2477,7 +2523,7 @@ function doneState(){ try { return JSON.parse(localStorage.getItem('chorus.done'
 function setDone(k, v){ const d = doneState(); d[k] = v; localStorage.setItem('chorus.done', JSON.stringify(d)); renderDone(); if (v && typeof wizNudge === 'function') wizNudge(k); }
 const DONE_LABEL = {photo:'Profile photo', banner:'Banner', headline:'Headline', about:'About', joined:'Say you’ve joined'};
 function renderDone(){ const d = doneState(); const n = DONE_KEYS.filter(k=>d[k]).length; if ($('#doneText')) $('#doneText').textContent = `${n} of ${DONE_KEYS.length} done`;
-  const nx = DONE_KEYS.find(k=>!d[k]); const _wizOn = (typeof WIZ !== 'undefined' && WIZ.on); if ($('#nextHint') && !_wizOn) $('#nextHint').textContent = !PF.generated ? 'Add your details, then Generate' : nx ? 'Next: ' + DONE_LABEL[nx] : 'All done. Nice one.'; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; } }
+  const nx = DONE_KEYS.find(k=>!d[k]); const _wizOn = (typeof WIZ !== 'undefined' && WIZ.on); if ($('#nextHint') && !_wizOn) $('#nextHint').textContent = !PF.generated ? 'Add your details first' : nx ? 'Next: ' + DONE_LABEL[nx] : 'All done. Nice one.'; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; } }
 /* ---------- who's set up (Settings) ---------- */
 const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["Luis Ferreira","Head of Partnerships","Partnerships",5],["Priya Natarajan","Product Manager","Product",3],["Sam Whitfield","Customer Success Manager","Customer Success",1],["Ana Lindqvist","Account Executive","Sales",0]];
 function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Add your details', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
@@ -2700,7 +2746,7 @@ async function downloadCanvas(id, btn){
 }
 function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } state.person.photoLocal = true; state.photoFailed = false; state.photoMissing = false; try { photoNotice(); } catch(e){} renderSwatches(); render(); persistPhoto('local'); savePerson(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
 
-function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, hosted for this demo'; s.className = 'pill good'; } if ($('#modePill')) $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; if ($('#modePill')) $('#modePill').title = on ? 'Using the key saved in this browser' : 'Hosted by Wild Digital for this demo'; if ($('#modePill')) $('#modePill').className = 'pill good'; }
+function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, included'; s.className = 'pill good'; } if ($('#modePill')) $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; if ($('#modePill')) $('#modePill').title = on ? 'Using the key saved in this browser' : 'Chorus writes with AI. Change this under Brand Brain.'; if ($('#modePill')) $('#modePill').className = 'pill good'; }
 /* ---------- portal theme from the brand (colours, logo) + light/dark ---------- */
 /* Brand theming. Everything colour related derives from state.brand.colors at runtime, so
    switching the client preset re-themes the whole app. Only brand derived tokens are
@@ -2873,12 +2919,23 @@ async function init(){
       generateKit();
       return;
     }
+    if (W._retryScan){ W._retryScan = false; smCloseModal(); scanLinkedIn(); return; }
     smCloseModal();
   });
   if ($('#smCancel')) $('#smCancel').addEventListener('click', smCloseModal);
   const _mod = $('#scanModal');
   if (_mod) _mod.addEventListener('click', e => { if (e.target === _mod) smCloseModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && _mod && _mod.classList.contains('on')) smCloseModal(); });
+  document.addEventListener('keydown', e => {
+    if (!_mod || !_mod.classList.contains('on')) return;
+    if (e.key === 'Escape'){ smCloseModal(); return; }
+    if (e.key === 'Tab'){
+      const f = [..._mod.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x => x.offsetParent !== null && !x.disabled);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; saveWriting(); });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });
@@ -3064,6 +3121,7 @@ function wizGo(n){
   hideEmpty('.page[data-page="profile"] .kit');
   hideEmpty('.page[data-page="profile"] .two');
   try { st.el.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
+  try { const _h = st.el.querySelector('.head h2'); if (_h){ _h.tabIndex = -1; _h.focus({ preventScroll: true }); } } catch(e){}
 }
 
 function wizNudge(key){
@@ -3187,6 +3245,7 @@ function wizFinish(){
   finSync();
 
   card.style.display = '';
+  try { card.tabIndex = -1; card.focus({ preventScroll: true }); } catch(e){}
   if ($('#wRailNow')) $('#wRailNow').textContent = 'Put it on LinkedIn';
   if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Last step';
   if ($('#wRailBar')) $('#wRailBar').style.width = '100%';
@@ -3270,7 +3329,14 @@ function s1Sync(){
 
   // before the scan the link is the only question; after it, name and title are
   grid.style.gridTemplateColumns = ready ? 'repeat(auto-fit,minmax(240px,1fr))' : 'minmax(0,1fr)';
-  if (liField) liField.style.display = (noLiOn || scanned) ? 'none' : '';
+  if (liField){
+    const row = liField.querySelector('.inputrow'), help = liField.querySelector('#liHelp'), lab = liField.querySelector('label:not(.chip)');
+    [row, help, lab].forEach(el => { if (el) el.style.display = (noLiOn || scanned) ? 'none' : ''; });
+    liField.style.display = scanned ? 'none' : '';
+    liField.style.order = noLiOn ? '9' : '-1';
+    liField.style.gridColumn = noLiOn ? '1 / -1' : '';
+    const nt = $('#noLiTxt'); if (nt) nt.textContent = noLiOn ? 'No LinkedIn yet, starting you fresh. Untick this if you find it' : 'I don\u2019t have one yet';
+  }
 
   // once scanned, the link becomes a quiet line you can redo, not a competing field
   let done = $('#s1scanned');
@@ -3298,7 +3364,7 @@ function s1Sync(){
   }
   const sub = $('#s1sub');
   if (sub) sub.textContent = ready
-    ? 'Check these look right, then generate. Only you can see this.'
+    ? 'Check these look right, then start. Only you can see this.'
     : 'Paste your profile link. Chorus reads it and fills the rest in for you.';
 }
 
@@ -3394,13 +3460,17 @@ async function generateOne(key){
 
 /* the headline step gets the same "where does this go" as the others */
 function headlineWhere(){
-  const card = document.querySelector('[data-sec="headline"]');
-  if (!card || card.querySelector('.where')) return;
-  const w = document.createElement('div');
-  w.className = 'where';
-  w.innerHTML = 'Then on LinkedIn: your profile, <b>Edit intro</b>, paste into <b>Headline</b>, Save.';
-  const nav = card.querySelector('.wnav');
-  if (nav) card.insertBefore(w, nav); else card.appendChild(w);
+  const w = {
+    headline: ['[data-sec="headline"]', 'Then on LinkedIn: your profile, <b>Edit intro</b>, paste into <b>Headline</b>, Save.'],
+    about: ['[data-done="about"]', 'Then on LinkedIn: your profile, the pencil next to <b>About</b>, paste, Save. No About yet? <b>Add profile section</b>, then About.'],
+    joined: ['[data-done="joined"]', 'Then on LinkedIn: home page, <b>Start a post</b>, paste, Post.']
+  };
+  for (const k in w){
+    const hit = document.querySelector(w[k][0]); const card = hit && (hit.closest('.gen-card') || hit);
+    if (!card || card.querySelector('.where')) continue;
+    const d = document.createElement('div'); d.className = 'where'; d.innerHTML = w[k][1];
+    const nav = card.querySelector('.wnav'); if (nav) card.insertBefore(d, nav); else card.appendChild(d);
+  }
 }
 
 /* ---------- finish celebration ---------- */

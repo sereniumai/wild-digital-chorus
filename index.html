@@ -163,6 +163,14 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 
 
 /* ---------- app shell ---------- */
+/* Embedded inside the Chorus dashboard: the shell around this is the host's,
+   so this one hides its own sidebar, top bar and page chrome rather than
+   showing a second navigation and a second company's logo. */
+:root[data-embed="1"] .shell{grid-template-columns:1fr}
+:root[data-embed="1"] .side{display:none}
+:root[data-embed="1"] .topbar{display:none}
+:root[data-embed="1"] .main{padding-top:0}
+:root[data-embed="1"] body{background:transparent}
 .shell{display:grid;grid-template-columns:232px 1fr;min-height:100vh}
 @media (max-width:860px){.shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
 .voicebox{flex-wrap:wrap}.voicebox>div{flex:1;min-width:180px}.voicebox .btn{margin-left:auto}.side{position:static!important;z-index:30;height:auto!important;flex-direction:row!important;align-items:center;gap:8px;padding:8px 12px!important;overflow-x:auto}.side nav{flex-direction:row!important;gap:2px!important;flex:none}.side nav a{padding:8px 10px;font-size:13px;white-space:nowrap}.side .ws,.side .foot,.side nav .sec{display:none!important}.side .ws:first-child{display:flex!important;padding:0!important}.side .ws:first-child img{max-height:24px!important}.topbar{padding:10px 14px}.page{padding:16px 14px 50px}.write,.two,.brain,.kit{grid-template-columns:1fr}.page h2.title{font-size:24px}.hello h2{font-size:24px}.card>.body{padding:14px}.imgrow{grid-template-columns:1fr 1fr}.two>*,.write>*,.brain>*,.kit>*,.card,.kcard{min-width:0;max-width:100%}.card>.head{flex-wrap:wrap}.examples button,#headlines > button{white-space:normal;word-break:break-word}.card[style*='sticky']{position:static!important}}
@@ -3073,11 +3081,27 @@ function loadPerson(){ try { const s = JSON.parse(localStorage.getItem('chorus.p
 function bindForms(){ $$('[data-bind]').forEach(el=>el.addEventListener('input', ()=>{ set(el.dataset.bind, el.type==='range'?Number(el.value):el.value); if (el.dataset.bind.startsWith('person.')) savePerson(); render(); })); }
 function syncInputs(){ $$('[data-bind]').forEach(el=>{ const v=get(el.dataset.bind); el.value = v==null?'':v; }); }
 async function init(){
-  // workspace: Unifyr preset; person: Jordan
-  const _want = (()=>{ try { const u = new URLSearchParams(location.search).get('brand'); if (u) return u; } catch(e){} try { return localStorage.getItem('chorus.brand') || ''; } catch(e){ return ''; } })();
+  /* Embedded mode. The dashboard renders this in a frame and passes the
+     tenant's own brand, so it must not show a preset company's logo, colours
+     or navigation inside somebody else's product. */
+  const _q = (()=>{ try { return new URLSearchParams(location.search); } catch(e){ return new URLSearchParams(); } })();
+  const _embed = _q.get('embed') === '1';
+  if (_embed) document.documentElement.setAttribute('data-embed', '1');
+
+  const _want = (()=>{ const u = _q.get('brand'); if (u) return u; try { return localStorage.getItem('chorus.brand') || ''; } catch(e){ return ''; } })();
   const _preset = PRESETS.find(p => p.id === _want) || PRESETS[0];
   try { localStorage.setItem('chorus.brand', _preset.id); } catch(e){}
   state.brand = deepMerge(DEFAULT_BRAND, _preset); state.brand.teams = deepClone(_preset.teams); state.teamId = 'sales';
+  if (_embed){
+    const _name = _q.get('name'); if (_name) state.brand.name = _name;
+    const _p = _q.get('primary'); const _s = _q.get('secondary'); const _i = _q.get('ink');
+    const _hex = v => /^#?[0-9a-fA-F]{6}$/.test(v||'') ? (v[0]==='#'?v:'#'+v) : null;
+    if (_hex(_p)) state.brand.colors.primary = _hex(_p);
+    if (_hex(_s)) state.brand.colors.secondary = _hex(_s);
+    if (_hex(_i)) state.brand.colors.ink = _hex(_i);
+    const _logo = _q.get('logo');
+    if (_logo){ try { state.brand.logoData = decodeURIComponent(_logo); state.brand.logo = state.brand.logoData; } catch(e){} }
+  }
   // no fake details: the person fills these in and Chorus remembers them
   loadPerson(); loadBanners(); state.ui.banner = state.ui.banner || '1';
   state.ui.page='home';
@@ -3091,7 +3115,7 @@ async function init(){
   try { wizStart(); } catch(e){} renderAvatarBox(); syncPerson(); renderSwatches();
   try { restorePhoto(); } catch(e){}
 
-  if (location.hash==='#setup') go('learn'); else go('home'); render();
+  if (location.hash==='#setup') go('learn'); else go(_embed ? 'profile' : 'home'); render();
   // nav
   if ($('#noLiCb')) $('#noLiCb').addEventListener('change', ()=>{ try { s1Sync(); } catch(e){} });
   if ($('#liInput')) $('#liInput').addEventListener('input', ()=>{ try { s1Sync(); } catch(e){} });

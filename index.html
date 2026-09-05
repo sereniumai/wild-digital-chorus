@@ -379,7 +379,6 @@ a.linklike,:any-link.txt{color:var(--u-indigo)}
 .ptlabel{font-size:12px;font-weight:600;color:var(--ink-2)}
 .zoomrow{gap:8px}
 .zoomrow input[type=range]{flex:1;min-width:100px;accent-color:var(--u-violet)}
-.zbtn{min-width:34px;justify-content:center;font-size:16px;line-height:1;padding:4px 10px}
 .swatches button{width:28px;height:28px}
 /* badges and buttons sit true to centre */
 .startpill{display:inline-flex;align-items:center;height:24px;padding:0 11px;border-radius:999px;background:var(--u-violet);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-right:8px;flex:none}
@@ -462,7 +461,7 @@ canvas,img{max-width:100%}
 .scard b{display:block;font-size:13.5px;line-height:1.3}
 .scard span{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.45;margin-top:1px}
 .scanbox .shead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.scanbox .pill.live{background:#16a34a;color:#fff;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;animation:scpulse 1.6s infinite}
+.scanbox .pill.live{background:var(--good);color:#fff;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;animation:scpulse 1.6s infinite}
 @keyframes scpulse{50%{opacity:.5}}
 .sline{font-size:13px;line-height:1.55;padding:3px 0;color:var(--ink-2);animation:slin .35s ease both}
 @keyframes slin{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -499,7 +498,7 @@ canvas,img{max-width:100%}
 .smpost{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:12px;color:var(--ink-2);margin-bottom:6px;animation:slin .4s ease both}
 .smpost .meta{font-size:10.5px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
 .smbrief{border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:var(--ink);background:var(--panel,rgba(255,255,255,.03))}
-.smsum{margin:4px 0 0 36px;border-top:1px solid var(--line);padding-top:10px}
+.smsum{margin:8px 0 0;border-top:1px solid var(--line);padding-top:12px}
 .smsum .t{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
 .smsum div.i{font-size:13px;padding:3px 0;color:var(--ink)}
 .smfoot{display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-2);flex-wrap:wrap}
@@ -513,13 +512,13 @@ canvas,img{max-width:100%}
 .asker .arow{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
 .asker textarea{flex:1;min-width:220px;min-height:56px}
 .asker .hint{margin-top:6px}
-.wdone{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#16a34a}
+.wdone{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--good)}
 
 .howto div{transition:border-color .2s,background .2s,opacity .2s}
 .howto div.wcur{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,transparent)}
 .howto div.wcur b{color:var(--ink)}
 .howto div.wdoneStep{opacity:.55}
-.howto div.wdoneStep .stepn{background:#16a34a!important;color:#fff!important}
+.howto div.wdoneStep .stepn{background:var(--good)!important;color:#fff!important}
 .kitwiz .done-btn{display:none!important}
 .wnav .btn.brand{min-width:132px;justify-content:center}
 
@@ -548,7 +547,7 @@ canvas,img{max-width:100%}
 .wrail .dots{display:flex;gap:7px}
 .wrail .dots span{width:9px;height:9px;border-radius:50%;background:var(--line-2);transition:all .3s}
 .wrail .dots span.on{background:linear-gradient(135deg,var(--brand),var(--brand-2));transform:scale(1.25)}
-.wrail .dots span.past{background:#16a34a}
+.wrail .dots span.past{background:var(--good)}
 
 /* footer actions read like a form you move through */
 .wnav{padding:16px 20px;gap:12px;background:color-mix(in srgb,var(--panel) 60%,transparent)}
@@ -577,12 +576,12 @@ canvas,img{max-width:100%}
 .wgate .wg-s{font-size:13px;color:var(--ink-2);max-width:400px;margin:0 auto 16px;line-height:1.55}
 .wgate .btn{min-width:190px;height:44px;font-size:14.5px;border-radius:12px;justify-content:center}
 
-.wnav .wtip{font-size:12px;font-weight:700;color:#16a34a}
+.wnav .wtip{font-size:12px;font-weight:700;color:var(--good)}
 .wnav .btn.brand{min-width:150px}
 .where{padding:0 20px 16px;font-size:12.5px;color:var(--ink-3);line-height:1.5}
 
 .s1done{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:-4px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel,rgba(255,255,255,.03));font-size:13px;color:var(--ink-2)}
-.s1done .tick{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#16a34a;color:#fff;font-size:12px;font-weight:800;flex:none}
+.s1done .tick{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--good);color:#fff;font-size:12px;font-weight:800;flex:none}
 .s1done b{color:var(--ink)}
 .s1done .sp{flex:1}
 #s1grid{gap:16px}
@@ -595,7 +594,7 @@ canvas,img{max-width:100%}
 .wdoneCard{text-align:center;padding:40px 26px}
 .finlist{display:flex;flex-direction:column;gap:8px;max-width:520px;margin:6px auto 22px;text-align:left}
 .finrow{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel,rgba(255,255,255,.03))}
-.finrow .tick{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#16a34a;color:#fff;font-size:12px;font-weight:800;flex:none}
+.finrow .tick{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--good);color:#fff;font-size:12px;font-weight:800;flex:none}
 .finrow .fintxt{flex:1;min-width:0}
 .finrow .fintxt b{display:block;font-size:13.5px;line-height:1.3}
 .finrow .fintxt span{display:block;font-size:12px;color:var(--ink-3);line-height:1.45;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -771,7 +770,7 @@ html{scroll-padding-top:76px}
   .side::-webkit-scrollbar{display:none}
   .wrail{top:0;border-radius:0;margin-inline:-14px;padding-inline:14px}
 }
-@media (pointer:coarse){.btn.sm,.tbtn,.zbtn{min-height:44px}.swatches button{width:36px;height:36px}}
+@media (pointer:coarse){.btn.sm,.tbtn{min-height:44px}.swatches button{width:36px;height:36px}}
 
 
 /* the step and the preview are two columns of one grid, for every step */
@@ -814,8 +813,8 @@ html{scroll-padding-top:76px}
 
 /* the zoom control was a default range input flanked by two square buttons */
 .zoomrow{align-items:center;gap:8px}
-.zbtn{min-width:30px;width:30px;height:30px;min-height:30px;padding:0;border-radius:50%;
-  font-size:15px;font-weight:600;display:grid;place-items:center;flex:none}
+.ptrow .btn.zbtn{min-width:30px;width:30px;height:30px;min-height:30px;padding:0;border-radius:50%;
+  font-size:15px;font-weight:600;line-height:1;display:grid;place-items:center;flex:none}
 #zoomRange{-webkit-appearance:none;appearance:none;background:transparent;height:20px;flex:1;min-width:0;cursor:pointer}
 #zoomRange::-webkit-slider-runnable-track{height:4px;border-radius:99px;
   background:linear-gradient(90deg,var(--brand) var(--zpct,30%),var(--line) var(--zpct,30%))}
@@ -877,7 +876,7 @@ html{scroll-padding-top:76px}
 
 /* 'Open LinkedIn' mid step is an exit with no way back, and the finish screen offers it already.
    Hidden rather than removed, because live code still binds to that anchor. */
-.kitwiz .gen-body a.btn[target="_blank"]{display:none}
+.kitwiz .gen-body a.btn[target="_blank"]:not(#openJoined){display:none}
 
 
 /* the brand facts card is reassurance, not the job: it should sit behind the call to action */
@@ -1146,6 +1145,59 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
   .kitwiz #wizSide .card.open > .body{display:block}
 }
 
+
+/* ============ plan batch 1: first four seconds ============ */
+/* the API key status is developer telemetry; it lives on Brand Brain next to the key field */
+#modePill{display:none}
+/* home: the call to action is the page, size it like one */
+.quick a{padding:28px 28px 26px;gap:8px}
+.quick > a > b{font-size:22px;letter-spacing:-.02em;line-height:1.2}
+.quick .go{margin-top:16px}
+.quick .go .btn{min-height:46px;padding:0 24px;font-size:15px;border-radius:var(--r-btn)}
+.quick .steps5{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.quick .steps5 i{font-style:normal;display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:999px;border:1px solid var(--line-2);background:var(--panel-2);font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.quick .steps5 i b{width:18px;height:18px;border-radius:50%;background:var(--brand-soft);color:var(--brand-text);font-size:11px;font-weight:700;display:grid;place-items:center;line-height:1}
+@media (max-width:860px){.quick a{padding:22px 20px 20px}.quick > a > b{font-size:19px}.quick .go .btn{width:100%;justify-content:center}}
+
+
+/* ============ plan batch 2: wizard steps ============ */
+#headlines > button{position:relative;font-size:14px;line-height:1.5;color:var(--ink);padding:12px 16px 12px 40px}
+#headlines > button::before{content:'';position:absolute;left:14px;top:15px;width:16px;height:16px;border-radius:50%;border:2px solid var(--line-3);background:var(--panel);box-sizing:border-box;transition:border-color var(--d-2) var(--ease-out),background-color var(--d-2) var(--ease-out)}
+#headlines > button:hover{border-color:var(--line-3)}
+#headlines > button[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--brand),0 0 0 3px var(--brand-ring)}
+#headlines > button[aria-pressed="true"]::before{border-color:var(--brand);background:var(--brand);box-shadow:inset 0 0 0 3px var(--panel)}
+.kitwiz .kcard[data-id="banner"] .row{display:none}
+.kitwiz .kcard[data-id="banner"] .where{margin-top:18px}
+@media (min-width:1101px){
+  .kitwiz #wizSide .card > .body{-webkit-mask-image:linear-gradient(#000 calc(100% - 32px),transparent);mask-image:linear-gradient(#000 calc(100% - 32px),transparent)}
+  .kitwiz #wizSide .li-mock .pbody{padding-bottom:44px}
+}
+@media (max-width:560px){
+  .asker textarea{min-height:100px}
+  .wnav .wtip{order:10;flex:none;text-align:center;padding:4px 0 2px}
+}
+
+
+/* ============ plan batches 3 and 4: scan modal and finish ============ */
+.smtop .pill.live{animation:scpulse 1.6s infinite}
+:root[data-theme="dark"] .smtop .pill.live,:root[data-theme="dark"] .scanbox .pill.live{color:#06170E}
+.smpanel.done .pill.live,:root[data-theme="dark"] .smpanel.done .pill.live{animation:none;background:var(--brand-soft);color:var(--brand-text)}
+.smpanel.done::before{animation:none}
+.smstep.warn{color:#b45309}
+:root[data-theme="dark"] .smstep.warn{color:var(--warn)}
+.smtop b{font-size:17px;letter-spacing:-.015em;font-weight:600}
+.smbrief{font-size:14px;line-height:1.6;padding:14px 16px}
+.smpost{font-size:13px;line-height:1.5;padding:10px 14px}
+.smpost .meta{font-size:11px;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.smsum div.i{font-size:13.5px}
+.finrow .btn{min-width:104px;justify-content:center}
+@media (max-width:560px){.finrow .btn{min-width:88px}}
+.finrow.copied:not(.done){border-color:color-mix(in srgb,var(--brand) 45%,transparent)}
+.finrow.copied:not(.done) .fintxt::after{content:attr(data-hint);display:block;margin-top:3px;font-size:12px;font-weight:600;line-height:1.4;color:var(--brand-text)}
+@media (max-width:560px){.finrow .fintxt span{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}}
+:root[data-theme="dark"] .finrow.done .tick{border-color:var(--good)}
+:root[data-theme="dark"] .finrow .tick:hover{border-color:var(--good)}
+
 </style>
 </head>
 <body>
@@ -1180,7 +1232,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
       <div class="sec">Settings</div>
       <a href="#brain" data-page="brain"><svg><use href="#i-brain"/></svg>Brand Brain</a>
     </nav>
-    <div class="foot"><span class="avatar" id="sideAvatar"></span><div><b id="sideName">Your name</b><span id="sideRole">Add your details</span></div></div>
+    <div class="foot"><span class="avatar" id="sideAvatar"></span><div><b id="sideName">Your name</b><span id="sideRole">Not set up yet</span></div></div>
   </aside>
 
   <div class="main">
@@ -1212,10 +1264,10 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
     <div class="page" data-page="home">
       <div class="hello"><div><h2 id="helloH">Good morning.</h2><p>Set up your LinkedIn from your real profile. About five minutes.</p></div></div>
       <div class="quick">
-        <a href="#profile" data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Set up my LinkedIn</b><span>Your profile photo, the company banner, a headline, your About and your first post, in your own words.</span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
+        <a href="#profile" data-go="profile"><span class="ic"><svg><use href="#i-kit"/></svg></span><b>Your LinkedIn, on brand in five steps</b><span class="steps5"><i><b>1</b>Profile photo</i><i><b>2</b>Banner</i><i><b>3</b>Headline</i><i><b>4</b>About</i><i><b>5</b>Say you’ve joined</i></span><span class="go"><span class="btn brand">Set up my LinkedIn</span></span></a>
       </div>
-      <div class="card quietcard"><div class="head"><h2 data-brand="knows">What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span><span class="spacer"></span><span class="pill good">Up to date</span></div><div class="body">
-        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b>31</b><span>facts and proof points</span></div><div><b>6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b id="brainWhen">Today</b><span>last checked</span></div></div>
+      <div class="card quietcard"><div class="head"><h2 data-brand="knows">What Chorus knows about Unifyr</h2><span class="sub">Every piece is written from this</span></div><div class="body">
+        <div class="brainstat" style="grid-template-columns:repeat(4,1fr)"><div><b>84</b><span>pages and posts read</span></div><div><b id="hsFacts">8</b><span>facts and proof points</span></div><div><b id="hsTraits">6</b><span>ways <span data-brand="name">Unifyr</span> sounds</span></div><div><b id="brainWhen">Today</b><span>last updated</span></div></div>
         <button class="btn sm quiet" data-go="brain" style="align-self:flex-start">See what it knows</button>
       </div></div>
     </div>
@@ -1258,7 +1310,7 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
       <div class="kit">
         <article class="kcard" data-id="avatar"><div class="head"><h2>Profile photo</h2><span class="sub">Pulled from your profile and cut out. Pick a background, then download it.</span></div><div class="thumb photostage" id="photoStage">
           <div class="circle"><canvas id="th-avatar"></canvas></div>
-          <div class="dragtip" id="dragTip">Drag to move, scroll to zoom</div>
+          <div class="dragtip" id="dragTip">Drag to move, use - and + to zoom</div>
         </div>
         <div class="photo-tools">
           <div class="ptrow"><label class="btn sm"><svg><use href="#i-img"/></svg><span id="photoBtnLabel">Add photo</span><input type="file" id="photoFile" accept="image/*" class="vh"></label><button class="btn sm quiet hidden" id="photoReset">Reset position</button></div>
@@ -1414,7 +1466,7 @@ function mix(h1, h2, t){ const a=hexRgb(h1), b=hexRgb(h2); return '#'+a.map((v,i
 function tint(h, t){ return mix(h, '#FFFFFF', t); }
 
 /* ---------- images & fonts ---------- */
-function loadImage(src, cors){ return new Promise((res, rej)=>{ if (!src) return res(null); const im = new Image(); if (cors) im.crossOrigin = 'anonymous'; im.onload = ()=>res(im); im.onerror = ()=>rej(new Error('img')); im.src = src; }); }
+function loadImage(src, cors){ return new Promise((res, rej)=>{ if (!src) return res(null); const im = new Image(); if (cors) im.crossOrigin = 'anonymous'; im.onload = ()=>res(im); im.onerror = ()=>rej(new Error('image blocked')); im.src = src; }); }
 async function loadLogo(){
   const src = state.brand.logoData || normUrl(state.brand.logo);
   state.logoImg = null; state.logoTainted = false;
@@ -1591,7 +1643,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-audit6');
+console.log('Chorus build 2026-09-05-plan4');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1629,7 +1681,7 @@ const BRAIN = {
   rules: "Always 'Unifyr', never 'Unifyr Solutions'. First mention of the rebrand: 'Unifyr (formerly Zift Solutions)'. Product names are capitalised: Unifyr Engage, Unifyr Enterprise, Unifyr IQ, Agent Connect. Don't quote pricing. Customer names only where a published story exists. Investcorp is 'led the round', not 'acquired'.",
   sources: [
     ["site", "unifyr.com, 42 pages", "https://www.unifyr.com/"],
-    ["blog", "unifyr.com/blog, 18 posts (Feb-Jul 2026)", "https://www.unifyr.com/blog/"],
+    ["blog", "unifyr.com/blog, 12 posts (Feb-Jul 2026)", "https://www.unifyr.com/blog/"],
     ["news", "unifyr.com/newsroom, 6 releases", "https://www.unifyr.com/newsroom/"],
     ["linkedin", "linkedin.com/company/unifyr, 24 posts", "https://www.linkedin.com/company/unifyr/"],
     ["reviews", "g2.com, 450+ reviews (tone of customer language)", "https://www.g2.com/products/unifyr-unifyr/reviews"],
@@ -1742,6 +1794,8 @@ function go(page){
   if (page==='write') $('#pageCrumb').textContent = W.voice==='me' ? 'Me' : 'Company (marketing)';
   $('#pageTitle').textContent = PAGES[page][0]; $('#pageCrumb').textContent = PAGES[page][1];
   if (page==='profile') render(); if (page==='write') renderOuts();
+  if (page==='home'){ try { renderHome(); } catch(e){} }
+  if (page==='profile' && !state.person.scan){ setTimeout(()=>{ const i = $('#liInput'); if (i && !i.disabled && !i.value && i.offsetParent && matchMedia('(min-width:861px)').matches){ try { i.focus({preventScroll:true}); } catch(_){ i.focus(); } } }, 320); }
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -1800,7 +1854,7 @@ async function runLearn(){
       .concat((d.web || []).slice(0, 3).map(w => ['web', (w.title || '').slice(0, 60), w.url]));
     B.sourcesSub = pages.length + ' pages read live' + ((d.web || []).length ? ' \u00B7 ' + d.web.length + ' web mentions' : '') + ' \u00B7 just now';
     Object.assign(BRAIN, B);
-    try { localStorage.setItem('chorus.brain2', JSON.stringify(B)); } catch(e){}
+    try { localStorage.setItem('chorus.brain2', JSON.stringify(B)); localStorage.setItem('chorus.brainAt', String(Date.now())); } catch(e){}
     smOk(sv,'<b>Voice and facts learned</b>'); smProg(92);
     if (out.summary) smData('<div class="smbrief">' + esc(out.summary) + '</div>');
     smData('<div class="smsum"><div class="t">The Brand Brain now holds</div>'
@@ -2036,7 +2090,7 @@ async function liveWriteOld(ask){
 /* ---------- banners: two built in, marketing can add more ---------- */
 function loadBanners(){ try { state.brand.banners = JSON.parse(localStorage.getItem('chorus.banners')||'[]'); } catch(e){ state.brand.banners = []; } }
 function saveBanners(){ try { localStorage.setItem('chorus.banners', JSON.stringify(state.brand.banners||[])); } catch(e){ toast('That image is too big to save here', true); } }
-function bannerList(){ return [{id:'1', label:'Build better partnerships', sub: state.brand.name + '’s LinkedIn banner'}, {id:'2', label:'Partner growth without limits', sub:'Alternative'}].concat((state.brand.banners||[]).map((b,i)=>({id:'u'+i, label:b.name||('Banner '+(i+3)), sub:'Added by marketing', src:b.src}))); }
+function bannerList(){ return [{id:'1', label:'Build better partnerships', sub:'Main banner'}, {id:'2', label:'Partner growth without limits', sub:'Second banner'}].concat((state.brand.banners||[]).map((b,i)=>({id:'u'+i, label:b.name||('Banner '+(i+3)), sub:'Added by marketing', src:b.src}))); }
 async function bannerCanvas(b){
   const key = 'bnr_'+b.id; if (canvases[key] && !b.src) return canvases[key];
   if (!b.src) return canvases['banner'+b.id];
@@ -2119,7 +2173,7 @@ If you run a partner program and want to talk about what's working (or not), my 
 let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
-  const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.type = 'button'; b.setAttribute('aria-pressed', i===PF.headline ? 'true' : 'false'); b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); saveWriting(); }); h.appendChild(b); });
+  const h = $('#headlines'); h.innerHTML=''; h.setAttribute('role','group'); h.setAttribute('aria-label','Headline options'); if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.type = 'button'; b.setAttribute('aria-pressed', i===PF.headline ? 'true' : 'false'); b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); saveWriting(); }); h.appendChild(b); });
   const ed = document.createElement('div'); ed.className='hledit';
   ed.innerHTML = '<label for="hlText">Edit it if you like</label>'
     + '<textarea id="hlText" maxlength="220" rows="2" spellcheck="true"></textarea>'
@@ -2137,9 +2191,9 @@ function renderProfile(){
   const wrap = document.createElement('div'); wrap.className='hlcopy'; wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
   const _sc = state.person.scan || {};
   if ($('#pfLoc')) $('#pfLoc').textContent = [(_sc.location || ''), state.brand.name].filter(Boolean).join(' \u00B7 ');
-  $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About section will appear here once you click Generate.';
+  $('#pfName').textContent = state.person.name||'Your name'; $('#pfHeadline').textContent = PF.generated ? HEADLINES[PF.headline] : ([state.person.title, state.brand.name].filter(Boolean).join(' at ') || 'Your headline will appear here'); $('#pfAbout').textContent = PF.generated ? $('#aboutText').value : 'Your About will appear here once it is written.';
   const ready = !!(state.person.name.trim() && state.person.title.trim()); $('#genBtn').disabled = !ready;
-  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Five short steps: photo, banner, headline, About and your first post. About five minutes.' : 'Add your name and job title first, then click Generate.';
+  if ($('#genHint') && !PF.generated) $('#genHint').textContent = ready ? 'Five short steps: photo, banner, headline, About and your first post. About five minutes.' : 'Add your name and job title first.';
   if (canvases.avatar) fit(canvases.avatar, $('#pf-avatar'), 88);
   if (PF.generated){ $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); }
   renderDone();
@@ -2413,10 +2467,8 @@ function photoNotice(){
       + '<span>Use <b>Add photo</b> to pick one from your computer. We cut the background out and put it on your colour, the same as if it had come from LinkedIn.</span>';
   } else {
     n.innerHTML = '<b>We could not load your LinkedIn photo.</b>'
-      + '<span>Your browser or network blocked it. Use <b>Add photo</b> to pick the file yourself, '
-      + 'everything else from your profile came through fine.</span>'
-      + '<button class="btn sm" data-photoretry>Try again</button>'
-      + '<details><summary>What went wrong</summary><code>' + esc((state.photoTrace||[]).join(' | ')) + '</code></details>';
+      + '<span>Something between your browser and LinkedIn blocked it. Use <b>Add photo</b> to pick the file yourself, or try again.</span>'
+      + '<button class="btn sm" data-photoretry>Try again</button>';
   }
   const rb = n.querySelector('[data-photoretry]');
   if (rb) rb.addEventListener('click', ()=>{
@@ -2447,7 +2499,7 @@ function smStep(icon, label){ const d=document.createElement('div'); d.className
 function smOk(d, label){ const s=d.querySelector('.spin'); if(s) s.remove(); d.classList.add('ok'); if(label) d.querySelector('.lb').innerHTML=label; }
 function smData(html, cls){ const d=document.createElement('div'); d.className='smdata'+(cls?' '+cls:''); d.innerHTML=html; $('#smBody').appendChild(d); d.scrollIntoView({block:'nearest'}); return d; }
 let _smFrom = null;
-function smOpenModal(){ const m=$('#scanModal'); const a = document.activeElement; if (!(a && m.contains(a))) _smFrom = a; m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); const p = m.querySelector('.smpanel'); if (p){ p.tabIndex = -1; try { p.focus({preventScroll:true}); } catch(e){} } }
+function smOpenModal(){ const m=$('#scanModal'); const a = document.activeElement; if (!(a && m.contains(a))) _smFrom = a; m.classList.add('on'); $('#smBody').innerHTML=''; $('#smFoot').classList.add('hidden'); smProg(3); const p = m.querySelector('.smpanel'); if (p){ p.classList.remove('done'); p.tabIndex = -1; try { p.focus({preventScroll:true}); } catch(e){} } }
 function smCloseModal(){
   if (W._scanning){
     W._scanning = false;
@@ -2460,14 +2512,16 @@ function smCloseModal(){
   }
   if (typeof SCAN_RUN === 'number') SCAN_RUN++; const b = $('#scanBtn'); if (b && b.disabled){ b.disabled = false; b.innerHTML = '<svg><use href="#i-spark"/></svg>Scan my LinkedIn'; } $('#scanModal').classList.remove('on'); const f = _smFrom; _smFrom = null; if (f && f.focus && f.offsetParent !== null && !f.disabled){ try { f.focus({preventScroll:true}); } catch(e){} } }
 function smShowFoot(){ $('#smFoot').classList.remove('hidden'); requestAnimationFrame(()=>{ const b=$('#smBody'); if (b) b.scrollTop = b.scrollHeight; const u=$('#smUse'); if (u && !u.classList.contains('hidden')){ try { u.focus({preventScroll:true}); } catch(e){} } }); }
-function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; W._retryScan = false; smOpenModal(); }
+function smBegin(title){ const t = $('#smTitle'); if (t) t.textContent = title; const u = $('#smUse'); if (u){ u.textContent = 'Looks right, let\u2019s go'; u.classList.remove('hidden'); } W._afterScan = false; W._retryScan = false; smOpenModal(); const _lp0 = document.querySelector('.smtop .pill.live'); if (_lp0) _lp0.textContent = 'live'; }
 var SCAN_RUN = 0;
 async function scanLinkedIn(){
   const url = ($('#liInput').value||'').trim();
   if (!url || !/linkedin\.com\/in\//i.test(url.startsWith('http')?url:'https://'+url)) return toast('Put your LinkedIn link in first, like linkedin.com/in/you', true);
+  const _id = (url.match(/\/in\/([^/?#]+)/i) || [])[1]; if (_id){ state.person.linkedin = 'https://www.linkedin.com/in/' + _id; const _li = $('#liInput'); if (_li) _li.value = state.person.linkedin; }
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
   const _run = ++SCAN_RUN;
   const alive = () => _run === SCAN_RUN;
+  const scanStopped = () => { try { s1Sync(); syncPerson(); } catch(_){} };
   /* cancelling half way through must not leave a stranger's details in the form */
   W._scanning = true;
   W._scanUndo = { name: state.person.name || '', title: state.person.title || '' };
@@ -2483,14 +2537,16 @@ async function scanLinkedIn(){
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700); if (!alive()) return;
-    if (!(await liPing())){ smOk(s1, 'This device cannot reach the Chorus server. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open the app here instead</a>, where nothing can block it.'); s1.classList.add('warn'); const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._retryScan = true; smShowFoot(); return; }
+    if (!(await liPing())){ smOk(s1, 'This network is blocking Chorus. <a href="https://wild-digital-chorus.vercel.app/" target="_blank" rel="noopener">Open Chorus in a new tab</a> and try there.'); s1.classList.add('warn'); const u = $('#smUse'); u.textContent = 'Try again'; u.classList.remove('hidden'); W._retryScan = true; smShowFoot(); return; }
     smOk(s1, '<b>Connected</b>'); smProg(12);
     const s2 = smStep('\uD83D\uDD0E', 'Finding your profile');
+    let slowT = setTimeout(()=>{ const lb = s2.querySelector('.lb'); if (lb && s2.querySelector('.spin')) lb.innerHTML = 'Finding your profile. <span style="color:var(--ink-3);font-weight:500">LinkedIn is slow today, this can take up to a minute</span>'; }, 8000);
     const prof = await liFetch('profile', url);
-    if (!alive()) return;
+    clearTimeout(slowT); slowT = null;
+    if (!alive()){ scanStopped(); return; }
     smOk(s2, '<b>Profile found</b>'); smProg(30);
     smData('<div class="smid">' + (prof.photo ? '<img src="'+esc(photoSrc(prof.photo))+'" crossorigin="anonymous" referrerpolicy="no-referrer" alt="">' : '') + '<div><b>'+esc(prof.name||'You')+'</b><span>'+esc(prof.headline||'')+'</span><span>'+esc(prof.location||'')+(prof.followers?' \u00B7 '+prof.followers+' followers':'')+(prof.connections?' \u00B7 '+prof.connections+' connections':'')+'</span></div></div>');
-    if (!alive()) return;
+    if (!alive()){ scanStopped(); return; }
     if (!state.person.name && prof.name){ state.person.name = prof.name; const e=$('[data-bind="person.name"]'); if(e) e.value = prof.name; }
     if (!state.person.title && (prof.title || prof.headline)){ state.person.title = prof.title || (prof.headline||'').split(/[|\u00B7]|\bat\b/)[0].trim(); const e=$('[data-bind="person.title"]'); if(e) e.value = state.person.title; }
     await smWait(900); if (!alive()) return;
@@ -2513,7 +2569,7 @@ async function scanLinkedIn(){
     if (prof.about){
       const s4 = smStep('\uD83D\uDCC4', 'Reading your About section'); await smWait(900); if (!alive()) return;
       smOk(s4, '<b>About read</b>, ' + prof.about.split(/\s+/).length + ' words');
-      smData('<div class="smquote">\u201C' + esc(prof.about.replace(/\s+/g,' ').slice(0, 180)) + '\u2026\u201D</div>');
+      smData('<div class="smquote">\u201C' + esc(cutWords(prof.about.replace(/\s+/g,' '), 180)) + '\u201D</div>');
       smProg(58); await smWait(500); if (!alive()) return;
     }
     if (prof.title || prof.company){
@@ -2543,7 +2599,7 @@ async function scanLinkedIn(){
       }
     } else { smOk(s6, postsErr ? '<b>Could not read your posts</b> this time, starting you in a clear plain voice' : '<b>No recent posts found</b>, plenty of people post rarely'); }
     smProg(80);
-    if (!alive()) return;
+    if (!alive()){ scanStopped(); return; }
     state.person.scan = { name: prof.name, headline: prof.headline, about: prof.about, title: prof.title, company: prof.company, location: prof.location, photo: prof.photo, followers: prof.followers, posts: own.map(p=>({ text: p.text.slice(0,1200), ago: p.ago, date: p.date, likes: p.likes })), at: Date.now() };
     state.person.samples = own.slice(0,4).map(p=>p.text).join('\n\n---\n\n');
     savePerson(); syncPerson();
@@ -2553,19 +2609,20 @@ async function scanLinkedIn(){
       const msg = 'Posting history: ' + (recent ? 'recent and enough to learn a voice from' : 'old or few, treat as not enough to learn a voice from') + '\nName: ' + (prof.name||'') + '\nHeadline: ' + (prof.headline||'') + '\nAbout: ' + (prof.about||'').slice(0,800) + '\nPosts found: ' + own.length + (own.length ? '\nMost recent: ' + (own[0].ago||own[0].date||'') + '\nPosts:\n' + own.slice(0,4).map(p=>'['+(p.ago||p.date||'')+', '+(p.likes||0)+' reactions] '+p.text.slice(0,600)).join('\n---\n') : '');
       const brief = (await askAI(sys, msg)).trim();
       state.person.brief = brief; savePerson();
-      smOk(s7, '<b>Voice learned</b>');
+      smOk(s7, recent ? '<b>Voice learned</b>' : '<b>Voice brief ready</b>');
       smData('<div class="smbrief">' + esc(brief) + '</div>');
     } catch(e){ smOk(s7, '<b>Read everything</b>'); }
     if (photoJob) await photoJob;
-    if (!alive()) return;
+    if (!alive()){ scanStopped(); return; }
     try { persistPhoto(); } catch(e){}
     try { s1Sync(); } catch(e){}
     smProg(100);
-    const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
+    try { $('#smTitle').textContent = 'Your LinkedIn, read'; const _lp = document.querySelector('.smtop .pill.live'); if (_lp) _lp.textContent = 'done'; const _pn = document.querySelector('.smpanel'); if (_pn) _pn.classList.add('done'); } catch(e){}
+    const sum = ['<div class="smsum"><div class="t">' + esc(prof.name||'You') + ', set up from your real profile just now</div>'];
     if (prof.photo && state.photoImg) sum.push('<div class="i">\u2713 Profile photo pulled in and cut out, pick any ' + esc(state.brand.name) + ' colour behind it</div>');
     else sum.push('<div class="i">\u2022 No photo came through, add one on the photo step</div>');
     sum.push('<div class="i">\u2713 Name and job title filled in</div>');
-    sum.push('<div class="i">\u2713 ' + (recent ? 'Your voice learned from ' + own.length + ' real posts' : own.length ? 'Your ' + own.length + ' older posts read, starting you in a clear plain voice' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
+    sum.push('<div class="i">\u2713 ' + (recent ? 'Your voice learned from ' + own.length + ' real posts' : own.length ? 'Your ' + own.length + ' older posts read, starting you in a clear plain voice' : postsErr ? 'A clear plain starting voice, your posts would not load this time' : 'A clear plain starting voice, since your feed is quiet') + '</div>');
     sum.push('<div class="i">\u2713 Saved only in this browser. Nothing is posted or changed on LinkedIn for you</div></div>');
     smData(sum.join(''), '');
     $('#smUse').textContent = 'Set up my LinkedIn'; W._afterScan = true;
@@ -2575,7 +2632,8 @@ async function scanLinkedIn(){
     savePerson();
     const m = String((e && e.message) || '');
     const why = (e && e.off) ? 'The scanner is switched off right now.'
-      : /failed to fetch|no connection|network|timed? ?out/i.test(m) ? 'Your network would not let us reach LinkedIn.'
+      : /timed? ?out/i.test(m) ? 'LinkedIn took too long to answer. Try again in a minute.'
+      : /failed to fetch|no connection|network/i.test(m) ? 'Your network would not let us reach LinkedIn.'
       : /private|not found|404/i.test(m) ? 'That profile looks private or the address is not quite right. Check it and try again.'
       : 'LinkedIn did not answer this time. It happens, try once more.';
     smData('<div class="smbrief"><b>Could not read that profile.</b> ' + why + ' Or close this and tick <b>I don\u2019t have one yet</b> to carry on without the scan.</div>');
@@ -2584,8 +2642,12 @@ async function scanLinkedIn(){
     smShowFoot();
   } finally { if (alive()) W._scanning = false; btn.disabled = false; btn.innerHTML = btnHtml; }
 }
-async function generateKit(){
+async function generateKit(quick){
   const p = state.person; if (!p.name.trim() || !p.title.trim()) return toast('Add your name and job title first', true);
+  if (PF.generated){
+    try { renderProfile(); wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex((x, k) => k > 0 && !_d[x.key]); wizGo(_f < 0 ? 1 : _f); } catch(e){}
+    return;
+  }
   const btn = $('#genBtn'); btn.disabled = true; $('#genHint').textContent = 'Getting your steps ready. A few seconds.';
   const prog = $('#genProgress'); $$('#genProgress .st').forEach(s=>{ s.classList.remove('on','done'); s.querySelector('.dot').innerHTML=''; });
   const hasLi = !!(p.linkedin && p.linkedin.trim()) && !$('#noLiCb').checked;
@@ -2619,7 +2681,7 @@ function renderDone(){ const d = doneState(); const n = DONE_KEYS.filter(k=>d[k]
   const nx = DONE_KEYS.find(k=>!d[k]); const _wizOn = (typeof WIZ !== 'undefined' && WIZ.on); if ($('#nextHint') && !_wizOn) $('#nextHint').textContent = !PF.generated ? 'Add your details first' : nx ? 'Next: ' + DONE_LABEL[nx] : 'All done. Nice one.'; if ($('#doneBar')) $('#doneBar').style.width = (100*n/DONE_KEYS.length)+'%'; $$('.done-btn').forEach(b=>{ const on = !!d[b.dataset.done]; b.classList.toggle('on', on); b.innerHTML = on ? '<svg><use href="#i-check"/></svg>Done' : 'Mark done'; }); renderTeamProgress(n); if (n===DONE_KEYS.length && !renderDone._t){ renderDone._t = true; } }
 /* ---------- who's set up (Settings) ---------- */
 const TEAM_DEMO = [["Maya Okafor","Product Marketing Manager","Marketing",5],["Luis Ferreira","Head of Partnerships","Partnerships",5],["Priya Natarajan","Product Manager","Product",3],["Sam Whitfield","Customer Success Manager","Customer Success",1],["Ana Lindqvist","Account Executive","Sales",0]];
-function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Add your details', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
+function renderTeamProgress(mine){ const tb = $('#teamBody'); if (!tb) return; const rows = [[state.person.name||'You', state.person.title||'Not set up yet', 'Sales', mine, !!state.person.name], ...TEAM_DEMO.map(t=>[t[0],t[1],t[2],t[3],false])]; tb.innerHTML = rows.map(r=>`<tr><td><div class="who"><span class="avatar">${esc(r[0].split(' ').map(s=>s[0]).join(''))}</span><div><b>${esc(r[0])}${r[4]?' <span class="pill brand" style="margin-left:6px">you</span>':''}</b><span>${esc(r[1])}</span></div></div></td><td>${esc(r[2])}</td><td><div class="genbar" style="width:120px;display:inline-block;vertical-align:middle"><i style="width:${100*r[3]/5}%"></i></div> <span style="color:var(--ink-3);font-size:12px">${r[3]} of 5</span></td><td>${r[3]===5?'<span class="pill good">Set up</span>':r[3]>0?'<span class="pill warn">In progress</span>':'<span class="pill">Not started</span>'}</td></tr>`).join(''); }
 
 function startNewPost(){
   W.outputs = null; W.imgKey = null; W.aiImage = null; W.aiErr = null; IMG.base = null; IMG.key = null; IMG.headline=''; IMG.hl=''; IMG.sub=''; IMG.desc='';
@@ -2636,7 +2698,20 @@ function brainWhen(){
   return d <= 0 ? 'Today' : d === 1 ? 'Yesterday' : d < 7 ? d + ' days ago' : d < 30 ? Math.floor(d/7) + ' weeks ago' : Math.floor(d/30) + ' months ago';
 }
 function renderHome(){
-  const bw = $('#brainWhen'); if (bw) bw.textContent = brainWhen(); if (!first()){ $('#helloH').textContent = greeting() + '.'; } else $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`; }
+  const bw = $('#brainWhen'); if (bw) bw.textContent = brainWhen();
+  if (!first()){ $('#helloH').textContent = greeting() + '.'; } else $('#helloH').innerHTML = `${greeting()}, <em>${esc(first()||'Jordan')}</em>.`;
+  const hs = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  hs('hsFacts', (BRAIN.facts || []).length); hs('hsTraits', (BRAIN.traits || []).length);
+  try {
+    const card = document.querySelector('.quick a[data-go="profile"]'); if (!card) return;
+    const b = card.querySelector(':scope > b'), btn = card.querySelector('.go .btn'); if (!b || !btn) return;
+    let started = false; try { started = localStorage.getItem('chorus.kit') === '1'; } catch(e){}
+    const d = doneState(); const n = DONE_KEYS.filter(k => d[k]).length; const total = DONE_KEYS.length;
+    if (started && n > 0 && n < total){ b.textContent = 'Pick up where you left off'; btn.textContent = 'Continue, ' + n + ' of ' + total + ' done'; }
+    else if (started && n === total){ b.textContent = 'Your LinkedIn is set up'; btn.textContent = 'Open the checklist'; }
+    else { b.textContent = 'Your LinkedIn, on brand in five steps'; btn.textContent = 'Set up my LinkedIn'; }
+  } catch(e){}
+}
 function greeting(){ const h = new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
 function renderTeam_unused(){ $('#teamBody').innerHTML = TEAM.map(t=>`<tr><td><div class="who"><span class="avatar">${t[0].split(' ').map(s=>s[0]).join('')}</span><div><b>${esc(t[0])}</b><span>${esc(t[1])}</span></div></div></td><td>${esc(t[2])}</td><td>${t[3]?'<span class="pill good">Learned</span>':'<span class="pill warn">Not yet</span>'}</td><td>${t[4]?'<span class="pill good">Done</span>':'<span class="pill">, </span>'}</td><td style="color:var(--ink-3)">${esc(t[5])}</td><td style="text-align:right"><button class="btn sm quiet">Remind</button></td></tr>`).join(''); }
 
@@ -2835,7 +2910,7 @@ function facePhoto(){
   return (state.person.scan && state.person.scan.photo) || '';
 }
 function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.crossOrigin='anonymous'; i.src=photoSrc(f); i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
-function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; const srcA = (state.photoCut && canvases.avatar) ? canvases.avatar : (state.photoCut || state.photoImg); if (srcA){ const g=c.getContext('2d'); if (!canvases.avatar){ g.fillStyle = (typeof swatchColors==='function' ? swatchColors()[state.person.bg||0] : '#0B121D') || '#0B121D'; g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.fill(); g.save(); g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.clip(); } g.drawImage(srcA,0,0,64,64); if (!canvases.avatar) g.restore(); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
+function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Not set up yet'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; const srcA = (state.photoCut && canvases.avatar) ? canvases.avatar : (state.photoCut || state.photoImg); if (srcA){ const g=c.getContext('2d'); if (!canvases.avatar){ g.fillStyle = (typeof swatchColors==='function' ? swatchColors()[state.person.bg||0] : '#0B121D') || '#0B121D'; g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.fill(); g.save(); g.beginPath(); g.arc(32,32,32,0,Math.PI*2); g.clip(); } g.drawImage(srcA,0,0,64,64); if (!canvases.avatar) g.restore(); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
 function canvasBlob(id){ return new Promise(res=>{ try { canvases[id].toBlob(b=>res(b),'image/png'); } catch(e){ res(null); } }); }
 async function downloadCanvas(id, btn){
@@ -3000,7 +3075,6 @@ async function init(){
   $('#copyJoined').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#joinedText').value)) ? (flash(btn,'Copied'), setDone('joined', true)) : toast('Copy failed', true); });
   $('#joinedText').addEventListener('input', ()=>{ saveWriting(); $('#openJoined').href = 'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent($('#joinedText').value); });
   // AI connection (Settings)
-  if ($('#modePill')) $('#modePill').addEventListener('click', ()=>{ go('brain'); setTimeout(()=>{ const el = $('#apiKey'); el.focus(); el.scrollIntoView({behavior:'smooth', block:'center'}); }, 250); });
   $('#apiKey').value = localStorage.getItem('chorus.key')||''; syncAiStatus();
   $('#testKey').addEventListener('click', async e=>{ const btn=e.currentTarget; const k = $('#apiKey').value.trim(); if (!k) return toast('Paste your API key first', true); btn.disabled=true; $('#aiHint').textContent='Testing the key…';
     try { const r = await fetch('https://api.anthropic.com/v1/messages', {method:'POST', headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'}, body: JSON.stringify({model:'claude-opus-5', max_tokens:20, messages:[{role:'user', content:'Reply with the single word OK.'}]})});
@@ -3023,7 +3097,7 @@ async function init(){
         if (f){ try { f.focus(); f.scrollIntoView({ behavior:'smooth', block:'center' }); } catch(e){} }
         return;
       }
-      generateKit();
+      generateKit(true);
       return;
     }
     if (W._retryScan){ W._retryScan = false; smCloseModal(); scanLinkedIn(); return; }
@@ -3031,7 +3105,7 @@ async function init(){
   });
   if ($('#smCancel')) $('#smCancel').addEventListener('click', smCloseModal);
   const _mod = $('#scanModal');
-  if (_mod) _mod.addEventListener('click', e => { if (e.target === _mod) smCloseModal(); });
+  if (_mod) _mod.addEventListener('click', e => { if (e.target === _mod && !$('#smFoot').classList.contains('hidden')) smCloseModal(); });
   document.addEventListener('keydown', e => {
     if (!_mod || !_mod.classList.contains('on')) return;
     if (e.key === 'Escape'){ smCloseModal(); return; }
@@ -3043,6 +3117,7 @@ async function init(){
       else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
     }
   });
+  if ($('#liInput')) $('#liInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing && $('#scanBtn') && !$('#scanBtn').disabled){ e.preventDefault(); scanLinkedIn(); } });
   $('#noLiCb').addEventListener('change', e=>{ const on = e.target.checked; $('#liInput').disabled = on; if (on){ state.person.linkedin=''; $('#liInput').value=''; } });
   $('#aboutText').addEventListener('input', ()=>{ $('#pfAbout').textContent = $('#aboutText').value; saveWriting(); });
   $('#copyAbout').addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText($('#aboutText').value)) ? (flash(btn,'Copied'), setDone('about', true)) : toast('Copy failed', true); });
@@ -3144,9 +3219,10 @@ function restoreWriting(){
   const a = $('#aboutText'); if (a && w.about) { a.value = w.about; const pa = $('#pfAbout'); if (pa) pa.textContent = w.about; }
   const j = $('#joinedText'); if (j && w.joined) j.value = w.joined;
   if (w.fin) Object.keys(FIN_PASTED).forEach(k => { FIN_PASTED[k] = !!w.fin[k]; });
+  if (Object.keys(FIN_PASTED).every(k => FIN_PASTED[k])) finSync._fired = true;
   return true;
 }
-function clearWriting(){ try { localStorage.removeItem('chorus.writing'); } catch(e){} HEADLINES = []; PF.made = {}; Object.keys(FIN_PASTED).forEach(k => { FIN_PASTED[k] = false; }); }
+function clearWriting(){ try { localStorage.removeItem('chorus.writing'); localStorage.removeItem('chorus.done'); } catch(e){} HEADLINES = []; PF.made = {}; Object.keys(FIN_PASTED).forEach(k => { FIN_PASTED[k] = false; }); finSync._fired = false; }
 
 function kitResume(){
   let started = false; try { started = localStorage.getItem('chorus.kit') === '1'; } catch(e){}
@@ -3173,7 +3249,8 @@ function wizStart(){
   const d = doneState();
   if (!PF.generated){ wizGo(0); return; }
   const first = WIZ.steps.findIndex((x, k) => k > 0 && !d[x.key]);
-  wizGo(first < 0 ? 1 : first);
+  if (first < 0){ wizGo(WIZ.steps.length - 1); try { wizFinish(); } catch(e){} return; }
+  wizGo(first);
 }
 function wizGo(n){
   if (!WIZ.on || !WIZ.steps.length) return;
@@ -3194,6 +3271,7 @@ function wizGo(n){
     const live = [...nav.querySelectorAll('.btn')].filter(b => b.style.display !== 'none');
     nav.classList.toggle('empty', live.length === 0);
   }
+  if (nav){ const sk = nav.querySelector('[data-wiz="skip"]'); if (sk) sk.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Skip and finish' : 'Skip for now'; }
   if ($('#nextHint')) $('#nextHint').textContent = WIZ_LABEL[st.key];
   const hideEmpty = sel => {
     const c = document.querySelector(sel); if (!c) return;
@@ -3240,7 +3318,7 @@ function wizNudge(key){
   if (nx){ nx.classList.add('is-ready'); nx.textContent = WIZ.i === WIZ.steps.length - 1 ? 'Finish' : 'Done, next'; }
   let tip = nav.querySelector('.wtip');
   if (!tip){ tip = document.createElement('span'); tip.className = 'wtip'; nav.insertBefore(tip, nav.querySelector('.sp')); }
-  tip.textContent = 'Saved. Paste it into LinkedIn, then carry on.';
+  tip.textContent = (key === 'photo' || key === 'banner') ? 'Downloaded. Upload it to LinkedIn, then carry on.' : key === 'joined' ? 'Copied. Post it on LinkedIn, then carry on.' : 'Copied. Paste it into LinkedIn, then carry on.';
 }
 function wizAdvance(key){
   if (!WIZ.on) return;
@@ -3273,6 +3351,7 @@ function finSync(){
     if (big) big.textContent = first + ', your LinkedIn is done.';
     if (sub) sub.textContent = 'That is all five live on your profile. Nice one.';
     card.classList.add('allpasted');
+    if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Finished'; if ($('#wRailNow')) $('#wRailNow').textContent = 'All done';
     const fa = card.querySelector('.finacts'); if (fa && !fa.dataset.done){ fa.dataset.done = '1'; fa.innerHTML = '<a class="btn brand lg" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>See your profile</a><button class="btn" data-fin="back">Review the steps</button>'; }
     const ft = card.querySelector('.fintick'); if (ft) ft.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     if (!finSync._fired){ finSync._fired = true; try { confetti(2600); } catch(e){} }
@@ -3280,6 +3359,7 @@ function finSync(){
     if (big){ const made = card.querySelectorAll('.finrow .btn.brand').length; big.textContent = first + (made === keys.length ? ', your five pieces are ready.' : ', ' + made + ' of your five pieces are ready.'); }
     if (sub) sub.textContent = 'Nothing has changed on LinkedIn yet. Add each one to your profile, then tick it off here.';
     card.classList.remove('allpasted');
+    if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Last step'; if ($('#wRailNow')) $('#wRailNow').textContent = 'Add to LinkedIn';
     const fa = card.querySelector('.finacts'); if (fa && fa.dataset.done){ delete fa.dataset.done; fa.innerHTML = '<a class="btn brand lg" href="https://www.linkedin.com/in/me/" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>Open LinkedIn</a><button class="btn" data-fin="back">Review the steps</button>'; }
     const ft = card.querySelector('.fintick'); if (ft) ft.innerHTML = '<svg><use href="#i-copy"/></svg>';
   }
@@ -3302,7 +3382,7 @@ function wizFinish(){
       if (!a) return;
       const what = a.dataset.fin;
       if (what.startsWith('go-')){ wizGo(WIZ.steps.findIndex(s => s.key === what.slice(3))); return; }
-      const nudge = () => { const row = a.closest('.finrow'); if (!row) return; row.classList.add('nudge'); setTimeout(() => row.classList.remove('nudge'), 2400); };
+      const nudge = () => { const row = a.closest('.finrow'); if (!row) return; row.classList.add('nudge'); setTimeout(() => row.classList.remove('nudge'), 2400); const txt = row.querySelector('.fintxt'); if (txt && !row.classList.contains('done')){ txt.dataset.hint = (what === 'photo' || what === 'banner') ? 'Downloaded. Upload it on LinkedIn, then tick it here.' : 'Copied. Paste it on LinkedIn, then tick it here.'; row.classList.add('copied'); } };
       if (what === 'back'){ card.style.display = 'none'; wizGo(1); return; }
       if (what === 'again'){ card.style.display = 'none'; wizGo(0); return; }
       const src = { photo: '#btn-avatar', about: '#copyAbout', joined: '#copyJoined' }[what];
@@ -3332,8 +3412,8 @@ function wizFinish(){
   const about = ($('#aboutText') || {}).value || '';
   const joined = ($('#joinedText') || {}).value || '';
   const rows = [
-    ['photo', 'Profile photo', state.photoCut ? 'Cut out, on your brand colour, 800 by 800' : 'Ready to download', 'Download', true],
-    ['banner', 'Banner', 'The ' + esc(state.brand.name) + ' cover image', 'Download', true],
+    ['photo', 'Profile photo', state.photoCut ? 'Cut out, on your brand colour, 800 by 800' : state.photoImg ? 'On your brand colour, 800 by 800' : 'No photo added, this is your initials on your colour', 'Download', true],
+    ['banner', 'Banner', 'The ' + esc(state.brand.name) + ' banner you picked', 'Download', true],
     ['headline', 'Headline', headline ? esc(headline.slice(0, 78)) + (headline.length > 78 ? '…' : '') : 'Not written yet', headline ? 'Copy' : 'Write it', !!headline],
     ['about', 'About', about ? words(about) + ' words in your voice' : 'Not written yet', about ? 'Copy' : 'Write it', !!about],
     ['joined', 'Say you’ve joined', joined ? words(joined) + ' words, ready to post' : 'Not written yet', joined ? 'Copy' : 'Write it', !!joined]
@@ -3358,11 +3438,9 @@ function wizFinish(){
 
   card.style.display = '';
   try { card.tabIndex = -1; card.focus({ preventScroll: true }); } catch(e){}
-  if ($('#wRailNow')) $('#wRailNow').textContent = 'Put it on LinkedIn';
-  if ($('#wRailLbl')) $('#wRailLbl').textContent = 'Last step';
   if ($('#wRailBar')) $('#wRailBar').style.width = '100%';
   const dots = $('#wRailDots'); if (dots) [...dots.children].forEach(x => { x.className = 'past'; });
-  try { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){}
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e){}
 }
 
 /* ---------- Tell Chorus what to include, then rewrite ---------- */
@@ -3461,7 +3539,7 @@ function s1Sync(){
   }
   done.style.display = scanned ? '' : 'none';
   if (scanned){
-    const link = (state.person.linkedin || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+    const link = (state.person.linkedin || '').replace(/^https?:\/\/(www\.)?/, '').replace(/[?#].*$/, '').replace(/(\/in\/[^/]+).*$/i, '$1').replace(/\/+$/, '');
     done.innerHTML = '<span class="tick">\u2713</span><span>Read from <b>' + esc(link) + '</b></span>'
       + '<span class="sp"></span><button class="btn sm quiet" data-rescan>Use a different profile</button>';
   }
@@ -3482,9 +3560,9 @@ function s1Sync(){
 
 /* ---------- each written section is made when you get to it ---------- */
 const SECTION = {
-  headline: { label: 'headline', title: 'Write my headline', blurb: 'Chorus writes three options from your real profile, in your voice. Pick the one you like.' },
-  about: { label: 'About', title: 'Write my About', blurb: 'Two or three short paragraphs in your voice, with the {brand} facts checked.' },
-  joined: { label: 'first post', title: 'Write my first post', blurb: 'A post announcing you have joined, in your voice, ready to paste into LinkedIn.' }
+  headline: { label: 'headline', title: 'Write my headline', gate: 'Three headline options, in your voice', blurb: 'Written from your real profile and the {brand} brand. Pick the one you like.' },
+  about: { label: 'About', title: 'Write my About', gate: 'A short About section, in your voice', blurb: 'Two or three paragraphs with the {brand} facts checked. Edit anything you like.' },
+  joined: { label: 'first post', title: 'Write my first post', gate: 'A short post saying you have joined', blurb: 'Written in your voice, ready to paste into LinkedIn.' }
 };
 
 function sectionCard(key){
@@ -3501,7 +3579,7 @@ function applyGates(){
     if (!gate){
       gate = document.createElement('div');
       gate.className = 'wgate';
-      gate.innerHTML = '<div class="wg-t">' + SECTION[key].title + '</div>'
+      gate.innerHTML = '<div class="wg-t">' + (SECTION[key].gate || SECTION[key].title) + '</div>'
         + '<div class="wg-s">' + String(SECTION[key].blurb).replace(/\{brand\}/g, esc(state.brand.name)) + '</div>'
         + '<button class="btn brand" data-make="' + key + '"><svg><use href="#i-spark"/></svg>' + SECTION[key].title + '</button>';
       body.insertBefore(gate, body.firstChild);
@@ -3522,7 +3600,8 @@ function applyGates(){
 async function generateOne(key){
   const p = state.person;
   if (!p.name || !p.title) return toast('Add your name and job title first', true);
-  PF.busy = true;
+  if (PF.busy) return;
+  PF.busy = true; PF.fellBack = false;
   smBegin('Writing your ' + SECTION[key].label); $('#smUse').classList.add('hidden');
   const a = smStep('📖', 'Reading what the scan found'); await smWait(750);
   smOk(a, (p.scan && (p.scan.posts || []).length) ? '<b>' + p.scan.posts.length + ' of your real posts</b> loaded' : '<b>Your profile</b> loaded'); smProg(30);
@@ -3561,13 +3640,14 @@ async function generateOne(key){
   } catch(e){
     if (key === 'headline') HEADLINES = headlinesFor(p);
     else { const el = $('#' + (key === 'about' ? 'aboutText' : 'joinedText')); if (el) el.value = key === 'about' ? aboutFor(p) : joinedFor(p); }
-    smOk(bstep, '<b>Written from templates</b>, the AI did not answer'); smProg(100);
+    smOk(bstep, '<b>Written from templates</b>, the AI did not answer'); smProg(100); PF.fellBack = true;
   }
   PF.made = PF.made || {}; PF.made[key] = true; saveWriting();
   PF.busy = false;
   await smWait(500); smCloseModal();
+  if (PF.fellBack){ PF.fellBack = false; toast('The AI did not answer, so this is a starting template. Edit it or press Write it again.', true); }
   applyGates(); renderProfile();
-  const el2 = sectionCard(key); if (el2){ try { el2.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch(e){} }
+  try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e){}
 }
 
 /* the headline step gets the same "where does this go" as the others */
@@ -3575,7 +3655,7 @@ function headlineWhere(){
   const w = {
     headline: ['[data-sec="headline"]', 'Then on LinkedIn: your profile, <b>Edit intro</b>, paste into <b>Headline</b>, Save.'],
     about: ['[data-done="about"]', 'Then on LinkedIn: your profile, the pencil next to <b>About</b>, paste, Save. No About yet? <b>Add profile section</b>, then About.'],
-    joined: ['[data-done="joined"]', 'Then on LinkedIn: home page, <b>Start a post</b>, paste, Post.']
+    joined: ['[data-done="joined"]', 'Then on LinkedIn: home page, <b>Start a post</b>, paste, Post. Or press <b>Open LinkedIn</b> and the post is already in the box.']
   };
   for (const k in w){
     const hit = document.querySelector(w[k][0]); const card = hit && (hit.closest('.gen-card') || hit);

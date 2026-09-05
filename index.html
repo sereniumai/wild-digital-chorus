@@ -1016,6 +1016,15 @@ input[type="checkbox"],input[type="radio"]{accent-color:var(--brand);width:16px;
 .photowarn summary{cursor:pointer}
 .photowarn code{display:block;margin-top:6px;font-size:11px;word-break:break-word;color:var(--ink-3)}
 
+
+.hledit{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.hledit label{font-size:13px;font-weight:600;color:var(--ink)}
+.hledit textarea{width:100%;min-height:64px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel-2);color:var(--ink);font:inherit;font-size:14px;line-height:1.55;resize:vertical}
+.hledit textarea:focus{background:var(--panel);border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-ring);outline:none}
+.hlmeta{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--ink-3)}
+.hlmeta #hlCount{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink-2)}
+
 </style>
 </head>
 <body>
@@ -1460,7 +1469,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-04-photo5');
+console.log('Chorus build 2026-09-04-photo7');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -1989,6 +1998,20 @@ let PF = { headline: 0, generated: false, made: {} };
 let HEADLINES = [];
 function renderProfile(){
   const h = $('#headlines'); h.innerHTML=''; if (PF.generated) HEADLINES.forEach((t,i)=>{ const b=document.createElement('button'); b.textContent=t; b.style.borderColor = i===PF.headline ? 'var(--brand)' : ''; b.style.color = i===PF.headline ? 'var(--ink)' : ''; b.addEventListener('click', ()=>{ PF.headline=i; renderProfile(); }); h.appendChild(b); });
+  const ed = document.createElement('div'); ed.className='hledit';
+  ed.innerHTML = '<label for="hlText">Edit it if you like</label>'
+    + '<textarea id="hlText" maxlength="220" rows="2" spellcheck="true"></textarea>'
+    + '<div class="hlmeta"><span id="hlCount"></span><span class="hint">LinkedIn allows 220 characters</span></div>';
+  h.appendChild(ed);
+  const ta = ed.querySelector('#hlText'), cnt = ed.querySelector('#hlCount');
+  const syncCount = () => { if (cnt) cnt.textContent = (ta.value.length) + ' / 220'; };
+  ta.value = HEADLINES[PF.headline] || ''; syncCount();
+  ta.addEventListener('input', () => {
+    HEADLINES[PF.headline] = ta.value;
+    const opt = h.querySelectorAll(':scope > button')[PF.headline]; if (opt) opt.textContent = ta.value;
+    const pf = $('#pfHeadline'); if (pf) pf.textContent = ta.value;
+    syncCount();
+  });
   const wrap = document.createElement('div'); wrap.className='hlcopy'; wrap.style.cssText='display:flex;gap:8px;flex-wrap:wrap'; const cb=document.createElement('button'); cb.className='btn sm brand'; cb.innerHTML='<svg><use href="#i-copy"/></svg>Copy headline'; cb.addEventListener('click', async e=>{ const btn=e.currentTarget; (await copyText(HEADLINES[PF.headline])) ? (flash(btn,'Copied'), setDone('headline', true)) : toast('Copy failed', true); }); wrap.appendChild(cb); h.appendChild(wrap);
   const _sc = state.person.scan || {};
   if ($('#pfLoc')) $('#pfLoc').textContent = [(_sc.location || ''), state.brand.name].filter(Boolean).join(' \u00B7 ');
@@ -2174,8 +2197,9 @@ async function fetchAsImage(url){
    and location and quietly dropped the face. The cut out is now stored alongside the
    rest, keyed by the photo it came from, and restored before the wizard starts. If the
    stored copy is missing or stale, the photo is pulled again from the saved URL. */
-function photoKeyOf(){ return (state.person.scan && state.person.scan.photo) || (state.person.photoLocal ? 'local' : ''); }
-function persistPhoto(){
+function photoKeyOf(){ return state.person.photoLocal ? 'local' : ((state.person.scan && state.person.scan.photo) || ''); }
+function hasStoredPhoto(){ try { return !!localStorage.getItem('chorus.photo'); } catch(e){ return false; } }
+function persistPhoto(key){
   try {
     const src = state.photoCut || state.photoImg; if (!src) return;
     const c = document.createElement('canvas');
@@ -2186,7 +2210,7 @@ function persistPhoto(){
     c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
     let data = c.toDataURL('image/webp', 0.86);
     if (!/^data:image\/webp/.test(data)) data = c.toDataURL('image/png');
-    localStorage.setItem('chorus.photo', JSON.stringify({ key: photoKeyOf(), cut: !!state.photoCut, data }));
+    localStorage.setItem('chorus.photo', JSON.stringify({ key: key || photoKeyOf(), cut: !!state.photoCut, data }));
   } catch(e){ /* quota or a tainted canvas: the URL re pull still covers a reload */ }
 }
 async function restorePhoto(){
@@ -2231,7 +2255,7 @@ async function usePhotoUrl(u){
       state.photoTrace.push(name + ': ok ' + img.naturalWidth + 'x' + img.naturalHeight);
       render();
       try { state.photoCut = await cutOut(img); } catch(e){ state.photoCut = null; state.photoTrace.push('cutout failed: ' + (e && e.message)); }
-      renderSwatches(); render(); syncPerson(); photoNotice(); persistPhoto();
+      renderSwatches(); render(); syncPerson(); photoNotice(); persistPhoto(u);
       return true;
     } catch(e){
       state.photoTrace.push(name + ': ' + ((e && e.message) || 'failed'));
@@ -2284,9 +2308,12 @@ async function scanLinkedIn(){
   const btn = $('#scanBtn'); btn.disabled = true; const btnHtml = btn.innerHTML; btn.textContent = 'Scanning\u2026';
   smBegin('Reading your LinkedIn');
   /* clear whatever the last scan left, so a failed read cannot show someone else's details */
-  state.person.scan = null; state.person.photoLocal = false;
+  state.person.scan = null; state.person.photoLocal = false; state.person.brief = ''; state.person.samples = '';
   state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; state.photoTrace = [];
-  try { localStorage.removeItem('chorus.photo'); } catch(e){}
+  PF.generated = false;
+  try { localStorage.removeItem('chorus.photo'); localStorage.removeItem('chorus.kit'); } catch(e){}
+  savePerson();
+  const _vs = $('#voiceStatus'); if (_vs) _vs.textContent = '';
   try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(e){}
   try {
     const s1 = smStep('\u26A1', '<b>Connecting</b> to LinkedIn'); await smWait(700);
@@ -2352,6 +2379,7 @@ async function scanLinkedIn(){
       smData('<div class="smbrief">' + esc(brief) + '</div>');
     } catch(e){ smOk(s7, '<b>Read everything</b>'); }
     if (photoJob) await photoJob;
+    try { persistPhoto(); } catch(e){}
     try { s1Sync(); } catch(e){}
     smProg(100);
     const sum = ['<div class="smsum"><div class="t">Set up from your real profile, just now</div>'];
@@ -2365,6 +2393,7 @@ async function scanLinkedIn(){
     $('#smUse').classList.remove('hidden');
     $('#smFoot').classList.remove('hidden');
   } catch(e){
+    savePerson();
     smData('<div class="smbrief">Could not read that profile. ' + esc(e.message||'') + '</div>');
     if ($('#genHint')) $('#genHint').textContent = 'The scan did not work, so this will be written from your name and job title only. You can add your photo on the photo step.';
     $('#smFoot').classList.remove('hidden'); $('#smUse').classList.add('hidden');
@@ -2387,7 +2416,7 @@ async function generateKit(){
   smOk(_k4, '<b>Ready</b>, you will write each piece one at a time'); smProg(100);
   await smWait(450); smCloseModal();
   HEADLINES = []; PF.made = {};
-  PF.headline = 0; PF.generated = true;
+  PF.headline = 0; PF.generated = true; try { localStorage.setItem('chorus.kit', '1'); } catch(e){}
   try { wizInit(); const _d = doneState(); const _f = WIZ.steps.findIndex((x, k) => k > 0 && !_d[x.key]); wizGo(_f < 0 ? 1 : _f); } catch(e){}
 
   $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden'));
@@ -2607,7 +2636,10 @@ function pctAll(v){ return String(v).split('').map(function(c){ var n=c.charCode
    Some corporate and browser filters kill any request that does, which silently left
    people with no photo. */
 function photoSrc(u){ if(!u) return ''; if(/^(data|blob):/i.test(u)) return u; return API_BASE + '/api/write?img=' + pctAll(u); }
-function facePhoto(){ return (state.person.scan && state.person.scan.photo) || ''; }
+function facePhoto(){
+  if (!state.photoCut && !state.photoImg && hasStoredPhoto()) return '';   /* the stored cut out is about to paint, do not fetch */
+  return (state.person.scan && state.person.scan.photo) || '';
+}
 function faceEl(size){ const f=facePhoto(); if(!f) return null; const i=document.createElement('img'); i.crossOrigin='anonymous'; i.src=photoSrc(f); i.className='avimg'; i.alt=''; i.referrerPolicy='no-referrer'; return i; }
 function syncPerson(){ const p=state.person; const ini = initials(); $('#sideName').textContent = p.name||'Your name'; $('#sideRole').textContent = p.title||'Add your details'; ['#sideAvatar','#voiceAv','#voiceMeAv'].forEach(s=>{ const el=$(s); if (!el) return; el.innerHTML=''; const c=document.createElement('canvas'); c.width=64; c.height=64; if (state.photoCut && canvases.avatar){ c.getContext('2d').drawImage(canvases.avatar,0,0,64,64); el.appendChild(c); } else { const f=faceEl(64); if (f) el.appendChild(f); else { drawPhoto(c.getContext('2d'),32,32,32,0,null); el.appendChild(c); } } }); $('#kitTitle').innerHTML = first() ? `${esc(first())}’s <em>LinkedIn</em>` : 'My <em>LinkedIn</em>'; }
 let dlNS; async function getDownloads(){ if (dlNS!==undefined) return dlNS; try { dlNS = (window.claude && typeof claude.use==='function') ? await claude.use('downloads') : null; } catch(e){ dlNS=null; } return dlNS; }
@@ -2618,7 +2650,7 @@ async function downloadCanvas(id, btn){
   const dl = await getDownloads(); if (dl){ try { await dl.save({filename:name, data:blob}); flash(btn,'Saved'); mark(); } catch(e){ if (e && e.code==='declined') return; toast('Saving isn’t available here', true); } return; }
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); flash(btn,'Downloaded'); mark();
 }
-function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } state.person.photoLocal = true; state.photoFailed = false; state.photoMissing = false; try { photoNotice(); } catch(e){} renderSwatches(); render(); persistPhoto(); savePerson(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
+function usePhotoFile(f){ if (!f || !f.type.startsWith('image/')) return toast('That isn’t an image', true); const r=new FileReader(); r.onload=async()=>{ state.person.photoZoom=1.1; state.person.photoX=0; state.person.photoY=0; syncInputs(); state.photoCut=null; try { state.photoImg = await loadImage(r.result); } catch(e){ state.photoImg=null; } render(); toast('Cutting you out of the background…'); try { state.photoCut = await cutOut(state.photoImg); } catch(e){ state.photoCut=null; } state.person.photoLocal = true; state.photoFailed = false; state.photoMissing = false; try { photoNotice(); } catch(e){} renderSwatches(); render(); persistPhoto('local'); savePerson(); if (state.photoCut) toast('Done, pick a background colour'); }; r.readAsDataURL(f); }
 
 function syncAiStatus(){ const on = !!localStorage.getItem('chorus.key'); const s = $('#aiStatus'); if (s){ s.textContent = on ? 'Your own key' : 'On, hosted for this demo'; s.className = 'pill good'; } if ($('#modePill')) $('#modePill').textContent = on ? 'AI writing on, your key' : 'AI writing on'; if ($('#modePill')) $('#modePill').title = on ? 'Using the key saved in this browser' : 'Hosted by Wild Digital for this demo'; if ($('#modePill')) $('#modePill').className = 'pill good'; }
 /* ---------- portal theme from the brand (colours, logo) + light/dark ---------- */
@@ -2805,9 +2837,29 @@ function wizStage(){
   if (prevCard) side.appendChild(prevCard);
 }
 
+/* After a reload the kit must open where the person left it. The generated flag lived only in
+   memory, so every refresh landed on the details step with no way forward but a relabelled button. */
+function kitResume(){
+  let started = false; try { started = localStorage.getItem('chorus.kit') === '1'; } catch(e){}
+  if (!started || PF.generated) return false;
+  if (typeof s1Ready === 'function' && !s1Ready()) return false;
+  const p = state.person;
+  const hasSamples = !!(p.samples && String(p.samples).trim().length > 40) || !!(p.scan && p.scan.posts && p.scan.posts.length);
+  PF.generated = true; if (typeof PF.headline !== 'number') PF.headline = 0;
+  try {
+    $$('.gen-card').forEach(c=>c.classList.add('ready')); $$('.gen-card .locked').forEach(l=>l.classList.add('hidden')); $$('.gen-body, #headlines').forEach(b=>b.classList.remove('hidden'));
+    const vb = $('#voiceBox'); if (vb) vb.classList.remove('hidden');
+    const vs = $('#voiceStatus'); if (vs) vs.textContent = p.brief ? p.brief : hasSamples ? 'Learned from your real posts. Everything below copies your rhythm, your openers and the way you sign off.' : 'Written in a clear, plain voice you can shape.';
+    const gb = $('#genBtn'); if (gb){ gb.disabled = false; gb.innerHTML = '<svg><use href="#i-spark"/></svg>Generate again'; }
+    const gh = $('#genHint'); if (gh) gh.textContent = 'Changed your title or photo? Click again and everything below updates.';
+    renderProfile();
+  } catch(e){}
+  return true;
+}
 function wizStart(){
   if (!document.querySelector('#liInput')) return;
   wizInit();
+  try { kitResume(); } catch(e){}
   const d = doneState();
   if (!PF.generated){ wizGo(0); return; }
   const first = WIZ.steps.findIndex((x, k) => k > 0 && !d[x.key]);
@@ -3085,7 +3137,7 @@ function s1Sync(){
     done.id = 's1scanned';
     done.className = 's1done';
     grid.parentElement.insertBefore(done, grid.nextSibling);
-    done.addEventListener('click', e => { if (e.target.closest('[data-rescan]')){ state.person.scan = null; savePerson(); s1Sync(); const i = $('#liInput'); if (i) i.focus(); } });
+    done.addEventListener('click', e => { if (e.target.closest('[data-rescan]')){ state.person.scan = null; state.person.brief = ''; state.person.samples = ''; state.person.photoLocal = false; state.photoImg = null; state.photoCut = null; state.photoFailed = false; state.photoMissing = false; PF.generated = false; try { localStorage.removeItem('chorus.photo'); localStorage.removeItem('chorus.kit'); } catch(_){} savePerson(); try { renderSwatches(); render(); syncPerson(); photoNotice(); } catch(_){} s1Sync(); const i = $('#liInput'); if (i) i.focus(); } });
   }
   done.style.display = scanned ? '' : 'none';
   if (scanned){

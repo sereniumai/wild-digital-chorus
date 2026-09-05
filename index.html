@@ -1388,6 +1388,7 @@ function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
 function deepMerge(base, over){ const out = deepClone(base); for (const k in (over||{})){ if (over[k] && typeof over[k]==='object' && !Array.isArray(over[k])) out[k] = deepMerge(base[k]||{}, over[k]); else if (over[k] !== undefined) out[k] = over[k]; } return out; }
 function get(path){ return path.split('.').reduce((o,k)=>o==null?o:o[k], state); }
 function set(path, v){ const ks = path.split('.'); let o = state; for (let i=0;i<ks.length-1;i++){ o = o[ks[i]]; } o[ks[ks.length-1]] = v; }
+function cutWords(t, n){ t = String(t || ''); if (t.length <= n) return t; const c = t.slice(0, n); const i = c.lastIndexOf(' '); return (i > 40 ? c.slice(0, i) : c) + '\u2026'; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function $(sel, root){ return (root||document).querySelector(sel); }
 function $$(sel, root){ return Array.from((root||document).querySelectorAll(sel)); }
@@ -1590,7 +1591,7 @@ function buildSignature(opts){
 }
 function signatureText(){ const p = state.person, b = state.brand, t = team(); return [p.name||'Your name', [p.title,t.name].filter(Boolean).join(' · '), b.name, p.phone, p.email, hostOf(b.website), p.calendly?`${t.ctaLabel||'Book time'}: ${normUrl(p.calendly)}`:''].filter(Boolean).join('\n'); }
 
-console.log('Chorus build 2026-09-05-audit4');
+console.log('Chorus build 2026-09-05-audit5');
 /* =====================================================================
    Chorus, app layer (demo content, screens, live writing)
    ===================================================================== */
@@ -2390,6 +2391,13 @@ async function usePhotoUrl(u){
 /* If every route failed the person needs to be told, on the step where it matters,
    rather than being left looking at a silhouette wondering what went wrong. */
 function photoNotice(){
+  try {
+    const card = document.querySelector('.kcard[data-id="avatar"]');
+    const has = !!(state.photoCut || state.photoImg);
+    const sub = card && card.querySelector('.head .sub'); if (sub) sub.textContent = has ? 'Pulled from your profile and cut out. Pick a background, then download it.' : 'Add a photo and we cut the background out and put it on your colour.';
+    const meta = card && card.querySelector('.rowmeta'); if (meta) meta.textContent = has ? '800 by 800, cut out, on your colour' : '800 by 800, on your colour';
+    const lab = $('#photoBtnLabel'); if (lab) lab.textContent = has ? 'Change photo' : 'Add photo';
+  } catch(e){}
   const stage = document.getElementById('photoStage'); if (!stage) return;
   const card = stage.closest('.kcard'); if (!card) return;
   let n = card.querySelector('.photowarn');
@@ -2511,7 +2519,7 @@ async function scanLinkedIn(){
     if (own.length){
       smOk(s6, '<b>' + own.length + ' posts pulled in</b>, the last one ' + esc((own[0].ago||own[0].date||'a while back').split(' \u2022 ')[0]));
       for (const p of own.slice(0,3)){
-        smData('<div class="smpost"><div class="meta">' + esc((p.ago||p.date||'').split(' \u2022 ')[0]) + (p.likes ? ' \u00B7 ' + p.likes + ' reactions' : '') + '</div>' + esc(p.text.replace(/\s+/g,' ').slice(0,110)) + '\u2026</div>');
+        smData('<div class="smpost"><div class="meta">' + esc((p.ago||p.date||'').split(' \u2022 ')[0]) + (p.likes ? ' \u00B7 ' + p.likes + ' reactions' : '') + '</div>' + esc(cutWords(p.text.replace(/\s+/g,' '), 110)) + '</div>');
         await smWait(500);
       }
     } else { smOk(s6, postsErr ? '<b>Could not read your posts</b> this time, starting you in a clear plain voice' : '<b>No recent posts found</b>, plenty of people post rarely'); }
@@ -2645,7 +2653,7 @@ async function cutOut(img){
 }
 function swatchColors(){ const c = state.brand.colors || {}; const p = c.primary || '#CB148B', q = c.secondary || darken(p, .35), k = c.ink || '#0B121D';
   return [k, p, mix(p, q, .5), q, lighten(q, .3), '#FFFFFF']; }
-function renderSwatches(){ const box = $('#swatches'); box.innerHTML=''; swatchColors().forEach((col,i)=>{ const b=document.createElement('button'); b.style.background=col; b.title=col; b.setAttribute('aria-pressed', (state.person.bg||0)===i); b.addEventListener('click', ()=>{ state.person.bg=i; renderSwatches(); render(); }); box.appendChild(b); }); }
+function renderSwatches(){ const box = $('#swatches'); box.innerHTML=''; const names=['Dark','Brand colour','Blend','Second colour','Light tint','White']; swatchColors().forEach((col,i)=>{ const b=document.createElement('button'); b.type='button'; b.style.background=col; b.title=(names[i]||'Colour')+' background'; b.setAttribute('aria-label',(names[i]||'Colour')+' background'); b.setAttribute('aria-pressed', (state.person.bg||0)===i ? 'true' : 'false'); b.addEventListener('click', ()=>{ state.person.bg=i; renderSwatches(); render(); }); box.appendChild(b); }); }
 R.avatar = (ctx, w, h) => {
   const c = state.brand.colors, col = swatchColors()[state.person.bg||0]; const cx=w/2, cy=h/2, r=w*0.46; const p = state.person;
   ctx.fillStyle = col; ctx.fillRect(0,0,w,h);
